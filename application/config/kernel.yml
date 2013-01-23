@@ -1,0 +1,3 @@
+debug: true
+htdocsDir: htdocs #Relative to project root
+#urlPrefix: vino #Will be expected of all urls, and added when routing

@@ -1,0 +1,4 @@
+soap:
+  options:
+    proxy_host: localhost
+    proxy_port: 8888

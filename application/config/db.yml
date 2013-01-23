@@ -1,0 +1,9 @@
+mysql:
+  host: localhost
+  username: vino
+  password: vino
+  dbname: vino
+
+doctrine:
+  driver: pdo_mysql
+

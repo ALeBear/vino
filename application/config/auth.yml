@@ -1,0 +1,5 @@
+userClassname: vino\User
+noAuthRedirect: /auth/login
+disableAuth:
+  - auth/login
+  - auth/register

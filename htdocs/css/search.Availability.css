@@ -1,0 +1,62 @@
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map_canvas {
+    position : absolute;
+    top      : 40px;
+    right    : 0;
+    bottom   : 0;
+    left     : 0; }
+#map_page { height: 100% }
+@-webkit-keyframes pulse {
+    0% { opacity: 1.0; }
+    40% { opacity: 0.25; }
+    100% { opacity: 1.0; }
+}
+@-moz-keyframes pulsate {
+    from {
+        -moz-transform: scale(0.25);
+        opacity: 1.0;
+    }
+    95% {
+        -moz-transform: scale(1.3);
+        opacity: 0;
+        }
+    to {
+        -moz-transform: scale(0.3);
+        opacity: 0;
+    }
+}
+#map_canvas div.gmnoprint[title="---"] {
+    -moz-animation: pulsate 1.5s ease-in-out infinite;
+    -webkit-animation: pulsate 1.5s ease-in-out infinite;
+    border:1pt solid #fff;
+    /* make a circle */
+    -moz-border-radius:51px;
+    -webkit-border-radius:51px;
+    border-radius:51px;
+    /* multiply the shadows, inside and outside the circle */
+    -moz-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+    -webkit-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+    box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+    /* set the ring's new dimension and re-center it */
+    height:51px!important;
+    margin:-18px 0 0 -18px;
+    width:51px!important;
+}
+/* hide the superfluous marker image since it would expand and shrink with its containing element */
+/* #map_canvas div[style*="987654"][title] img {*/
+#map_canvas div.gmnoprint[title="---"] img {
+    display:none;
+}
+/* compensate for iPhone and Android devices with high DPI, add iPad media query */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (device-width: 768px) {
+    #map_canvas div.gmnoprint[title="---"] {
+        margin:-10px 0 0 -10px;
+    }
+} 
+#map_canvas div[style*="bluedot_retina.png"] {
+    -webkit-animation-name: pulse;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: ease-in-out;
+}

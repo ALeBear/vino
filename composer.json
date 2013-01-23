@@ -1,0 +1,20 @@
+{
+    "name": "vendor/vino",
+    "description": "Vino. The wines. Les vins.",
+    "authors": [
+        {
+            "name": "ant-1",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "alebear/horses": "dev-master@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "vino": "lib/",
+            "horses": "lib/",
+            "Symfony": "lib/"
+        }
+    }
+}
