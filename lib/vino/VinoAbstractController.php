@@ -22,7 +22,7 @@ class VinoAbstractController extends AbstractController
         $wine || $wine = UserWine::create(
             $this->dependencyInjectionContainer
                 ->get('saq_webservice')
-                ->getWine($this->view->code),
+                ->getWine($code),
             $user);
         
         return $wine;

@@ -199,7 +199,7 @@ class Wine
      */
     public function getRegion()
     {
-        return $this->pays . '/' . $this->region;
+        return $this->pays . '/' . $this->region . ($this->sousRegion ? '/' . $this->sousRegion : '');
     }
     
     /**

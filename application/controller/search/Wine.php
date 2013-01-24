@@ -5,7 +5,7 @@ namespace horses\controller\search;
 use vino\VinoAbstractController;
 
 /**
- * Search homepage
+ * Wine description page
  */
 class Wine extends VinoAbstractController
 {
