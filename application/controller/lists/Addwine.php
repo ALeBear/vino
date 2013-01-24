@@ -10,7 +10,7 @@ use vino\UserWine;
  */
 class Addwine extends AbstractController
 {
-    public function prepare($c, $n)
+    public function prepare($c)
     {
         $this->view->error = false;
         $this->view->code = preg_replace('/[^\d]/', '', $c);
