@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ALeBear/horses.git",
-                "reference": "6a7bc92c3af5d76c5f6dc571e5e99b5022db0aa6"
+                "reference": "ee8002135dad1b57369558fbe62328025b07a7a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/ALeBear/horses/archive/6a7bc92c3af5d76c5f6dc571e5e99b5022db0aa6.zip",
-                "reference": "6a7bc92c3af5d76c5f6dc571e5e99b5022db0aa6",
+                "url": "https://github.com/ALeBear/horses/archive/ee8002135dad1b57369558fbe62328025b07a7a7.zip",
+                "reference": "ee8002135dad1b57369558fbe62328025b07a7a7",
                 "shasum": ""
             },
             "require": {
@@ -23,7 +23,7 @@
                 "symfony/dependency-injection": "*",
                 "symfony/http-foundation": "*"
             },
-            "time": "2013-01-24 04:44:26",
+            "time": "2013-01-24 22:10:07",
             "type": "library",
             "autoload": {
                 "psr-0": {
