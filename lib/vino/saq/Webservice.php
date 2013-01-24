@@ -129,6 +129,7 @@ class Webservice
     {
         $options = $this->config->get('saq.soap.options', array());
         $options['exceptions'] = true;
+        $options['cache_wsdl'] = WSDL_CACHE_BOTH;
         return new SoapClient($this->config->get('saq.soap.url'), $options);
     }
     
