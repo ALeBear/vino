@@ -19,5 +19,8 @@ class Availability extends VinoAbstractController
             ->getWine($this->view->code);
         $this->metas['title'] = urldecode(strip_tags($wine->__toString()));
         $this->view->availabilities = $this->dependencyInjectionContainer->get('saq_webservice')->getAvailabilityByWineCode($this->view->code);
+        $this->view->urlPrefix = $this->dependencyInjectionContainer->get('config')->get('kernel.urlPrefix')
+            ? '/' . $this->dependencyInjectionContainer->get('config')->get('kernel.urlPrefix')
+            : '';
     }
 }

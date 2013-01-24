@@ -26,7 +26,7 @@
         <?php if (count($availabilities)): ?>
 
         var posImage = new google.maps.MarkerImage(
-            '/images/saq.png',
+            '<?php echo $urlPrefix; ?>/images/saq.png',
             null,
             null,
             new google.maps.Point(0, 0),
@@ -61,7 +61,7 @@
             map.setCenter(center);
 
             var image = new google.maps.MarkerImage(
-                '/images/bluedot_retina.png',
+                '<?php echo $urlPrefix; ?>/images/bluedot_retina.png',
                 null,
                 null,
                 new google.maps.Point(0, 0),
