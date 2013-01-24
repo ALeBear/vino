@@ -26,8 +26,12 @@ class Register extends VinoAbstractController
     
     public function post()
     {
-        if (!$this->request->get('name') || !$this->request->get('email') || !$this->request->get('password')) {
+        if (!$this->request->get('name') || !$this->request->get('email') || !$this->request->get('password') || !$this->request->get('password2')) {
             $this->view->error = 'missing_fields';
+            return;
+        }
+        if ($this->request->get('password') != $this->request->get('password2')) {
+            $this->view->error = 'password_mismatch';
             return;
         }
 
