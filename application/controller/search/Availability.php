@@ -2,12 +2,12 @@
 
 namespace horses\controller\search;
 
-use horses\AbstractController;
+use vino\VinoAbstractController;
 
 /**
  * Availability map
  */
-class Availability extends AbstractController
+class Availability extends VinoAbstractController
 {
     public function execute($c)
     {
@@ -16,7 +16,7 @@ class Availability extends AbstractController
 
         $wine = $this->dependencyInjectionContainer
             ->get('saq_webservice')
-            ->getWine($this->view->code, $this->dependencyInjectionContainer->get('entity_manager'));
+            ->getWine($this->view->code);
         $this->metas['title'] = urldecode(strip_tags($wine->__toString()));
         $this->view->availabilities = $this->dependencyInjectionContainer->get('saq_webservice')->getAvailabilityByWineCode($this->view->code);
     }

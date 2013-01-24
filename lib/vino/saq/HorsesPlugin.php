@@ -21,6 +21,7 @@ class HorsesPlugin implements IPlugin
             : 'fr';
         $dependencyInjectionContainer->register('saq_webservice', 'vino\\saq\\webservice')
             ->addMethodCall('injectConfig', array(new Reference('config')))
+            ->addMethodCall('injectEntityManager', array(new Reference('entity_manager')))
             ->addMethodCall('injectLanguage', array($lang));
     }
     

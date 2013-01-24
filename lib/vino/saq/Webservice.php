@@ -18,6 +18,11 @@ class Webservice
      */
     protected $lang;
     
+    /**
+     * @var Doctrine\ORM\EntityManager
+     */
+    protected $entityManager;
+    
     
     /**
      * @param IQueryableConfig $config
@@ -26,6 +31,16 @@ class Webservice
     public function injectConfig(IQueryableConfig $config)
     {
         $this->config = $config;
+        return $this;
+    }
+    
+    /**
+     * @param IQueryableConfig $config
+     * @return \vino\saq\Webservice $this
+     */
+    public function injectEntityManager(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
         return $this;
     }
 
@@ -59,16 +74,15 @@ class Webservice
     /**
      * Get wine details from a DB or webservice call (save results to DB after)
      * @param type $code
-     * @param Doctrine\ORM\EntityManager $entityManager
      * @return Wine
      */
-    public function getWine($code, EntityManager $entityManager)
+    public function getWine($code)
     {
-        $wine = $entityManager->getRepository('vino\\saq\\Wine')->findOneBy(array('code' => $code, 'lang' => $this->lang));
+        $wine = $this->entityManager->getRepository('vino\\saq\\Wine')->findOneBy(array('code' => $code, 'lang' => $this->lang));
         if (!$wine) {
             $wine = $this->getWineDetails($code);
-            $entityManager->persist($wine);
-            $entityManager->flush();
+            $this->entityManager->persist($wine);
+            $this->entityManager->flush();
         }
         
         return $wine;

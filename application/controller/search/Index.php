@@ -2,12 +2,12 @@
 
 namespace horses\controller\search;
 
-use horses\AbstractController;
+use vino\VinoAbstractController;
 
 /**
  * Search homepage
  */
-class Index extends AbstractController
+class Index extends VinoAbstractController
 {
     public function execute($q = '')
     {

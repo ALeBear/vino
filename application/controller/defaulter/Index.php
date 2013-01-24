@@ -2,12 +2,12 @@
 
 namespace horses\controller\defaulter;
 
-use horses\AbstractController;
+use vino\VinoAbstractController;
 
 /**
  * Homepage
  */
-class Index extends AbstractController
+class Index extends VinoAbstractController
 {
     public function execute()
     {

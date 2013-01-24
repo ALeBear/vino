@@ -40,6 +40,19 @@ class UserWine
      */
      protected $saqWine;
     
+    /**
+     * Appreciation note on 100
+     * @Column(type="integer")
+     * @var integer
+     */
+    protected $appreciation;
+    
+    /**
+     * @Column(type="string", length=500)
+     * @var string
+     */
+    protected $note;
+    
      
     /**
      * Create a brand new Wine ready to be persisted
@@ -63,6 +76,22 @@ class UserWine
     public function getCode()
     {
         return $this->code;
+    }
+    
+    /**
+     * @return integer
+     */
+    public function getAppreciation()
+    {
+        return $this->appreciation;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
     }
     
     /**
@@ -116,6 +145,19 @@ class UserWine
         if ($this->belongsToList($list)) {
             $this->lists->removeElement($list);
         }
+        return $this;
+    }
+    
+    /**
+     * Sets user-adjustable params
+     * @param string $note
+     * @param integer $appreciation
+     * @return \vino\UserWine
+     */
+    public function setPersonalData($note, $appreciation = null)
+    {
+        $this->note = $note;
+        $this->appreciation = $appreciation;
         return $this;
     }
     

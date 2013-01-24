@@ -2,14 +2,14 @@
 
 namespace horses\controller\auth;
 
-use horses\AbstractController;
+use vino\VinoAbstractController;
 use vino\User;
 use Doctrine\DBAL\DBALException;
 
 /**
  * Registers a user
  */
-class Register extends AbstractController
+class Register extends VinoAbstractController
 {
     public function prepare()
     {

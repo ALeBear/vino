@@ -14,9 +14,14 @@
         echo sprintf('<div style="font-size: 1.5em;">%s</div>', get_class($e));
         echo sprintf('<strong>%s</strong><br />In %s line %s<br /><br />', $e->getMessage(), $e->getFile(), $e->getLine());
         foreach ($e->getTrace() as $line) {
-            echo sprintf('<div style="border: 1px solid black; padding: 4px;">%s line %s', $line['file'], $line['line']);
+            echo '<div style="border: 1px solid black; padding: 4px;">';
             if (isset($line['class'])) {
-                echo sprintf(' (%s%s%s())', $line['class'], $line['type'], $line['function']);
+                echo sprintf('<strong>%s%s%s()</strong>', $line['class'], $line['type'], $line['function']);
+            } else {
+                echo '<strong>Inner method</strong>';
+            }
+            if (isset($line['file'])) {
+                echo sprintf(' in %s line %s', $line['file'], $line['line']);
             }
             echo '</div>';
         }

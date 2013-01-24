@@ -1,5 +1,5 @@
 <div style="float: left; position: relative;">
-    <img src="<?php echo $wine->getImage(); ?>"/>
+    <img src="<?php echo $wine->getSaqWine()->getImage(); ?>"/>
 </div>
 <div style="float: left; position: relative;">
     <a href="<?php echo $this->router->buildRoute('lists/addwine', array('c' => $wine->getCode()))->getUrl(); ?>" data-role="button" data-inline="true">
@@ -7,7 +7,19 @@
     <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode()))->getUrl(); ?>" data-role="button" data-inline="true">
         <?php echo $this->_('availability'); ?></a>
     <p></p>
-    <?php echo $this->_('price', $wine->getPrix(), $wine->getFormat()); ?><br/>
-    <?php echo $this->_('nature', $wine->getNature(), $wine->getCouleur(), $wine->getPourcentage()); ?><br/>
-    <?php echo $this->_('sold_by', $wine->getFournisseur()); ?><br/>
+    <?php echo $this->_('price', $wine->getSaqWine()->getPrix(), $wine->getSaqWine()->getFormat()); ?><br/>
+    <?php echo $this->_('nature', $wine->getSaqWine()->getNature(), $wine->getSaqWine()->getCouleur(), $wine->getSaqWine()->getPourcentage()); ?><br/>
+    <?php echo $this->_('sold_by', $wine->getSaqWine()->getFournisseur()); ?><br/>
+    <hr/>
+    <h3><?php echo $this->_('personal_infos');?> <a href="asdf" data-role="button" data-inline="true"><?php echo $this->_('edit'); ?></a></h3>
+    <?php if ($wine->getAppreciation()): ?>
+    <div>
+    <?php echo sprintf('%s%s %s', $this->_('appreciation'), $this->_('colon'), $wine->getAppreciation()); ?>
+    </div>
+    <?php endif; ?>
+    <?php if ($wine->getNote()): ?>
+    <div>
+    <?php echo sprintf('%s%s <br/>%s', $this->_('note'), $this->_('colon'), $wine->getNote()); ?>
+    </div>
+    <?php endif; ?>
 </div>

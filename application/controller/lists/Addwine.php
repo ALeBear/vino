@@ -2,19 +2,20 @@
 
 namespace horses\controller\lists;
 
-use horses\AbstractController;
+use vino\VinoAbstractController;
 use vino\UserWine;
 
 /**
  * Adds a wine to a list
  */
-class Addwine extends AbstractController
+class Addwine extends VinoAbstractController
 {
     public function prepare($c)
     {
         $this->view->error = false;
         $this->view->code = preg_replace('/[^\d]/', '', $c);
-        $this->view->name = urldecode(strip_tags($n));
+        
+        $this->view->wine = $this->getWine($this->view->code);
     }
     
     public function execute()
@@ -43,20 +44,11 @@ class Addwine extends AbstractController
             $this->view->error = 'unknown_list';
             return;
         }
-
-        //Find or create wine
-        $wine = $em->getRepository('vino\\UserWine')->findOneBy(array('code' => $this->view->code, 'user' => $user));
-        if (!$wine) {
-            $saqWine = $this->dependencyInjectionContainer
-                ->get('saq_webservice')
-                ->getWine($this->view->code, $em);
-
-            $wine = UserWine::create($saqWine, $user);
-        }
         
         //Persist
-        $list->addWine($wine);
-        $em->persist($wine);
+        $this->view->wine->setPersonalData($this->request->get('note'), $this->request->get('appreciation'));
+        $list->addWine($this->view->wine);
+        $em->persist($this->view->wine);
         $em->flush();
 
         $this->redirect('lists/');

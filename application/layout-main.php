@@ -11,7 +11,7 @@
     <?php echo $css; ?>
 </head>
 <body>
-<div data-role="page" data-add-back-btn="true" data-back-btn-text="<?php echo $this->_('back') ;?>">
+<div data-role="page" data-add-back-btn="true" data-back-btn-text="<?php echo $this->_('back') ;?>" data-theme="c">
     <div data-role="header">
         <h1><?php echo $title; ?></h1>
         <?php if (isset($headerButton) && is_array($headerButton)): ?>

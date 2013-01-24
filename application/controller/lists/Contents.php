@@ -2,13 +2,13 @@
 
 namespace horses\controller\lists;
 
-use horses\AbstractController;
+use vino\VinoAbstractController;
 use vino\UserWine;
 
 /**
  * Display list contents
  */
-class Contents extends AbstractController
+class Contents extends VinoAbstractController
 {
     public function prepare($id)
     {

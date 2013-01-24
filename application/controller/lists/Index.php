@@ -2,13 +2,13 @@
 
 namespace horses\controller\lists;
 
-use horses\AbstractController;
+use vino\VinoAbstractController;
 use vino\WinesList;
 
 /**
  * Lists homepage
  */
-class Index extends AbstractController
+class Index extends VinoAbstractController
 {
     public function prepare()
     {

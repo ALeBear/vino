@@ -2,12 +2,12 @@
 
 namespace horses\controller\auth;
 
-use horses\AbstractController;
+use vino\VinoAbstractController;
 
 /**
  * Logs the user in :)
  */
-class Login extends AbstractController
+class Login extends VinoAbstractController
 {
     public function prepare()
     {
