@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema targetNamespace="http://mobile.saq.com/" version="1.0" xmlns:tns="http://mobile.saq.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <xs:element name="getDetailProduit" type="tns:getDetailProduit"/>
+
+   <xs:element name="getDetailProduitParCUP" type="tns:getDetailProduitParCUP"/>
+
+   <xs:element name="getDetailProduitParCUPResponse" type="tns:getDetailProduitParCUPResponse"/>
+
+   <xs:element name="getDetailProduitResponse" type="tns:getDetailProduitResponse"/>
+
+   <xs:element name="getDetailRecette" type="tns:getDetailRecette"/>
+
+   <xs:element name="getDetailRecetteResponse" type="tns:getDetailRecetteResponse"/>
+
+   <xs:element name="getListeCategories" type="tns:getListeCategories"/>
+
+   <xs:element name="getListeCategoriesResponse" type="tns:getListeCategoriesResponse"/>
+
+   <xs:element name="getListeCepages" type="tns:getListeCepages"/>
+
+   <xs:element name="getListeCepagesResponse" type="tns:getListeCepagesResponse"/>
+
+   <xs:element name="getListePastilles" type="tns:getListePastilles"/>
+
+   <xs:element name="getListePastillesResponse" type="tns:getListePastillesResponse"/>
+
+   <xs:element name="getListePays" type="tns:getListePays"/>
+
+   <xs:element name="getListePaysResponse" type="tns:getListePaysResponse"/>
+
+   <xs:element name="getListePrix" type="tns:getListePrix"/>
+
+   <xs:element name="getListePrixResponse" type="tns:getListePrixResponse"/>
+
+   <xs:element name="getListeTypesPlat" type="tns:getListeTypesPlat"/>
+
+   <xs:element name="getListeTypesPlatResponse" type="tns:getListeTypesPlatResponse"/>
+
+   <xs:element name="getProduits" type="tns:getProduits"/>
+
+   <xs:element name="getProduitsParAccord" type="tns:getProduitsParAccord"/>
+
+   <xs:element name="getProduitsParAccordResponse" type="tns:getProduitsParAccordResponse"/>
+
+   <xs:element name="getProduitsParMotCle" type="tns:getProduitsParMotCle"/>
+
+   <xs:element name="getProduitsParMotCleResponse" type="tns:getProduitsParMotCleResponse"/>
+
+   <xs:element name="getProduitsResponse" type="tns:getProduitsResponse"/>
+
+   <xs:element name="getRecettes" type="tns:getRecettes"/>
+
+   <xs:element name="getRecettesParAccord" type="tns:getRecettesParAccord"/>
+
+   <xs:element name="getRecettesParAccordResponse" type="tns:getRecettesParAccordResponse"/>
+
+   <xs:element name="getRecettesResponse" type="tns:getRecettesResponse"/>
+
+   <xs:element name="getSuccursales" type="tns:getSuccursales"/>
+
+   <xs:element name="getSuccursalesResponse" type="tns:getSuccursalesResponse"/>
+   
+   <xs:element name="getMessage" type="tns:getMessage"/>
+
+   <xs:element name="getMessageResponse" type="tns:getMessageResponse"/>
+
+   <xs:complexType name="getListePrix">
+      <xs:sequence/>
+   </xs:complexType>
+
+   <xs:complexType name="getListePrixResponse">
+      <xs:sequence>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:prix"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="prix">
+      <xs:complexContent>
+         <xs:extension base="tns:referenceAvecId">
+            <xs:sequence/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="reference">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="descEn" type="xs:string"/>
+         <xs:element minOccurs="0" name="descrFr" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+   
+   <xs:complexType name="referenceAvecId">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="descEn" type="xs:string"/>
+         <xs:element minOccurs="0" name="descrFr" type="xs:string"/>
+         <xs:element minOccurs="0" name="id" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getDetailProduit">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg1" type="xs:long"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getDetailProduitResponse">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="return" type="tns:detailProduit"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType final="extension restriction" name="detailProduit">
+      <xs:complexContent>
+         <xs:extension base="tns:produit">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="listeAttributs" nillable="true" type="tns:attribute"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="produit">
+      <xs:complexContent>
+         <xs:extension base="tns:result">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="format" type="xs:string"/>
+               <xs:element minOccurs="0" name="identiteProduit" type="xs:string"/>
+               <xs:element minOccurs="0" name="millesime" type="xs:string"/>
+               <xs:element minOccurs="0" name="pastilleGout" type="xs:string"/>
+               <xs:element minOccurs="0" name="pays" type="xs:string"/>
+               <xs:element minOccurs="0" name="prix" type="xs:decimal"/>
+               <xs:element minOccurs="0" name="prixReduit" type="xs:decimal"/>
+               <xs:element minOccurs="0" name="urlPastille" type="xs:string"/>
+               <xs:element minOccurs="0" name="quantiteParEmballage" type="xs:string"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType abstract="true" name="result">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="description" type="xs:string"/>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="familleAccordList" nillable="true" type="xs:string"/>
+         <xs:element minOccurs="0" name="id" type="xs:long"/>
+         <xs:element minOccurs="0" name="partNumber" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType final="extension restriction" name="attribute">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="typeAttribut" type="tns:typeAttribut"/>
+         <xs:element minOccurs="0" name="value" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getProduitsParAccord">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg2" type="xs:long"/>
+         <xs:element minOccurs="0" name="arg3" type="xs:long"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getProduitsParAccordResponse">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="return" type="tns:listeProduit"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="listeProduit">
+      <xs:complexContent>
+         <xs:extension base="tns:listeResultat">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="products" nillable="true" type="tns:produit"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType abstract="true" name="listeResultat">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="nbPages" type="xs:long"/>
+         <xs:element minOccurs="0" name="nbResultsPerPage" type="xs:long"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getProduits">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg4" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg5" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg6" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg7" type="xs:string"/>
+         <xs:element name="arg8" type="xs:boolean"/>
+         <xs:element minOccurs="0" name="arg9" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg10" type="xs:long"/>
+         <xs:element minOccurs="0" name="arg11" type="xs:long"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getProduitsResponse">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="return" type="tns:listeProduit"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getProduitsParMotCle">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg2" type="xs:long"/>
+         <xs:element minOccurs="0" name="arg3" type="xs:long"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getProduitsParMotCleResponse">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="return" type="tns:listeProduit"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getDetailRecette">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg1" type="xs:long"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getDetailRecetteResponse">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="return" type="tns:detailRecette"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType final="extension restriction" name="detailRecette">
+      <xs:complexContent>
+         <xs:extension base="tns:recette">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ingredientEtInstructions" type="xs:string"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="listeAttributs" nillable="true" type="tns:attribute"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="recette">
+      <xs:complexContent>
+         <xs:extension base="tns:result">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="urlPhoto" type="xs:string"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="getRecettesParAccord">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg2" type="xs:long"/>
+         <xs:element minOccurs="0" name="arg3" type="xs:long"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getRecettesParAccordResponse">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="return" type="tns:listeRecette"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="listeRecette">
+      <xs:complexContent>
+         <xs:extension base="tns:listeResultat">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="recipes" nillable="true" type="tns:recette"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="getListeCategories">
+      <xs:sequence/>
+   </xs:complexType>
+
+   <xs:complexType name="getListeCategoriesResponse">
+      <xs:sequence>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:categorie"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="categorie">
+      <xs:complexContent>
+         <xs:extension base="tns:referenceAvecId">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="sousCategorie" nillable="true" type="tns:categorie"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="getListeCepages">
+      <xs:sequence/>
+   </xs:complexType>
+
+   <xs:complexType name="getListeCepagesResponse">
+      <xs:sequence>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:cepage"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="cepage">
+      <xs:complexContent>
+         <xs:extension base="tns:reference">
+            <xs:sequence/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="getSuccursales">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg1" type="xs:long"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getSuccursalesResponse">
+      <xs:sequence>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:succursale"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="succursale">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="adresse" type="xs:string"/>
+         <xs:element minOccurs="0" name="banniere" type="xs:string"/>
+         <xs:element minOccurs="0" name="latitude" type="xs:decimal"/>
+         <xs:element minOccurs="0" name="longitude" type="xs:decimal"/>
+         <xs:element minOccurs="0" name="nbProduit" type="xs:int"/>
+         <xs:element minOccurs="0" name="region" type="xs:string"/>
+         <xs:element minOccurs="0" name="succursaleId" type="xs:long"/>
+         <xs:element minOccurs="0" name="telephone" type="xs:string"/>
+         <xs:element minOccurs="0" name="ville" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getListeTypesPlat">
+      <xs:sequence/>
+   </xs:complexType>
+
+   <xs:complexType name="getListeTypesPlatResponse">
+      <xs:sequence>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:typePlat"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="typePlat">
+      <xs:complexContent>
+         <xs:extension base="tns:referenceAvecId">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="ingredientsPrincipaux" nillable="true" type="tns:ingredient"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="ingredient">
+      <xs:complexContent>
+         <xs:extension base="tns:reference">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="listeAccompagnement" nillable="true" type="tns:reference"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="listeModeCuisson" nillable="true" type="tns:reference"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:complexType name="getListePastilles">
+      <xs:sequence/>
+   </xs:complexType>
+
+   <xs:complexType name="getListePastillesResponse">
+      <xs:sequence>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:pastille"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="pastille">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="pastilleDescCourte" type="tns:reference"/>
+         <xs:element minOccurs="0" name="pastilleDescLongue" type="tns:reference"/>
+         <xs:element minOccurs="0" name="pastilleUrl" type="tns:reference"/>
+         <xs:element minOccurs="0" name="categorie" type="tns:reference"/>
+      </xs:sequence>
+   </xs:complexType>
+   
+   <xs:complexType name="getRecettes">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg4" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg5" type="xs:long"/>
+         <xs:element minOccurs="0" name="arg6" type="xs:long"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getRecettesResponse">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="return" type="tns:listeRecette"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getDetailProduitParCUP">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+         <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getDetailProduitParCUPResponse">
+      <xs:sequence>
+         <xs:element minOccurs="0" name="return" type="tns:detailProduit"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="getListePays">
+      <xs:sequence/>
+   </xs:complexType>
+
+   <xs:complexType name="getListePaysResponse">
+      <xs:sequence>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:pays"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="pays">
+      <xs:complexContent>
+         <xs:extension base="tns:reference">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="regions" nillable="true" type="tns:reference"/>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   
+   <xs:complexType name="getMessage">
+      <xs:sequence/>
+   </xs:complexType>
+
+   <xs:complexType name="getMessageResponse">
+      <xs:sequence>
+         <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:message"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="message">
+      <xs:complexContent>
+         <xs:extension base="tns:referenceAvecId">
+            <xs:sequence/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+
+   <xs:simpleType name="typeAttribut">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="CUP"/>
+         <xs:enumeration value="REGION_ORIGINE"/>
+         <xs:enumeration value="APPELLATION"/>
+         <xs:enumeration value="PAYS_ORIGINE"/>
+         <xs:enumeration value="QUALITE"/>
+         <xs:enumeration value="DESIGNATION_REGLEMENTEE"/>
+         <xs:enumeration value="NOM_PRODUCTEUR"/>
+         <xs:enumeration value="PARTICULARITE"/>
+         <xs:enumeration value="COULEUR"/>
+         <xs:enumeration value="POURCENTAGE_ALCOOL_PAR_VOLUME"/>
+         <xs:enumeration value="CEPAGE"/>
+         <xs:enumeration value="TYPE_BOUCHON"/>
+         <xs:enumeration value="TYPE_CONTENANT"/>
+         <xs:enumeration value="FAMILLE_VINS"/>
+         <xs:enumeration value="POTENTIEL_GARDE"/>
+         <xs:enumeration value="TEMPERATURE_SERVICE_CELSIUS_A"/>
+         <xs:enumeration value="TEMPERATURE_SERVICE_CELSIUS_DE"/>
+         <xs:enumeration value="PARTICULARITE_SERVICE"/>
+         <xs:enumeration value="TEINTE"/>
+         <xs:enumeration value="INTENSITE"/>
+         <xs:enumeration value="BULLES"/>
+         <xs:enumeration value="PERSISTANCE_DES_BULLES"/>
+         <xs:enumeration value="FAMILLE_AROMES_OLFACTIVES"/>
+         <xs:enumeration value="ACIDITE"/>
+         <xs:enumeration value="SUCRE"/>
+         <xs:enumeration value="TANNINS"/>
+         <xs:enumeration value="TEXTURE"/>
+         <xs:enumeration value="CORPS"/>
+         <xs:enumeration value="FAMILLES_AROMES_GUSTATIVES"/>
+         <xs:enumeration value="COMMENTAIRE_DEGUSTATION_COURTE"/>
+         <xs:enumeration value="COMMENTAIRE_DEGUSTATION_LONGUE"/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

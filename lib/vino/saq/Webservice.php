@@ -61,9 +61,9 @@ class Webservice
     public function searchWinesByKeyword($keyword, $page = 1)
     {
         $products = array();
-        $response = $this->getSoapService()->getResultsKeyword2($keyword, $page, $this->lang);
-        if (isset($response->nbPages) && $this->decodeCdata($response->nbPages)) {
-            foreach ($response->produits as $product) {
+        $response = $this->getSoapService()->getProduitsParMotCle(array('DataArea' => array('getProduitsParMotCle' => array('arg0' => $this->lang, 'arg1' => $keyword, 'arg2' => $page, 'arg3' => 20))));
+        if (isset($response->DataArea->getProduitsParMotCleResponse->return->nbResultsPerPage)) {
+            foreach ($response->DataArea->getProduitsParMotCleResponse->return->products as $product) {
                 $products[] = Wine::fromSaq($this->lang, $product);
             }
         }
@@ -129,7 +129,7 @@ class Webservice
     {
         $options = $this->config->get('saq.soap.options', array());
         $options['exceptions'] = true;
-        $options['cache_wsdl'] = WSDL_CACHE_BOTH;
+        $options['cache_wsdl'] = WSDL_CACHE_NONE;
         return new SoapClient($this->config->get('saq.soap.url'), $options);
     }
     

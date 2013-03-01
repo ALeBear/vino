@@ -32,23 +32,37 @@ class Wine
      * @Column(type="string", length=15)
      * @var string
      */
-    protected $code;
+    protected $partNumber;
     
-    protected $name;
-    protected $appelation;
-    protected $categorie;
-    protected $cepage;
-    protected $couleur;
+    /**
+     * @var string
+     */
+    protected $description;
+    
+    /**
+     * @var string
+     */
+    protected $identiteProduit;
+    
+    /**
+     * @var string
+     */
     protected $format;
-    protected $fournisseur;
-    protected $image;
-    protected $thumbnail;
-    protected $pays;
-    protected $pourcentage;
+    
+    /**
+     * @var string
+     */
     protected $prix;
-    protected $region;
-    protected $sousRegion;
-    protected $nature;
+    
+    /**
+     * @var string
+     */
+    protected $prixReduit;
+    
+    /**
+     * @var array
+     */
+    protected $attributes = array();
     
     /**
      * @param stdClass $parameters
@@ -59,12 +73,26 @@ class Wine
         $wine = new static();
         $wine->lang = $lang;
         $data = array();
+        
+        //Basic params
         foreach (array_keys(get_object_vars($wine)) as $property) {
-            isset($parameters->$property) && $wine->$property = Webservice::decodeCdata($parameters->$property);
-            if (!in_array($property, array('code', 'id', 'data'))) {
-                $data[$property] = $wine->$property;
+            if (isset($parameters->$property)) {
+                $wine->$property = $data[$property] = $parameters->$property;
             }
         }
+        //Attributes
+        $data['attributes'] = array();
+        if (isset($parameters->listeAttributes) && is_array($parameters->listeAttributes)) {
+            foreach ($parameters->listeAttributes as $attribute) {
+                if (isset($data['attributes'][$attribute->typeAttribut])) {
+                    is_array($data['attributes'][$attribute->typeAttribut]) || $data['attributes'][$attribute->typeAttribut] = array($data['attributes'][$attribute->typeAttribut]);
+                    $data['attributes'][$attribute->typeAttribut][] = $attribute->value;
+                } else {
+                    $data['attributes'][$attribute->typeAttribut] = $attribute->value;
+                }
+            }
+        }
+        
         $wine->data = json_encode($data);
         
         return $wine;
@@ -87,7 +115,7 @@ class Wine
      */
     public function getCode()
     {
-        return $this->code;
+        return $this->partNumber;
     }
     
     /**
@@ -95,7 +123,7 @@ class Wine
      */
     public function getName()
     {
-        return $this->name;
+        return $this->description;
     }
     
     /**
@@ -103,7 +131,7 @@ class Wine
      */
     public function getAppelation()
     {
-        return $this->appelation;
+        return $this->getAttribute('APPELLATION');
     }
     
     /**
@@ -111,7 +139,7 @@ class Wine
      */
     public function getCategorie()
     {
-        return $this->categorie;
+        return $this->identiteProduit;
     }
     
     /**
@@ -119,7 +147,7 @@ class Wine
      */
     public function getPays()
     {
-        return $this->pays;
+        return $this->getAttribute('PAYS_ORIGINE');
     }
     
     /**
@@ -127,15 +155,31 @@ class Wine
      */
     public function getPourcentage()
     {
-        return $this->pourcentage;
+        return $this->getAttribute('POURCENTAGE_ALCOOL_PAR_VOLUME');
     }
     
     /**
      * @return string
      */
-    public function getPrix()
+    public function getPrix($original = false)
     {
-        return $this->prix;
+        return number_format($original || !$this->hasPrixReduit() ? $this->prix : $this->prixReduit, 2);
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function hasPrixReduit()
+    {
+        return (bool) $this->prixReduit;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getPrixReduit()
+    {
+        return number_format($this->prixReduit, 2);
     }
     
     /**
@@ -143,7 +187,7 @@ class Wine
      */
     public function getFournisseur()
     {
-        return $this->fournisseur;
+        return $this->getAttribute('NOM_PRODUCTEUR');
     }
     
     /**
@@ -151,7 +195,7 @@ class Wine
      */
     public function getImage()
     {
-        return $this->image;
+        return sprintf('http://s7d9.scene7.com/is/image/SAQ/%s_is?$saq/prod$', $this->getCode());
     }
     
     /**
@@ -159,7 +203,7 @@ class Wine
      */
     public function getThumbnail()
     {
-        return $this->thumbnail;
+        return sprintf('http://s7d9.scene7.com/is/image/SAQ/%s_is?$saq-prod-sugg$', $this->getCode());
     }
     
     /**
@@ -167,7 +211,7 @@ class Wine
      */
     public function getCepage()
     {
-        return $this->cepage;
+        return $this->getAttribute('CEPAGE');
     }
     
     /**
@@ -175,7 +219,7 @@ class Wine
      */
     public function getCouleur()
     {
-        return $this->couleur;
+        return $this->getAttribute('COULEUR');
     }
     
     /**
@@ -189,17 +233,9 @@ class Wine
     /**
      * @return string
      */
-    public function getNature()
-    {
-        return $this->nature;
-    }
-    
-    /**
-     * @return string
-     */
     public function getRegion()
     {
-        return $this->pays . '/' . $this->region . ($this->sousRegion ? '/' . $this->sousRegion : '');
+        return $this->pays . '/' . $this->getAttribute('REGION_ORIGINE');
     }
     
     /**
@@ -207,6 +243,16 @@ class Wine
      */
     public function __toString()
     {
-        return $this->name;
+        return $this->description;
+    }
+    
+    /**
+     * @param string $name
+     * @param mixed $default
+     * @return mixed
+     */
+    protected function getAttribute($name, $default = null)
+    {
+        return isset($this->attributes[$name]) ? $this->attributes[$name] : $default;
     }
 }

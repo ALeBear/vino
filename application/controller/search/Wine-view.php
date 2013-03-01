@@ -8,7 +8,7 @@
         <?php echo $this->_('availability'); ?></a>
     <p></p>
     <?php echo $this->_('price', $wine->getSaqWine()->getPrix(), $wine->getSaqWine()->getFormat()); ?><br/>
-    <?php echo $this->_('nature', $wine->getSaqWine()->getNature(), $wine->getSaqWine()->getCouleur(), $wine->getSaqWine()->getPourcentage()); ?><br/>
+    <?php echo $this->_('nature', $wine->getSaqWine()->getCategorie(), $wine->getSaqWine()->getPourcentage()); ?><br/>
     <?php echo $wine->getSaqWine()->getRegion(); ?><br/>
     <?php if ($wine->getSaqWine()->getCepage()): ?>
     <?php echo $wine->getSaqWine()->getCepage(); ?><br/>

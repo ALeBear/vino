@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<definitions name="ServiceMobile" targetNamespace="http://mobile.saq.com/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://mobile.saq.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://mobile.saq.com/" schemaLocation="ServiceMobile.xsd"/>
+      <xsd:import namespace="http://mobile.saq.com/" schemaLocation="ServiceMobileType.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="getMessageResponse">
+    <part element="tns:SyncGetMessageResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getListeCepagesResponse">
+    <part element="tns:SyncGetListeCepagesResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getListeTypesPlat">
+    <part element="tns:SyncGetListeTypesPlat" name="parameters">
+    </part>
+  </message>
+  <message name="getListePastilles">
+    <part element="tns:SyncGetListePastilles" name="parameters">
+    </part>
+  </message>
+  <message name="getRecettes">
+    <part element="tns:SyncGetRecettes" name="parameters">
+    </part>
+  </message>
+  <message name="getSuccursalesResponse">
+    <part element="tns:SyncGetSuccursalesResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getListePays">
+    <part element="tns:SyncGetListePays" name="parameters">
+    </part>
+  </message>
+  <message name="getDetailProduit">
+    <part element="tns:SyncGetDetailProduit" name="parameters">
+    </part>
+  </message>
+  <message name="getListePrix">
+    <part element="tns:SyncGetListePrix" name="parameters">
+    </part>
+  </message>
+  <message name="getProduitsParAccordResponse">
+    <part element="tns:SyncGetProduitsParAccordResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getProduits">
+    <part element="tns:SyncGetProduits" name="parameters">
+    </part>
+  </message>
+  <message name="getProduitsParMotCle">
+    <part element="tns:SyncGetProduitsParMotCle" name="parameters">
+    </part>
+  </message>
+  <message name="getDetailRecette">
+    <part element="tns:SyncGetDetailRecette" name="parameters">
+    </part>
+  </message>
+  <message name="getRecettesParAccordResponse">
+    <part element="tns:SyncGetRecettesParAccordResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getListeCategoriesResponse">
+    <part element="tns:SyncGetListeCategoriesResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getMessage">
+    <part element="tns:SyncGetMessage" name="parameters">
+    </part>
+  </message>
+  <message name="getListeCepages">
+    <part element="tns:SyncGetListeCepages" name="parameters">
+    </part>
+  </message>
+  <message name="getSuccursales">
+    <part element="tns:SyncGetSuccursales" name="parameters">
+    </part>
+  </message>
+  <message name="getListePastillesResponse">
+    <part element="tns:SyncGetListePastillesResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getRecettesResponse">
+    <part element="tns:SyncGetRecettesResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getListeTypesPlatResponse">
+    <part element="tns:SyncGetListeTypesPlatResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getDetailProduitParCUP">
+    <part element="tns:SyncGetDetailProduitParCUP" name="parameters">
+    </part>
+  </message>
+  <message name="getListePaysResponse">
+    <part element="tns:SyncGetListePaysResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getListePrixResponse">
+    <part element="tns:SyncGetListePrixResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getDetailProduitResponse">
+    <part element="tns:SyncGetDetailProduitResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getProduitsParAccord">
+    <part element="tns:SyncGetProduitsParAccord" name="parameters">
+    </part>
+  </message>
+  <message name="getProduitsResponse">
+    <part element="tns:SyncGetProduitsResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getDetailProduitParCUPResponse">
+    <part element="tns:SyncGetDetailProduitParCUPResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getDetailRecetteResponse">
+    <part element="tns:SyncGetDetailRecetteResponse" name="parameters">
+    </part>
+  </message>
+  <message name="getRecettesParAccord">
+    <part element="tns:SyncGetRecettesParAccord" name="parameters">
+    </part>
+  </message>
+  <message name="getListeCategories">
+    <part element="tns:SyncGetListeCategories" name="parameters">
+    </part>
+  </message>
+  <message name="getProduitsParMotCleResponse">
+    <part element="tns:SyncGetProduitsParMotCleResponse" name="parameters">
+    </part>
+  </message>
+  <portType name="ServiceMobile">
+    <operation name="getListePastilles">
+      <input message="tns:getListePastilles">
+    </input>
+      <output message="tns:getListePastillesResponse">
+    </output>
+    </operation>
+    <operation name="getListePrix">
+      <input message="tns:getListePrix">
+    </input>
+      <output message="tns:getListePrixResponse">
+    </output>
+    </operation>
+    <operation name="getListeCepages">
+      <input message="tns:getListeCepages">
+    </input>
+      <output message="tns:getListeCepagesResponse">
+    </output>
+    </operation>
+    <operation name="getListePays">
+      <input message="tns:getListePays">
+    </input>
+      <output message="tns:getListePaysResponse">
+    </output>
+    </operation>
+    <operation name="getListeTypesPlat">
+      <input message="tns:getListeTypesPlat">
+    </input>
+      <output message="tns:getListeTypesPlatResponse">
+    </output>
+    </operation>
+    <operation name="getListeCategories">
+      <input message="tns:getListeCategories">
+    </input>
+      <output message="tns:getListeCategoriesResponse">
+    </output>
+    </operation>
+    <operation name="getDetailProduit">
+      <input message="tns:getDetailProduit">
+    </input>
+      <output message="tns:getDetailProduitResponse">
+    </output>
+    </operation>
+    <operation name="getDetailProduitParCUP">
+      <input message="tns:getDetailProduitParCUP">
+    </input>
+      <output message="tns:getDetailProduitParCUPResponse">
+    </output>
+    </operation>
+    <operation name="getDetailRecette">
+      <input message="tns:getDetailRecette">
+    </input>
+      <output message="tns:getDetailRecetteResponse">
+    </output>
+    </operation>
+    <operation name="getRecettesParAccord">
+      <input message="tns:getRecettesParAccord">
+    </input>
+      <output message="tns:getRecettesParAccordResponse">
+    </output>
+    </operation>
+    <operation name="getProduitsParAccord">
+      <input message="tns:getProduitsParAccord">
+    </input>
+      <output message="tns:getProduitsParAccordResponse">
+    </output>
+    </operation>
+    <operation name="getProduits">
+      <input message="tns:getProduits">
+    </input>
+      <output message="tns:getProduitsResponse">
+    </output>
+    </operation>
+    <operation name="getProduitsParMotCle">
+      <input message="tns:getProduitsParMotCle">
+    </input>
+      <output message="tns:getProduitsParMotCleResponse">
+    </output>
+    </operation>
+    <operation name="getRecettes">
+      <input message="tns:getRecettes">
+    </input>
+      <output message="tns:getRecettesResponse">
+    </output>
+    </operation>
+    <operation name="getSuccursales">
+      <input message="tns:getSuccursales">
+    </input>
+      <output message="tns:getSuccursalesResponse">
+    </output>
+    </operation>
+    <operation name="getMessage">
+      <input message="tns:getMessage">
+    </input>
+      <output message="tns:getMessageResponse">
+    </output>
+    </operation>
+  </portType>
+  <binding name="ServiceMobileBinding" type="tns:ServiceMobile">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getListePastilles">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getListePrix">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getListeCepages">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getListePays">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getListeTypesPlat">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getListeCategories">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getDetailProduit">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getDetailProduitParCUP">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getDetailRecette">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getRecettesParAccord">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getProduitsParAccord">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getProduits">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getProduitsParMotCle">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getRecettes">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getSuccursales">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getMessage">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="ServiceMobile">
+    <port binding="tns:ServiceMobileBinding" name="ServiceMobile">
+      <soap:address location="http://www.saq.com:9300/webapp/wcs/services/ServiceMobile"/>
+    </port>
+  </service>
+</definitions>
