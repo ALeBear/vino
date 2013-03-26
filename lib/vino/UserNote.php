@@ -2,11 +2,11 @@
 
 namespace vino;
 
-use InvalidArgumentException;
+use DateTime;
 
 /**
  * A note about a wine
- * @Entity
+ * @Entity @HasLifecycleCallbacks
  */
 class UserNote
 {
@@ -50,7 +50,13 @@ class UserNote
      */
     protected $text;
     
+    /**
+     * @Column(type="datetime")
+     * @var datetime
+     */
+    protected $created_on;    
      
+    
     /**
      * Create a brand new Wine ready to be persisted
      * @param string $wineCode
@@ -126,5 +132,21 @@ class UserNote
     public function getUser()
     {
         return $this->user;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->created_on->format('Y-m-d');
+    }
+
+    /**
+     * @PrePersist
+     */
+    function onPrePersist()
+    {
+        $this->created_on || $this->created_on = new DateTime('now');
     }
 }

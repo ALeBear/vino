@@ -33,7 +33,7 @@
 </h3>
 <?php foreach ($notes as $note): ?>
 <div>
-<?php echo sprintf('<strong>%s</strong>, %s %s', $note->getUser()->__toString(), $this->_('for_vintage'), $note->getVintage()); ?>
+<?php echo sprintf('<strong>%s</strong>, %s %s <i>%s %s</i>', $note->getUser()->__toString(), $this->_('for_vintage'), $note->getVintage(), $this->_('on_date'), $note->getDate()); ?>
 <?php if ($note->getAppreciation()) echo sprintf(' (%s %s)', $note->getAppreciation(), $this->_('points')); ?>
 <?php echo sprintf('%s<br/>%s<hr/>', $this->_('colon'), nl2br($note->getText())); ?>
 </div>

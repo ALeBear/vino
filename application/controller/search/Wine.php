@@ -19,7 +19,7 @@ class Wine extends VinoAbstractController
         $this->view->notes = $this->dependencyInjectionContainer
             ->get('entity_manager')
             ->getRepository('vino\\UserNote')
-            ->findBy(array('wineCode' => $code));
+            ->findBy(array('wineCode' => $code), array('created_on' => 'DESC'));
         $total = 0;
         $count = 0;
         $this->view->myAppreciation = null;
