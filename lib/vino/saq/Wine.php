@@ -247,6 +247,16 @@ class Wine
     }
     
     /**
+     * Returns the image that will appear in lists for type
+     */
+    public function getVignette()
+    {
+        $value = strtolower(str_replace(array(" ", "é", "tranquille"), array("_", "e", ""), trim(sprintf("%s %s", $this->getCategorie(), (string) $this->getCouleur()))));
+        return in_array($value, array('vin_blanc', 'vin_rouge', 'vin_rose', 'vin_mousseux_blanc', 'vin_mousseux_rouge', 'vin_mousseux_rose', 'champagne', 'champagne_rose'))
+            ? $value : "unknown";
+    }
+    
+    /**
      * @param string $name
      * @param mixed $default
      * @return mixed

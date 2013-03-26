@@ -84,10 +84,22 @@ class Wine extends \vino\saq\Wine implements \Doctrine\ORM\Proxy\Proxy
         return parent::getPourcentage();
     }
 
-    public function getPrix()
+    public function getPrix($original = false)
     {
         $this->__load();
-        return parent::getPrix();
+        return parent::getPrix($original);
+    }
+
+    public function hasPrixReduit()
+    {
+        $this->__load();
+        return parent::hasPrixReduit();
+    }
+
+    public function getPrixReduit()
+    {
+        $this->__load();
+        return parent::getPrixReduit();
     }
 
     public function getFournisseur()
@@ -126,12 +138,6 @@ class Wine extends \vino\saq\Wine implements \Doctrine\ORM\Proxy\Proxy
         return parent::getFormat();
     }
 
-    public function getNature()
-    {
-        $this->__load();
-        return parent::getNature();
-    }
-
     public function getRegion()
     {
         $this->__load();
@@ -144,10 +150,16 @@ class Wine extends \vino\saq\Wine implements \Doctrine\ORM\Proxy\Proxy
         return parent::__toString();
     }
 
+    public function getVignette()
+    {
+        $this->__load();
+        return parent::getVignette();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'data', 'lang', 'code');
+        return array('__isInitialized__', 'id', 'data', 'lang', 'partNumber');
     }
 
     public function __clone()

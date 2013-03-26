@@ -58,12 +58,14 @@ class Webservice
      * @param string $keyword
      * @return Wine[]
      */
-    public function searchWinesByKeyword($keyword, $page = 1)
+    public function searchWinesByKeyword($keyword, $page = 0)
     {
         $products = array();
         $response = $this->getSoapService()->getProduitsParMotCle(array('DataArea' => array('getProduitsParMotCle' => array('arg0' => $this->lang, 'arg1' => $keyword, 'arg2' => $page, 'arg3' => 20))));
-        if (isset($response->DataArea->getProduitsParMotCleResponse->return->nbResultsPerPage)) {
-            foreach ($response->DataArea->getProduitsParMotCleResponse->return->products as $product) {
+        if (isset($response->DataArea->getProduitsParMotCleResponse->return->products)) {
+            $results = $response->DataArea->getProduitsParMotCleResponse->return->products;
+            is_array($results) || $results = array($results);
+            foreach ($results as $product) {
                 $products[] = Wine::fromSaq($this->lang, $product);
             }
         }

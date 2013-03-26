@@ -68,6 +68,14 @@ class WinesList
     }
     
     /**
+     * @return string
+     */
+    public function count()
+    {
+        return count($this->getWines());
+    }
+    
+    /**
      * @return vino\User
      */
     public function getUser()

@@ -168,4 +168,12 @@ class UserWine
     {
         return $this->saqWine->getName();
     }
+    
+    /**
+     * Returns the image that will appear in lists for type
+     */
+    public function getVignette()
+    {
+        return $this->saqWine->getVignette();
+    }
 }
