@@ -17,10 +17,15 @@ class Contents extends VinoAbstractController
         $this->view->list = $this->dependencyInjectionContainer
             ->get('entity_manager')
             ->find('vino\WinesList', $this->view->listId);
+        $this->view->wines = array();
+        foreach ($this->view->list->getWineIds() as $wineId) {
+            $this->view->wines[$wineId] = $this->getWine($wineId);
+        }
     }
     
     public function execute($id, $c = null)
     {
+        $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
         $this->metas['title'] = $this->_('title', $this->view->list->__toString());
         
         //If a wine code is given, it means we want to remove it from the list

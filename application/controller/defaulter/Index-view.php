@@ -7,7 +7,7 @@
 <h3><?php echo $this->_('lists'); ?></a></h3>
 
 <?php if (count($lists)): ?>
-    <ul data-role="listview" data-filter="true" data-inset="true">
+    <ul data-role="listview" data-inset="true">
     <?php foreach ($lists as $list): ?>
         <li>
             <a href="<?php echo $this->router->buildRoute('lists/contents', array('id' => $list->getId()))->getUrl(); ?>">

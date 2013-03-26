@@ -27,7 +27,7 @@ class WinesList
      protected $user;
     
     /**
-     * @Column(type="string", length=1000)
+     * @Column(type="string", length=1000, nullable=true)
      * @var string
      */
     protected $wines;
@@ -76,7 +76,7 @@ class WinesList
      */
     public function unpack()
     {
-        $this->wineIds = explode(',', $this->wines);
+        $this->wineIds = $this->wines ? explode(',', $this->wines) : array();
     }
     
     /**
