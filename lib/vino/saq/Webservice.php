@@ -5,6 +5,7 @@ namespace vino\saq;
 use Symfony\Component\Config\IQueryableConfig;
 use SoapClient;
 use Doctrine\ORM\EntityManager;
+use InvalidArgumentException;
 
 class Webservice
 {
@@ -83,6 +84,9 @@ class Webservice
         $wine = $this->entityManager->getRepository('vino\\saq\\Wine')->findOneBy(array('code' => $code, 'lang' => $this->lang));
         if (!$wine) {
             $wine = $this->getWineDetails($code);
+            if (!$wine) {
+                throw new InvalidArgumentException(sprintf('Cannot find wine with code: %s', $code));
+            }
             $this->entityManager->persist($wine);
             $this->entityManager->flush();
         }
@@ -93,12 +97,16 @@ class Webservice
     /**
      * Get wine details from a webservice call
      * @param type $code
-     * @return Wine
+     * @return Wine Null if not found
      */
     protected function getWineDetails($code)
     {
-        $response = $this->getSoapService()->getProduit2($code, $this->lang);
-        return Wine::fromSaq($this->lang, $response);
+        $response = $this->getSoapService()->getDetailProduit(array('DataArea' => array('getDetailProduit' => array('arg0' => $this->lang, 'arg1' => $code))));
+        if (!$response) {
+            return null;
+        }
+        
+        return Wine::fromSaq($this->lang, $response->DataArea->getDetailProduitResponse->return);
     }
     
     /**

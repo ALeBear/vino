@@ -4,7 +4,7 @@ namespace vino;
 
 /**
  * A list of wines
- * @Entity
+ * @Entity @HasLifecycleCallbacks
  */
 class WinesList
 {
@@ -27,14 +27,17 @@ class WinesList
      protected $user;
     
     /**
-     * @ManyToMany(targetEntity="UserWine", inversedBy="lists")
-     * @JoinTable(name="wine_listings",
-     *   joinColumns={@JoinColumn(name="list_id", referencedColumnName="id")},
-     *   inverseJoinColumns={@JoinColumn(name="wine_id", referencedColumnName="id")}
-     * )
-     * @param Doctrine\ORM\PersistentCollection
+     * @Column(type="string", length=1000)
+     * @var string
      */
     protected $wines;
+    
+    /**
+     * The wine Ids, exploded
+     * @var array
+     */
+    protected $wineIds = array();
+
     
     /**
      * Create a brand new list ready to be persisted
@@ -68,11 +71,20 @@ class WinesList
     }
     
     /**
+     * Sets the wine Ids array after loading
+     * @PostLoad
+     */
+    public function unpack()
+    {
+        $this->wineIds = explode(',', $this->wines);
+    }
+    
+    /**
      * @return string
      */
     public function count()
     {
-        return count($this->getWines());
+        return count($this->wineIds);
     }
     
     /**
@@ -89,7 +101,7 @@ class WinesList
      */
     public function contains(UserWine $wine)
     {
-        return $this->wines ? $this->wines->contains($wine) : false;
+        return in_array($wine->getCode(), $this->wineIds);
     }
     
     /**
@@ -99,8 +111,8 @@ class WinesList
     public function addWine(UserWine $wine)
     {
         if (!$this->contains($wine)) {
-            $this->wines[] = $wine;
-            $wine->addToList($this);
+            $this->wineIds[] = $wine->getCode();
+            $this->wines = implode(',', $this->wineIds);
         }
         
         return $this;
@@ -108,16 +120,18 @@ class WinesList
     
     public function removeWine(UserWine $wine)
     {
-        $this->wines && $this->contains($wine) && $this->wines->removeElement($wine);
-        $wine->removeFromList($this);
+        if ($this->contains($wine)) {
+            unset($this->wineIds[array_search($wine->getCode(), $this->wineIds)]);
+            $this->wines = implode(',', $this->wineIds);
+        }
         return $this;
     }
     
     /**
      * @return type
      */
-    public function getWines()
+    public function getWineIds()
     {
-        return $this->wines;
+        return $this->wineIds;
     }
 }

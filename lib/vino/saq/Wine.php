@@ -17,7 +17,7 @@ class Wine
     protected $id;
     
     /**
-     * @Column(type="string", length=1000)
+     * @Column(type="string", length=2000)
      * @var string
      */
     protected $data;
@@ -32,7 +32,7 @@ class Wine
      * @Column(type="string", length=15)
      * @var string
      */
-    protected $partNumber;
+    protected $code;
     
     /**
      * @var string
@@ -60,6 +60,11 @@ class Wine
     protected $prixReduit;
     
     /**
+     * @var string
+     */
+    protected $millesime;
+    
+    /**
      * @var array
      */
     protected $attributes = array();
@@ -75,15 +80,20 @@ class Wine
         $data = array();
         
         //Basic params
+        isset($parameters->partNumber) && $wine->code = $parameters->partNumber;
         foreach (array_keys(get_object_vars($wine)) as $property) {
+            if ($property == 'id') {
+                continue;
+            }
+            
             if (isset($parameters->$property)) {
                 $wine->$property = $data[$property] = $parameters->$property;
             }
         }
         //Attributes
         $data['attributes'] = array();
-        if (isset($parameters->listeAttributes) && is_array($parameters->listeAttributes)) {
-            foreach ($parameters->listeAttributes as $attribute) {
+        if (isset($parameters->listeAttributs) && is_array($parameters->listeAttributs)) {
+            foreach ($parameters->listeAttributs as $attribute) {
                 if (isset($data['attributes'][$attribute->typeAttribut])) {
                     is_array($data['attributes'][$attribute->typeAttribut]) || $data['attributes'][$attribute->typeAttribut] = array($data['attributes'][$attribute->typeAttribut]);
                     $data['attributes'][$attribute->typeAttribut][] = $attribute->value;
@@ -92,6 +102,7 @@ class Wine
                 }
             }
         }
+        $wine->attributes = $data['attributes'];
         
         $wine->data = json_encode($data);
         
@@ -115,7 +126,7 @@ class Wine
      */
     public function getCode()
     {
-        return $this->partNumber;
+        return $this->code;
     }
     
     /**
@@ -140,6 +151,14 @@ class Wine
     public function getCategorie()
     {
         return $this->identiteProduit;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getMillesime()
+    {
+        return $this->millesime;
     }
     
     /**
@@ -195,7 +214,7 @@ class Wine
      */
     public function getImage()
     {
-        return sprintf('http://s7d9.scene7.com/is/image/SAQ/%s_is?$saq/prod$', $this->getCode());
+        return sprintf('http://s7d9.scene7.com/is/image/SAQ/%s_is?$saq-rech-prod-list$', $this->getCode());
     }
     
     /**
@@ -211,7 +230,8 @@ class Wine
      */
     public function getCepage()
     {
-        return $this->getAttribute('CEPAGE');
+        $attr = $this->getAttribute('CEPAGE');
+        return is_array($attr) ? implode(', ', $attr) : $attr;
     }
     
     /**
@@ -235,7 +255,7 @@ class Wine
      */
     public function getRegion()
     {
-        return $this->pays . '/' . $this->getAttribute('REGION_ORIGINE');
+        return $this->getPays() . ($this->getAttribute('REGION_ORIGINE') ? '/' . $this->getAttribute('REGION_ORIGINE') : '');
     }
     
     /**
@@ -243,7 +263,7 @@ class Wine
      */
     public function __toString()
     {
-        return $this->description;
+        return $this->description . ($this->millesime ? ' ' . $this->millesime : '');
     }
     
     /**

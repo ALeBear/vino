@@ -12,6 +12,7 @@ class Index extends VinoAbstractController
     public function execute($q = '')
     {
         $this->view->products = array();
+        $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
         $this->metas['title'] = $this->_('title');
         
         if ($this->view->query = preg_replace('/[^\d\w -\.]/', '', $q)) {

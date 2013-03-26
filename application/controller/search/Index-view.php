@@ -7,9 +7,9 @@
     <ul data-role="listview" data-inset="true">
     <?php foreach ($products as $product): ?>
         <li>
-            <a class="nowrap" href="<?php echo $this->router->buildRoute('search/wine', array('c' => $product->getCode()))->getUrl(); ?>">
+            <a class="nowrap" href="<?php echo $this->router->buildRoute('search/wine', array('c' => $product->getCode(), 'f' => 's-' . $query))->getUrl(); ?>">
             <img src="/images/<?php echo $product->getVignette(); ?>.png" class="ui-li-icon"/>
-            <?php echo $product->__toString(); ?></a>
+            <?php echo $product->__toString(); ?> <span class="listDetails"> - $<?php echo $product->getPrix(); ?></span></a>
         </li>
     <?php endforeach; ?>
     </ul>

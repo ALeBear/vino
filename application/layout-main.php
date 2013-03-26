@@ -12,8 +12,12 @@
     <?php echo $css; ?>
 </head>
 <body>
-<div data-role="page" data-add-back-btn="true" data-back-btn-text="<?php echo $this->_('back') ;?>" data-theme="c">
+<div data-role="page" data-theme="c">
     <div data-role="header">
+        <?php if (isset($backUrl) && $backUrl): ?>
+            <a href="<?php echo $backUrl; ?>" data-role="button" data-icon="arrow-l" class="ui-btn-left">
+            <?php echo $this->_('back'); ?></a>
+        <?php endif; ?>
         <h1><?php echo $this->_('main_title'); ?></h1>
         <?php if (isset($headerButton) && is_array($headerButton)): ?>
             <a href="<?php echo $headerButton['url']; ?>" data-role="button"<?php if (isset($headerButton['icon'])) echo sprintf(' data-icon="%s"', $headerButton['icon']);?> class="ui-btn-right">
