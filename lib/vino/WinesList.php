@@ -2,6 +2,8 @@
 
 namespace vino;
 
+use vino\saq\Wine;
+
 /**
  * A list of wines
  * @Entity @HasLifecycleCallbacks
@@ -96,21 +98,12 @@ class WinesList
     }
     
     /**
-     * @param \vino\UserWine $wine
-     * @return boolean
-     */
-    public function contains(UserWine $wine)
-    {
-        return in_array($wine->getCode(), $this->wineIds);
-    }
-    
-    /**
-     * @param \vino\UserWine $wine
+     * @param \vino\saq\Wine $wine
      * @return vino\WinesList $this
      */
-    public function addWine(UserWine $wine)
+    public function addWine(Wine $wine)
     {
-        if (!$this->contains($wine)) {
+        if (!$this->contains($wine->getCode())) {
             $this->wineIds[] = $wine->getCode();
             $this->wines = implode(',', $this->wineIds);
         }
@@ -118,9 +111,14 @@ class WinesList
         return $this;
     }
     
-    public function removeWine(UserWine $wine)
+    /**
+     * 
+     * @param \vino\saq\Wine $wine
+     * @return \vino\WinesList $this
+     */
+    public function removeWine(Wine $wine)
     {
-        if ($this->contains($wine)) {
+        if ($this->contains($wine->getCode())) {
             unset($this->wineIds[array_search($wine->getCode(), $this->wineIds)]);
             $this->wines = implode(',', $this->wineIds);
         }
@@ -133,5 +131,14 @@ class WinesList
     public function getWineIds()
     {
         return $this->wineIds;
+    }
+    
+    /**
+     * @param string $code
+     * @return boolean
+     */
+    public function contains($code)
+    {
+        return in_array($code, $this->wineIds);
     }
 }

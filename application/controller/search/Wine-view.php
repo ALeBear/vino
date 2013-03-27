@@ -4,11 +4,9 @@
         <img src="<?php echo $wine->getImage(); ?>"/>
     </td>
     <td valign="top">
-        <a href="<?php echo $this->router->buildRoute('lists/addwine', array('c' => $wine->getCode()))->getUrl(); ?>" data-role="button" data-inline="true">
-            <?php echo $this->_('add_to_list'); ?></a>
-        <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode()))->getUrl(); ?>" data-role="button" data-inline="true">
+        <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode()))->getUrl(); ?>" data-role="button" data-inline="true" data-mini="true" style="float: right">
             <?php echo $this->_('availability'); ?></a>
-        <p></p>
+        <br/>
         <?php echo $this->_('price', $wine->getPrix(), $wine->getFormat()); ?><br/>
         <?php echo $this->_('nature', $wine->getCategorie(), $wine->getPourcentage()); ?>&#176;<br/>
         <?php echo $wine->getRegion(); ?><br/>
@@ -19,6 +17,20 @@
     </td>
 </tr>
 </table>
+
+<?php if (count($lists)): ?>
+<hr/>
+<fieldset data-role="controlgroup" data-type="horizontal">
+<select name="select-list" id="select-list" data-mini="true" data-inline="true">
+<?php foreach ($lists as $list): ?>
+    <option value="<?php echo $list->getId(); ?>"><?php echo $list->__toString() . ($list->contains($wine->getCode()) ? ' *' : ''); ?></option>
+<?php endforeach; ?>
+</select>
+<a href="#" id="add-to-list" baseurl="<?php echo $this->router->buildRoute('lists/addwine', array('c' => $wine->getCode(), 'f' => $from, 'l' => ''))->getUrl(); ?>" data-role="button" data-inline="true" data-mini="true">
+<?php echo $this->_('add_to_list'); ?></a>
+</fieldset>
+<?php endif; ?>
+
 <hr/>
 <?php if ($averageAppreciation): ?>
 <div>
@@ -28,7 +40,7 @@
 <?php endif; ?>
 <h3>
     <?php echo $this->_('notes');?>
-    <a href="<?php echo $this->router->buildRoute('search/WineEditNote', array('c' => $wine->getCode()))->getUrl(); ?>" data-rel="dialog" data-role="button" data-inline="true">
+    <a href="<?php echo $this->router->buildRoute('search/WineEditNote', array('c' => $wine->getCode()))->getUrl(); ?>" data-rel="dialog" data-role="button" data-inline="true" data-mini="true">
     <?php echo $this->_('edit'); ?></a>
 </h3>
 <?php foreach ($notes as $note): ?>

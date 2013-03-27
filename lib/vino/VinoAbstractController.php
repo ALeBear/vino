@@ -32,16 +32,22 @@ class VinoAbstractController extends AbstractController
      */
     public function getBackUrl($from)
     {
-        $parts = explode('-', $from, 2);
+        $boxes = explode('|', urldecode($from), 2);
+        $parts = explode('-', array_shift($boxes), 2);
         if (count($parts) < 2) {
-            return '';
+            return '/';
         }
         
+        $params = count($boxes) ? array('f' => $boxes[0]) : array();
         switch ($parts[0]) {
             case 's':
-                return $this->router->buildRoute('search/', array('q' => $parts[1]))->getUrl();
+                $params['q'] = $parts[1];
+                return $this->router->buildRoute('search/', $params)->getUrl();
+            case 'w':
+                $params['c'] = $parts[1];
+                return $this->router->buildRoute('search/wine', $params)->getUrl();
             default:
-                return '';
+                return '/';
         }
     }
 }

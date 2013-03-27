@@ -16,6 +16,7 @@ class Wine extends VinoAbstractController
         $code = preg_replace('/[^\d]/', '', $c);
         
         $this->view->wine = $this->getWine($code);
+        
         $this->view->notes = $this->dependencyInjectionContainer
             ->get('entity_manager')
             ->getRepository('vino\\UserNote')
@@ -32,6 +33,14 @@ class Wine extends VinoAbstractController
         }
         $this->view->averageAppreciation = $count ? $total / $count : null;
         
+        $this->view->lists = $this->dependencyInjectionContainer
+            ->get('entity_manager')
+            ->getRepository('vino\\WinesList')
+            ->findByUser(array('user' => $this->dependencyInjectionContainer->get('user')));
+        
         $this->metas['title'] = $this->_('title', $this->view->wine->__toString(), $this->view->wine->getCode());
+        
+        $this->view->from = 'w-' . $code;
+        $f && $this->view->from .= '|' . $f;
     }
 }

@@ -12,7 +12,7 @@
     <?php echo $css; ?>
 </head>
 <body>
-<div data-role="page" data-theme="c">
+<div data-role="page" data-theme="c" id="thepage">
     <div data-role="header">
         <?php if (isset($backUrl) && $backUrl): ?>
             <a href="<?php echo $backUrl; ?>" data-role="button" data-icon="arrow-l" class="ui-btn-left">

@@ -3,54 +3,35 @@
 namespace horses\controller\lists;
 
 use vino\VinoAbstractController;
-use vino\UserWine;
+use InvalidArgumentException;
 
 /**
  * Adds a wine to a list
  */
 class Addwine extends VinoAbstractController
 {
-    public function prepare($c)
+    public function execute($l, $c, $f)
     {
-        $this->view->error = false;
-        $this->view->code = preg_replace('/[^\d]/', '', $c);
-        
-        $this->view->wine = $this->getWine($this->view->code);
-    }
-    
-    public function execute()
-    {
-        $this->metas['title'] = $this->_('title');
-        $this->view->lists = $this->dependencyInjectionContainer
+        $listId = preg_replace('/[^\d]/', '', $l);
+        $list = $this->dependencyInjectionContainer
             ->get('entity_manager')
             ->getRepository('vino\\WinesList')
-            ->findByUser(array('user' => $this->dependencyInjectionContainer->get('user')));
-    }
-    
-    public function post()
-    {
-        $listId = preg_replace('/[^\d]/', '', $this->request->get('list'));
-        if (!$listId) {
-            $this->view->error = 'missing_fields';
-            return;
+            ->findOneBy(array('user' => $this->dependencyInjectionContainer->get('user'), 'id' => $listId));
+        if (!$list) {
+            throw new InvalidArgumentException(sprintf('Invalid list id: %s', $listId));
         }
         
+        $wineCode = preg_replace('/[^\d]/', '', $c);
+        $wine = $this->getWine($wineCode);
+        if (!$wine) {
+            throw new InvalidArgumentException(sprintf('Invalid wine code: %s', $wineCode));
+        }
+        
+        $list->addWine($wine);
         $em = $this->dependencyInjectionContainer->get('entity_manager');
-        $user = $this->dependencyInjectionContainer->get('user');
-        
-        //Find list
-        $list = $em->find('vino\\WinesList', $listId);
-        if (!$list || $list->getUser()->getId() != $user->getId()) {
-            $this->view->error = 'unknown_list';
-            return;
-        }
-        
-        //Persist
-        $this->view->wine->setPersonalData($this->request->get('note'), $this->request->get('appreciation'));
-        $list->addWine($this->view->wine);
-        $em->persist($this->view->wine);
+        $em->persist($list);
         $em->flush();
-
-        $this->redirect('lists/');
+        
+        $this->router->redirectExternal($this->getBackUrl($f));
     }
 }
