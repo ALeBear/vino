@@ -19,5 +19,7 @@ class Index extends VinoAbstractController
             $this->metas['title'] = $this->_('title_query');
             $this->view->products = $this->dependencyInjectionContainer->get('saq_webservice')->searchWinesByKeyword($this->view->query);
         }
+        
+        $this->view->from = 's-' . $this->view->query;
     }
 }

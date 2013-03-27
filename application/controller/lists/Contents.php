@@ -10,29 +10,23 @@ use vino\UserWine;
  */
 class Contents extends VinoAbstractController
 {
-    public function prepare($id)
+    const MODE_EDIT = 'edit';
+    const MODE_VIEW = 'view';
+    
+    
+    public function prepare($id, $c = null)
     {
-        $this->view->error = false;
         $this->view->listId = preg_replace('/[^\d]/', '', $id);
         $this->view->list = $this->dependencyInjectionContainer
             ->get('entity_manager')
             ->find('vino\WinesList', $this->view->listId);
-        $this->view->wines = array();
-        foreach ($this->view->list->getWineIds() as $wineId) {
-            $this->view->wines[$wineId] = $this->getWine($wineId);
-        }
-    }
-    
-    public function execute($id, $c = null)
-    {
-        $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
-        $this->metas['title'] = $this->_('title', $this->view->list->__toString());
         
         //If a wine code is given, it means we want to remove it from the list
+        $this->view->error = false;
         if ($wineCode = preg_replace('/[^\d]/', '', $c)) {
             $em = $this->dependencyInjectionContainer->get('entity_manager');
             $user = $this->dependencyInjectionContainer->get('user');
-            $wine = $em->getRepository('vino\\UserWine')->findOneBy(array('code' => $wineCode, 'user' => $user));
+            $wine = $this->getWine($wineCode);
             if ($wine) {
                 $this->view->list->removeWine($wine);
                 $em->flush();
@@ -41,5 +35,24 @@ class Contents extends VinoAbstractController
                 $this->view->error = 'weird_error';
             }
         }
+    }
+    
+    public function execute($id, $m = self::MODE_VIEW)
+    {
+        $this->view->mode = $m == self::MODE_EDIT ? $m : self::MODE_VIEW;
+        $this->view->wines = array();
+        foreach ($this->view->list->getWineIds() as $wineId) {
+            $this->view->wines[$wineId] = $this->getWine($wineId);
+        }
+        usort($this->view->wines, function($el1, $el2) { return $el1->__toString() < $el2->__toString() ? -1 : 1; });
+        
+        $oppositeMode = $this->view->mode == self::MODE_EDIT ? self::MODE_VIEW : self::MODE_EDIT;
+        $this->metas['headerButton'] = array(
+            'text' => $this->_($oppositeMode),
+            'url' => $this->router->buildRoute(sprintf('%s/%s', $this->getModule(), $this->getAction()), array('id' => $this->view->listId, 'm' => $oppositeMode))->getUrl(),
+            'icon' => '');
+        
+        $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
+        $this->metas['title'] = $this->_('title', $this->view->list->__toString());
     }
 }

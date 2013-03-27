@@ -21,12 +21,12 @@
 <?php if (count($lists)): ?>
 <hr/>
 <fieldset data-role="controlgroup" data-type="horizontal">
-<select name="select-list" id="select-list" data-mini="true" data-inline="true">
+<select name="select-list" id="select-list" data-mini="true" data-inline="true" class="nowrap">
 <?php foreach ($lists as $list): ?>
     <option value="<?php echo $list->getId(); ?>"><?php echo $list->__toString() . ($list->contains($wine->getCode()) ? ' *' : ''); ?></option>
 <?php endforeach; ?>
 </select>
-<a href="#" id="add-to-list" baseurl="<?php echo $this->router->buildRoute('lists/addwine', array('c' => $wine->getCode(), 'f' => $from, 'l' => ''))->getUrl(); ?>" data-role="button" data-inline="true" data-mini="true">
+<a href="#" id="add-to-list" baseurl="<?php echo $this->router->buildRoute('lists/addwine', array('c' => $wine->getCode(), 'f' => $from, 'l' => ''))->getUrl(); ?>" data-role="button" data-inline="true" data-mini="true" rel="external">
 <?php echo $this->_('add_to_list'); ?></a>
 </fieldset>
 <?php endif; ?>
@@ -38,7 +38,7 @@
 <?php if ($myAppreciation) echo sprintf(' (%s%s %s)', $this->_('me'), $this->_('colon'), $myAppreciation); ?>
 </div>
 <?php endif; ?>
-<h3>
+<h3">
     <?php echo $this->_('notes');?>
     <a href="<?php echo $this->router->buildRoute('search/WineEditNote', array('c' => $wine->getCode()))->getUrl(); ?>" data-rel="dialog" data-role="button" data-inline="true" data-mini="true">
     <?php echo $this->_('edit'); ?></a>
