@@ -14,7 +14,7 @@ class Availability
      */
     public function __construct(stdClass $parameters)
     {
-        $this->quantity = Webservice::decodeCdata($parameters->quantiteProduit);
+        $this->quantity = $parameters->nbProduit;
         $this->pos = new Pos($parameters);
     }
     

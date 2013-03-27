@@ -4,7 +4,7 @@
         <img src="<?php echo $wine->getImage(); ?>"/>
     </td>
     <td valign="top">
-        <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode()))->getUrl(); ?>" data-role="button" data-inline="true" data-mini="true" style="float: right">
+        <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode(), 'f' => $from))->getUrl(); ?>" data-role="button" data-inline="true" data-mini="true" style="float: right" rel="external">
             <?php echo $this->_('availability'); ?></a>
         <br/>
         <?php echo $this->_('price', $wine->getPrix(), $wine->getFormat()); ?><br/>

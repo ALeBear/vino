@@ -86,12 +86,13 @@
     </script>
 </head>
 <body onload="initialize()">
-<div data-role="page" data-add-back-btn="true" id="map_page">
+<div data-role="page" id="map_page">
     <div data-role="header">
-        <a href="#" onclick="history.back();" data-role="button" data-icon="arrow-l" class="ui-btn-left">
+        <a href="<?php echo $backUrl; ?>" data-role="button" data-icon="arrow-l" class="ui-btn-left" rel="external">
         <?php echo $this->_('back'); ?></a>
-        <h1><?php echo $title; ?></h1>
+        <h1><?php echo $this->_('main_title'); ?></h1>
     </div>
     <div data-role="content" id="map_canvas"><?php echo $content; ?></div>
+    <div style="position: absolute; top: 50px; left: 10px; background-color: white; padding: 10px; font-weight: bold;"><?php echo $title; ?></div>
 </body>
 </html>

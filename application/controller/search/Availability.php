@@ -9,8 +9,9 @@ use vino\VinoAbstractController;
  */
 class Availability extends VinoAbstractController
 {
-    public function execute($c)
+    public function execute($c, $f)
     {
+        $this->view->backUrl = $this->getBackUrl($f);
         $this->view->code = preg_replace('/[^\d]/', '', $c);
         $this->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyBPjbJ1IpzmyvEsu4fihEhcR9Imvl0I6x8&sensor=true');
 
@@ -18,7 +19,9 @@ class Availability extends VinoAbstractController
             ->get('saq_webservice')
             ->getWine($this->view->code);
         $this->metas['title'] = urldecode(strip_tags($wine->__toString()));
-        $this->view->availabilities = $this->dependencyInjectionContainer->get('saq_webservice')->getAvailabilityByWineCode($this->view->code);
+        $this->view->availabilities = $this->dependencyInjectionContainer
+            ->get('saq_webservice')
+            ->getAvailabilityByWineCode($this->view->code);
         $this->view->urlPrefix = $this->dependencyInjectionContainer->get('config')->get('kernel.urlPrefix')
             ? '/' . $this->dependencyInjectionContainer->get('config')->get('kernel.urlPrefix')
             : '';

@@ -16,10 +16,10 @@ class Pos
      */
     public function __construct(stdClass $parameters)
     {
-        $this->address = Webservice::decodeCdata($parameters->address);
-        $this->type = Webservice::decodeCdata($parameters->type);
-        $this->lat = Webservice::decodeCdata($parameters->latitude);
-        $this->long = Webservice::decodeCdata($parameters->longitude);
+        $this->address = $parameters->adresse;
+        $this->type = $parameters->banniere;
+        $this->lat = $parameters->latitude;
+        $this->long = $parameters->longitude;
     }
     
     /**

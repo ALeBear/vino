@@ -8,7 +8,7 @@
             <img src="/images/<?php echo $wine->getVignette(); ?>.png" class="ui-li-icon"/>
             <?php echo $wine->__toString(); ?> <span class="listDetails"> - $<?php echo $wine->getPrix(); ?></span></a>
         <?php if ($mode == 'view'): ?>
-        <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode(), 'f' => 'l-' . $listId))->getUrl(); ?>">
+        <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode(), 'f' => 'l-' . $listId))->getUrl(); ?>" rel="external">
             <?php echo $this->_('availability'); ?></a>
         <?php else: ?>
         <a href="<?php echo $this->router->buildRoute('lists/contents', array('id' => $listId, 'c' => $wine->getCode(), 'm' => $mode))->getUrl(); ?>">

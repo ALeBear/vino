@@ -117,16 +117,15 @@ class Webservice
     {
         $minimumQuantity = $this->config->get('saq.availability.displayMinimum', 1);
         $availabilities = array();
-        $response = $this->getSoapService()->getSuccursales2('', '', '', $code, $this->lang);
-        foreach ($response as $avail) {
-            if (!is_object($avail)) {
-                continue;
+        $response = $this->getSoapService()->getSuccursales(array('DataArea' => array('getSuccursales' => array('arg0' => $this->lang, 'arg1' => $code))));
+        if (isset($response->DataArea->getSuccursalesResponse->return) && is_array($response->DataArea->getSuccursalesResponse->return)) {
+            foreach ($response->DataArea->getSuccursalesResponse->return as $avail) {
+                $quantity = $avail->nbProduit;
+                if ($quantity < $minimumQuantity) {
+                    continue;
+                }
+                $availabilities[] = new Availability($avail);
             }
-            $quantity = self::decodeCdata($avail->quantiteProduit);
-            if ($quantity < $minimumQuantity) {
-                continue;
-            }
-            $availabilities[] = new Availability($avail);
         }
         
         return $availabilities;
@@ -141,14 +140,5 @@ class Webservice
         $options['exceptions'] = true;
         $options['cache_wsdl'] = WSDL_CACHE_NONE;
         return new SoapClient($this->config->get('saq.soap.url'), $options);
-    }
-    
-    /**
-     * @param string $cdata
-     * @return string
-     */
-    public static function decodeCdata($cdata)
-    {
-        return (string) simplexml_load_string('<g>' . $cdata . '</g>');
     }
 }
