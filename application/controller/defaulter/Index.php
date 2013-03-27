@@ -36,7 +36,7 @@ class Index extends VinoAbstractController
         }
 
         $list = WinesList::create(
-            $this->request->get('listname'),
+            htmlentities($this->request->get('listname')),
             $this->dependencyInjectionContainer->get('user'));
         $this->dependencyInjectionContainer->get('entity_manager')->persist($list);
         $this->dependencyInjectionContainer->get('entity_manager')->flush();

@@ -14,26 +14,36 @@ class Contents extends VinoAbstractController
     const MODE_VIEW = 'view';
     
     
-    public function prepare($id, $c = null)
+    public function prepare($id, $c = null, $d = null, $listname = null)
     {
         $this->view->listId = preg_replace('/[^\d]/', '', $id);
         $this->view->list = $this->dependencyInjectionContainer
             ->get('entity_manager')
-            ->find('vino\WinesList', $this->view->listId);
+            ->getRepository('vino\\WinesList')
+            ->findOneBy(array('id' => $this->view->listId, 'user' => $this->dependencyInjectionContainer->get('user')));
+        
+        if (!$this->view->list) {
+            //Not your list, buddy (or deleted)
+            $this->redirect('/');
+        }
+        
+        $this->view->error = false;
+        
+        //If a list name is given, it means we want to rename it
         
         //If a wine code is given, it means we want to remove it from the list
-        $this->view->error = false;
-        if ($wineCode = preg_replace('/[^\d]/', '', $c)) {
+        if ($listname) {
             $em = $this->dependencyInjectionContainer->get('entity_manager');
-            $user = $this->dependencyInjectionContainer->get('user');
-            $wine = $this->getWine($wineCode);
-            if ($wine) {
-                $this->view->list->removeWine($wine);
-                $em->flush();
-                $this->view->error = 'removal_done';
-            } else {
-                $this->view->error = 'weird_error';
-            }
+            $em->persist($this->view->list->setName(htmlentities($listname)));
+            $em->flush();
+        }
+        
+        //If a deletion code is given, remove the list
+        if ($d) {
+            $em = $this->dependencyInjectionContainer->get('entity_manager');
+            $em->remove($this->view->list);
+            $em->flush();
+            $this->redirect('/');
         }
     }
     

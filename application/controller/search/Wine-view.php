@@ -21,7 +21,7 @@
 <?php if (count($lists)): ?>
 <hr/>
 <fieldset data-role="controlgroup" data-type="horizontal">
-<select name="select-list" id="select-list" data-mini="true" data-inline="true" class="nowrap">
+<select name="select-list" id="select-list" data-mini="true" data-inline="true" class="allow-wrap">
 <?php foreach ($lists as $list): ?>
     <option value="<?php echo $list->getId(); ?>"><?php echo $list->__toString() . ($list->contains($wine->getCode()) ? ' *' : ''); ?></option>
 <?php endforeach; ?>

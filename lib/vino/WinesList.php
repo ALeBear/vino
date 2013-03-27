@@ -73,6 +73,17 @@ class WinesList
     }
     
     /**
+     * @param string $value
+     * @return \vino\WinesList $this
+     */
+    public function setName($value)
+    {
+        $this->name = $value;
+        
+        return $this;
+    }
+    
+    /**
      * Sets the wine Ids array after loading
      * @PostLoad
      */
