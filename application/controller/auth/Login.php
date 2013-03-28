@@ -15,8 +15,13 @@ class Login extends VinoAbstractController
         $this->view->error = '';
     }
     
-    public function execute()
+    public function execute($logout = null)
     {
+        //Logout if asked to
+        if ($logout) {
+            $this->dependencyInjectionContainer->get('auth')->removeUserFromSession($this->request->getSession());
+        }
+        
         $this->metas['title'] = $this->_('login');
         $this->metas['headerButton'] = array(
             'text' => $this->_('register'),
