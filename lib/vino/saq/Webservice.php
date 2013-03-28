@@ -139,6 +139,6 @@ class Webservice
         $options = $this->config->get('saq.soap.options', array());
         $options['exceptions'] = true;
         $options['cache_wsdl'] = WSDL_CACHE_NONE;
-        return new SoapClient('http://' . $_SERVER['HTTP_HOST'] . $this->config->get('saq.soap.url'), $options);
+        return new SoapClient(sprintf('http://%s:%s%s', $_SERVER['HTTP_HOST'], $_SERVER['REMOTE_PORT'], $this->config->get('saq.soap.url')), $options);
     }
 }
