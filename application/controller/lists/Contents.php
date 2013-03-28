@@ -30,12 +30,24 @@ class Contents extends VinoAbstractController
         $this->view->error = false;
         
         //If a list name is given, it means we want to rename it
-        
-        //If a wine code is given, it means we want to remove it from the list
         if ($listname) {
             $em = $this->dependencyInjectionContainer->get('entity_manager');
             $em->persist($this->view->list->setName(htmlentities($listname)));
             $em->flush();
+        }
+        
+        //If a wine code is given, it means we want to remove it from the list
+        if ($wineCode = preg_replace('/[^\d]/', '', $c)) {
+            $em = $this->dependencyInjectionContainer->get('entity_manager');
+            $user = $this->dependencyInjectionContainer->get('user');
+            $wine = $this->getWine($wineCode);
+            if ($wine) {
+                $this->view->list->removeWine($wine);
+                $em->flush();
+                $this->view->error = 'removal_done';
+            } else {
+                $this->view->error = 'weird_error';
+            }
         }
         
         //If a deletion code is given, remove the list
