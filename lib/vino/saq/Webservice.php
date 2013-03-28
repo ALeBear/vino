@@ -116,7 +116,7 @@ class Webservice
      */
     public function getOnlineAvailabilityByWineCode($code)
     {
-        $contents = file_get_contents(sprintf('http://www.saq.com/page/fr/saqcom/x/x/%s', $code));
+        $contents = @file_get_contents(sprintf('http://www.saq.com/page/fr/saqcom/x/x/%s', $code));
         $quantity = 0;
         $divToFind = 'product-add-to-cart-inventory';
         $tagBefore = '</span>';
