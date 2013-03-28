@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-    <link rel="stylesheet" href="<?php echo $routingPrefix; ?>/css/main.css" />
+    <link rel="stylesheet" href="<?php echo $urlPrefix; ?>/css/main.css" />
     <?php echo $javascripts; ?>
     <?php echo $css; ?>
     <script type="text/javascript">
