@@ -13,9 +13,10 @@ class Index extends VinoAbstractController
     {
         $this->view->products = array();
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
+        $this->view->formUrl = $this->router->buildRoute('search/')->getUrl();
         $this->metas['title'] = $this->_('title');
         
-        if ($this->view->query = preg_replace('/[^\d\w -\.]/', '', $q)) {
+        if ($this->view->query = preg_replace('/[^\d\w -\.]/u', '', urldecode($q))) {
             $this->metas['title'] = $this->_('title_query');
             $this->view->products = $this->dependencyInjectionContainer->get('saq_webservice')->searchWinesByKeyword($this->view->query);
         }

@@ -3,6 +3,7 @@
 namespace horses\controller\search;
 
 use vino\VinoAbstractController;
+use vino\UserNote;
 
 /**
  * Wine description page
@@ -24,14 +25,17 @@ class Wine extends VinoAbstractController
         $total = 0;
         $count = 0;
         $this->view->myAppreciation = null;
+        $user = $this->dependencyInjectionContainer->get('user');
         foreach ($this->view->notes as $note) {
             if ($note->getAppreciation()) {
                 $total += $note->getAppreciation();
                 $count++;
-                $note->getUser()->getId() == $this->dependencyInjectionContainer->get('user')->getId() && $this->view->myAppreciation = $note->getAppreciation();
+                $note->getUser()->getId() == $user->getId() && $this->view->myAppreciation = $note->getAppreciation();
             }
+            $note->getUser()->getId() == $user->getId() && $this->view->myNote = $note;
         }
         $this->view->averageAppreciation = $count ? $total / $count : null;
+        isset($this->view->myNote) || $this->view->myNote = UserNote::create($code, $user, $this->view->wine->getMillesime());
         
         $this->view->lists = $this->dependencyInjectionContainer
             ->get('entity_manager')
@@ -39,6 +43,8 @@ class Wine extends VinoAbstractController
             ->findByUser(array('user' => $this->dependencyInjectionContainer->get('user')));
         
         $this->metas['title'] = $this->_('title', $this->view->wine->__toString(), $this->view->wine->getCode());
+        
+        $this->view->editFormUrl = $this->router->buildRoute('search/wineEditNote', array('c' => $code, 'f' => $f))->getUrl();
         
         $this->view->from = 'w-' . $code;
         $f && $this->view->from .= '|' . $f;

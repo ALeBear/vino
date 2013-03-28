@@ -10,33 +10,27 @@ use vino\UserNote;
  */
 class WineEditNote extends VinoAbstractController
 {
-    public function prepare($c)
-    {
-        $this->view->code = preg_replace('/[^\d]/', '', $c);
-        $user = $this->dependencyInjectionContainer->get('user');
-        $this->view->wine = $this->getWine($this->view->code);
-        $this->view->note = $this->dependencyInjectionContainer
-            ->get('entity_manager')
-            ->getRepository('vino\\UserNote')
-            ->findOneBy(array('wineCode' => $this->view->code, 'user' => $user));
-        $this->view->note || $this->view->note = UserNote::create($this->view->code, $user, $this->view->wine->getMillesime());
-    }
-    
     public function execute()
     {
-        $this->metas['title'] = $this->_('title', $this->view->wine->__toString());
     }
     
-    public function post()
+    public function post($c, $f = '')
     {
-        $em = $this->dependencyInjectionContainer->get('entity_manager');
+        $code = preg_replace('/[^\d]/', '', $c);
+        $user = $this->dependencyInjectionContainer->get('user');
+        $wine = $this->getWine($code);
+        $note = $this->dependencyInjectionContainer
+            ->get('entity_manager')
+            ->getRepository('vino\\UserNote')
+            ->findOneBy(array('wineCode' => $code, 'user' => $user));
+        $note || $note = UserNote::create($code, $user, $wine->getMillesime());
         
-        //Persist
-        $this->view->note->setText($this->request->get('note'));
-        $this->view->note->setAppreciation($this->request->get('appreciation'));
-        $em->persist($this->view->note);
+        $em = $this->dependencyInjectionContainer->get('entity_manager');
+        $note->setText(htmlentities($this->request->get('note')));
+        $note->setAppreciation(preg_replace('/[^\d]/', '', $this->request->get('appreciation')));
+        $em->persist($note);
         $em->flush();
 
-        $this->redirect('search/wine', array('c' => $this->view->code));
+        $this->redirect('search/wine', array('c' => $code, 'f' => $f));
     }
 }

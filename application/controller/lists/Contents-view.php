@@ -17,20 +17,21 @@
     </li>
     <?php endforeach; ?>
 </ul>
-    <a href="#popup-edit" data-rel="popup" data-role="button" data-mini="true" data-inline="true" style="float:left;"><?php echo $this->_('rename'); ?></a>
-    <a href="#popup-delete" data-rel="popup" data-role="button" data-theme="e" data-mini="true" data-inline="true" style="float:right;"><?php echo $this->_('delete'); ?></a>
-    <div style="clear:both;"></div>
-    
-    <div data-role="popup" id="popup-edit" class="ui-content" style="text-align: center;">
-        <form method="get" data-ajax="false">
-        <input type="text" name="listname" value="<?php echo $list->__toString(); ?>"/>
-        <input type="submit" value='<?php echo $this->_('rename'); ?>'/>
-        </form>
-        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"><?php echo $this->_('cancel'); ?></a> 
-    </div>
-    <div data-role="popup" id="popup-delete" class="ui-content" style="text-align: center;">
-        <?php echo $this->_('confirm_delete_list', $list->__toString()); ?><br/><br/>
-        <a href="<?php echo $this->router->buildRoute('lists/contents', array('id' => $listId, 'd' => 1, 'm' => $mode))->getUrl(); ?>" data-role="button" data-theme="e" data-mini="true" data-inline="true">
-           <?php echo $this->_('delete'); ?></a>
-        <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"><?php echo $this->_('cancel'); ?></a> 
-    </div>
+
+<a href="#popup-edit" data-rel="popup" data-role="button" data-mini="true" data-inline="true" style="float:left;"><?php echo $this->_('rename'); ?></a>
+<a href="#popup-delete" data-rel="popup" data-role="button" data-theme="e" data-mini="true" data-inline="true" style="float:right;"><?php echo $this->_('delete'); ?></a>
+<div style="clear:both;"></div>
+
+<div data-role="popup" id="popup-edit" class="ui-content" style="text-align: center;">
+    <form method="get" data-ajax="false">
+    <input type="text" name="listname" value="<?php echo $list->__toString(); ?>"/>
+    <input type="submit" value='<?php echo $this->_('rename'); ?>'/>
+    </form>
+    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"><?php echo $this->_('cancel'); ?></a> 
+</div>
+<div data-role="popup" id="popup-delete" class="ui-content" style="text-align: center;">
+    <?php echo $this->_('confirm_delete_list', $list->__toString()); ?><br/><br/>
+    <a href="<?php echo $this->router->buildRoute('lists/contents', array('id' => $listId, 'd' => 1, 'm' => $mode))->getUrl(); ?>" data-role="button" data-theme="e" data-mini="true" data-inline="true">
+       <?php echo $this->_('delete'); ?></a>
+    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"><?php echo $this->_('cancel'); ?></a> 
+</div>
