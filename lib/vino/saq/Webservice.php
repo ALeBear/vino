@@ -110,6 +110,29 @@ class Webservice
     }
     
     /**
+     * Get availability on saq.com (by using a call to the website actually)
+     * @param string $code
+     * @return integer
+     */
+    public function getOnlineAvailabilityByWineCode($code)
+    {
+        $contents = file_get_contents(sprintf('http://www.saq.com/page/fr/saqcom/x/x/%s', $code));
+        $quantity = 0;
+        $divToFind = 'product-add-to-cart-inventory';
+        $tagBefore = '</span>';
+        $tagAfter = '</div>';
+        $posQuantity = strpos($contents, $divToFind);
+        if ($posQuantity) {
+            $quantity = trim(substr(
+                $contents,
+                strpos($contents, $tagBefore, $posQuantity) + strlen($tagBefore),
+                strpos($contents, '</div>', $posQuantity) - strpos($contents, $tagBefore, $posQuantity) - strlen($tagBefore)));
+        }
+        
+        return $quantity;
+    }
+    
+    /**
      * @param string $code
      * @return Availability[]
      */

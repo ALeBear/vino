@@ -18,7 +18,9 @@ class Availability extends VinoAbstractController
         $wine = $this->dependencyInjectionContainer
             ->get('saq_webservice')
             ->getWine($this->view->code);
-        $this->metas['title'] = urldecode(strip_tags($wine->__toString()));
+        $this->metas['title'] = $this->_('title',
+            urldecode(strip_tags($wine->__toString())),
+            $this->dependencyInjectionContainer->get('saq_webservice')->getOnlineAvailabilityByWineCode($this->view->code));
         $this->view->availabilities = $this->dependencyInjectionContainer
             ->get('saq_webservice')
             ->getAvailabilityByWineCode($this->view->code);
