@@ -8,7 +8,7 @@
     <?php foreach ($products as $product): ?>
         <li>
             <a class="allow-wrap" href="<?php echo $this->router->buildRoute('search/wine', array('c' => $product->getCode(), 'f' => $from))->getUrl(); ?>" rel="external">
-            <img src="/images/<?php echo $product->getVignette(); ?>.png" class="ui-li-icon"/>
+            <img src="<?php echo $urlPrefix; ?>/images/<?php echo $product->getVignette(); ?>.png" class="ui-li-icon"/>
             <?php echo $product->__toString(); ?> <span class="listDetails"> - $<?php echo $product->getPrix(); ?></span></a>
             <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $product->getCode(), 'f' => $from))->getUrl(); ?>" rel="external">
             <?php echo $this->_('availability'); ?></a>

@@ -5,7 +5,7 @@
     <?php foreach ($wines as $wine): ?>
     <li>
         <a class="allow-wrap" href="<?php echo $this->router->buildRoute('search/wine', array('c' => $wine->getCode(), 'f' => 'l-' . $listId))->getUrl(); ?>">
-            <img src="/images/<?php echo $wine->getVignette(); ?>.png" class="ui-li-icon"/>
+            <img src="<?php echo $urlPrefix; ?>/images/<?php echo $wine->getVignette(); ?>.png" class="ui-li-icon"/>
             <?php echo $wine->__toString(); ?> <span class="listDetails"> - $<?php echo $wine->getPrix(); ?></span></a>
         <?php if ($mode == 'view'): ?>
         <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode(), 'f' => 'l-' . $listId))->getUrl(); ?>" rel="external">
