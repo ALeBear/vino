@@ -141,6 +141,6 @@ class Webservice
         $options['cache_wsdl'] = WSDL_CACHE_NONE;
         $prefix = $this->config->get('kernel.urlPrefix');
         $prefix && $prefix = '/' . $prefix;
-        return new SoapClient(sprintf('http://%s%s%s', $_SERVER['HTTP_HOST'], $prefix, $_SERVER['REMOTE_PORT'], $this->config->get('saq.soap.url')), $options);
+        return new SoapClient(sprintf('http://%s%s%s', $_SERVER['HTTP_HOST'], $prefix, $this->config->get('saq.soap.url')), $options);
     }
 }
