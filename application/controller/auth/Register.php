@@ -22,7 +22,11 @@ class Register extends VinoAbstractController
         $this->metas['title'] = $this->_('title');
         $this->view->name = $this->request->get('name');
         $this->view->email = $this->request->get('email');
-        $this->view->password = $this->request->get('password');
+        
+        $this->metas['headerButton'] = array(
+            'text' => $this->_('login'),
+            'url' => $this->router->buildRoute(sprintf('%s/login', $this->getModule()))->getUrl(),
+            'icon' => '');
     }
     
     public function post()
@@ -35,14 +39,19 @@ class Register extends VinoAbstractController
             $this->view->error = 'password_mismatch';
             return;
         }
+        $name = htmlentities($this->request->get('name'));
+        $email = htmlentities($this->request->get('email'));
 
         /* @var $auth horses\plugin\auth\Auth */
         $auth = $this->dependencyInjectionContainer->get('auth');
 
         try {
-            $user = User::create($this->request->get('name'), $this->request->get('email'), $auth->getPasswordHash($this->request->get('password')));
+            $user = User::create($name, $email, $auth::getPasswordHash($this->request->get('password')));
             $this->dependencyInjectionContainer->get('entity_manager')->persist($user);
             $this->dependencyInjectionContainer->get('entity_manager')->flush();
+            
+            //Send email
+            mail($email, $this->_('email_title', $this->_('app_name'), $name), $this->_('email_body', $email));
         } catch (DBALException $e) {
             $this->view->error = "email_exists";
             return;

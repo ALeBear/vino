@@ -15,7 +15,7 @@ class Login extends VinoAbstractController
         $this->view->error = '';
     }
     
-    public function execute($logout = null)
+    public function execute($logout = null, $forgot = null)
     {
         //Logout if asked to
         if ($logout) {
@@ -27,8 +27,27 @@ class Login extends VinoAbstractController
             'text' => $this->_('register'),
             'url' => $this->router->buildRoute(sprintf('%s/register', $this->getModule()))->getUrl(),
             'icon' => 'add');
-        $this->view->email = $this->request->get('email');
-        $this->view->password = $this->request->get('password');
+        $this->view->email = htmlentities($this->request->get('email'));
+        
+        //Send forgot password email if asked to
+        if ($forgot) {
+            $em = $this->dependencyInjectionContainer->get('entity_manager');
+            
+            /* @var $forgotUser \vino\User */
+            $forgotUser = $em
+                ->getRepository('vino\\User')
+                ->findOneBy(array('email' => $this->view->email));
+            if ($forgotUser) {
+                $newPass = $forgotUser->resetPassword();
+                $em->persist($forgotUser);
+                $em->flush();
+                mail(
+                    $forgotUser->getEmail(),
+                    $this->_('email_password_reset_title', $this->_('app_name')),
+                    $this->_('email_password_reset_body', $newPass));
+            }
+            $this->view->error = 'email_sent';
+        }
     }
     
     public function post()
@@ -42,7 +61,7 @@ class Login extends VinoAbstractController
         $auth = $this->dependencyInjectionContainer->get('auth');
         $user = $auth->getUser(
             $this->request->get('email'),
-            $auth->getPasswordHash($this->request->get('password')));
+            $auth::getPasswordHash($this->request->get('password')));
         if (!$user) {
             $this->view->error = 'user_not_found';
             return;
