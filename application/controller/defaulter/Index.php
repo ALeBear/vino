@@ -12,6 +12,7 @@ class Index extends VinoAbstractController
 {
     public function prepare()
     {
+        parent::prepare();
         $this->view->error = null;
     }
     

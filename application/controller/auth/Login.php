@@ -11,6 +11,7 @@ class Login extends VinoAbstractController
 {
     public function prepare()
     {
+        parent::prepare();
         $this->view->error = '';
     }
     

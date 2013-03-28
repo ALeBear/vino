@@ -6,6 +6,11 @@ use horses\AbstractController;
 
 class VinoAbstractController extends AbstractController
 {
+    public function prepare()
+    {
+        $this->view->homeUrl = $this->router->buildRoute('/')->getUrl();
+    }
+    
     /**
      * Returns a saq\Wine with this code, create one (NOT PERSISTED YET) if not
      * found
