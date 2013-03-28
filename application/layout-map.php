@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-    <link rel="stylesheet" href="<?php echo $urlPrefix; ?>/css/main.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <?php echo $javascripts; ?>
     <?php echo $css; ?>
     <script type="text/javascript">
@@ -27,7 +27,7 @@
         <?php if (count($availabilities)): ?>
 
         var posImage = new google.maps.MarkerImage(
-            '<?php echo $urlPrefix; ?>/images/saq.png',
+            '/images/saq.png',
             null,
             null,
             new google.maps.Point(0, 0),
@@ -62,7 +62,7 @@
             map.setCenter(center);
 
             var image = new google.maps.MarkerImage(
-                '<?php echo $urlPrefix; ?>/images/bluedot_retina.png',
+                '/images/bluedot_retina.png',
                 null,
                 null,
                 new google.maps.Point(0, 0),
