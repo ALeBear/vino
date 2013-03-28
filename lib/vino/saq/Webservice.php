@@ -134,11 +134,14 @@ class Webservice
     
     /**
      * @param string $code
+     * @param integer $minimumAvailability
      * @return Availability[]
      */
-    public function getAvailabilityByWineCode($code)
+    public function getAvailabilityByWineCode($code, $minimumAvailability = null)
     {
-        $minimumQuantity = $this->config->get('saq.availability.displayMinimum', 1);
+        $minimumQuantity = is_null($minimumAvailability)
+            ? $this->config->get('saq.availability.displayMinimum', 1)
+            : $minimumAvailability + 1;
         $availabilities = array();
         $response = $this->getSoapService()->getSuccursales(array('DataArea' => array('getSuccursales' => array('arg0' => $this->lang, 'arg1' => $code))));
         if (isset($response->DataArea->getSuccursalesResponse->return) && is_array($response->DataArea->getSuccursalesResponse->return)) {

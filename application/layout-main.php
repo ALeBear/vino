@@ -23,7 +23,7 @@
                 <?php echo $this->_('main_title'); ?></a>
         </h1>
         <?php if (isset($headerButton) && is_array($headerButton)): ?>
-            <a href="<?php echo $headerButton['url']; ?>" data-role="button"<?php if (isset($headerButton['icon'])) echo sprintf(' data-icon="%s"', $headerButton['icon']);?> class="ui-btn-right">
+            <a href="<?php echo $headerButton['url']; ?>" data-role="button"<?php if (isset($headerButton['icon'])) echo sprintf(' data-icon="%s"', $headerButton['icon']);?> class="ui-btn-right" rel="external">
             <?php echo $headerButton['text']; ?></a>
         <?php endif; ?>
     </div>

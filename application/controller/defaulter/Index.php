@@ -27,6 +27,10 @@ class Index extends VinoAbstractController
             ->findByUser(array('user' => $this->dependencyInjectionContainer->get('user')));
         
         $this->metas['title'] = $this->_('welcome', (string) $this->dependencyInjectionContainer->get('user'));
+        $this->metas['headerButton'] = array(
+            'text' => $this->_('settings'),
+            'url' => $this->router->buildRoute(sprintf('%s/settings', $this->getModule()))->getUrl(),
+            'icon' => 'gear');
     }
     
     public function post()
