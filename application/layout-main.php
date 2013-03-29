@@ -11,7 +11,7 @@
     <?php echo $css; ?>
 </head>
 <body>
-<div data-role="page" data-theme="c" id="thepage">
+<div data-role="page" data-theme="c" id="thepage" data-title="<?php echo $title; ?>">
     <?php echo $javascripts; ?>
     <div data-role="header">
         <?php if (isset($backUrl) && $backUrl): ?>
@@ -20,8 +20,7 @@
         <?php endif; ?>
         <h1 style="margin: 0;">
             <a style="margin: 0.2em;" href="<?php echo $homeUrl; ?>" data-role="button" data-icon="home" data-inline="true" data-min="true">
-                <?php echo $this->_('main_title'); ?></a>
-        </h1>
+                <?php echo $this->_('main_title'); ?></a></h1>
         <?php if (isset($headerButton) && is_array($headerButton)): ?>
             <a href="<?php echo $headerButton['url']; ?>" data-role="button"<?php if (isset($headerButton['icon'])) echo sprintf(' data-icon="%s"', $headerButton['icon']);?> class="ui-btn-right" rel="external">
             <?php echo $headerButton['text']; ?></a>
