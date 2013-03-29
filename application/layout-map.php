@@ -19,7 +19,7 @@
             disableDefaultUI: true
         };
         map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-        infowindow = new google.maps.InfoWindow();
+        infowindow = new google.maps.InfoWindow({maxWidth: 200});
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition(geolocSuccess, geolocError);
         }
@@ -97,7 +97,7 @@
         </h1>
     </div>
     <div data-role="content" id="map_canvas"><?php echo $content; ?></div>
-    <div style="position: absolute; top: 50px; left: 10px; background-color: white; padding: 10px; font-weight: bold;">
+    <div style="position: absolute; top: 50px; left: 10px; background-color: white; padding: 10px; font-weight: bold; margin-right: 10px;">
         <?php echo $title; ?></div>
 </body>
 </html>
