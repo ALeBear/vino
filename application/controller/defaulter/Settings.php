@@ -20,6 +20,9 @@ class Settings extends VinoAbstractController
     {
         $this->user = $this->dependencyInjectionContainer->get('user');
         $this->view->error = false;
+        $this->view->allLocales = $this->dependencyInjectionContainer->get('config')->get('locale.available');
+        $this->view->currentLocale = $this->dependencyInjectionContainer->get('locale')->getLang();
+        $this->view->localeUrl = $this->router->buildRoute('defaulter/settings')->getUrl();
     }
     
     public function execute()
