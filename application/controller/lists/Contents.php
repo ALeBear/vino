@@ -16,7 +16,6 @@ class Contents extends VinoAbstractController
     
     public function prepare($id, $c = null, $d = null, $listname = null)
     {
-        parent::prepare();
         $this->view->listId = preg_replace('/[^\d]/', '', $id);
         $this->view->list = $this->dependencyInjectionContainer
             ->get('entity_manager')

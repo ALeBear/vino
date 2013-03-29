@@ -6,9 +6,10 @@ use horses\AbstractController;
 
 class VinoAbstractController extends AbstractController
 {
-    public function prepare()
+    public function render()
     {
         $this->view->homeUrl = $this->router->buildRoute('/')->getUrl();
+        parent::render();
     }
     
     /**

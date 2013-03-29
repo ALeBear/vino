@@ -17,7 +17,7 @@ class User extends AbstractUser
      protected $lists;
      
     /**
-     * @Column(type="string", length=1000)
+     * @Column(type="string", length=1000, nullable=true)
      * @var string
      */
     protected $settingsRaw;

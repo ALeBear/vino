@@ -13,7 +13,6 @@ class Register extends VinoAbstractController
 {
     public function prepare()
     {
-        parent::prepare();
         $this->view->error = false;
     }
     
@@ -53,6 +52,7 @@ class Register extends VinoAbstractController
             //Send email
             mail($email, $this->_('email_title', $this->_('app_name'), $name), $this->_('email_body', $email));
         } catch (DBALException $e) {
+            echo '<pre>';print_r($e);exit;
             $this->view->error = "email_exists";
             return;
         }

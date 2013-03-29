@@ -18,7 +18,6 @@ class Settings extends VinoAbstractController
     
     public function prepare()
     {
-        parent::prepare();
         $this->user = $this->dependencyInjectionContainer->get('user');
         $this->view->error = false;
     }
