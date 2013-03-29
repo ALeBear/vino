@@ -28,4 +28,7 @@
 </form>
 
 <br/>
-<a href="<?php echo $logoutUrl; ?>" data-role="button" data-icon="delete"><?php echo $this->_('logout'); ?></a><br/>
+<a href="<?php echo $logoutUrl; ?>" data-role="button" data-icon="delete" data-theme="e">
+    <?php echo $this->_('logout'); ?></a>
+<a href="<?php echo $editAccountUrl; ?>" data-role="button">
+    <?php echo $this->_('edit_account'); ?></a>

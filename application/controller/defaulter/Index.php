@@ -19,6 +19,7 @@ class Index extends VinoAbstractController
     {
         $this->view->searchUrl = $this->router->buildRoute('search/')->getUrl();
         $this->view->logoutUrl = $this->router->buildRoute('auth/login', array('logout' => '1'))->getUrl();
+        $this->view->editAccountUrl = $this->router->buildRoute('auth/register')->getUrl();
         $this->view->user = $this->dependencyInjectionContainer->get('user');
         $this->view->lists = $this->dependencyInjectionContainer
             ->get('entity_manager')

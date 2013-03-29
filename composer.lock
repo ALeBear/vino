@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ALeBear/horses.git",
-                "reference": "175b3cff91afc1f2c52b435ab873a43de4243513"
+                "reference": "99812e7a12370330ee617e7584d96c8f88ecb3a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ALeBear/horses/zipball/175b3cff91afc1f2c52b435ab873a43de4243513",
-                "reference": "175b3cff91afc1f2c52b435ab873a43de4243513",
+                "url": "https://api.github.com/repos/ALeBear/horses/zipball/99812e7a12370330ee617e7584d96c8f88ecb3a5",
+                "reference": "99812e7a12370330ee617e7584d96c8f88ecb3a5",
                 "shasum": ""
             },
             "require": {
@@ -23,7 +23,7 @@
                 "symfony/dependency-injection": "*",
                 "symfony/http-foundation": "*"
             },
-            "time": "2013-03-28 16:55:17",
+            "time": "2013-03-29 03:44:33",
             "type": "library",
             "autoload": {
                 "psr-0": {
