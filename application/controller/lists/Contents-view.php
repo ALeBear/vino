@@ -3,15 +3,28 @@
 <?php endif; ?>
 
 <?php if ($mode == constant(get_class($this) . '::MODE_VIEW')): ?>
-<select name="select-avail" id="select-avail" data-min="true" class="allow-wrap" onChange="location.href='<?php echo $currentUrl; ?>?a=' + $('#select-avail').val();">
-   <option><?php echo $this->_('check_list_avail'); ?></option>
+<select name="select-avail" id="select-avail" data-min="true" class="allow-wrap" onChange="window.location = '<?php echo $currentUrl; ?>?a=' + $('#select-avail').val();">
+   <option value="no"><?php echo $this->_('check_list_avail'); ?></option>
    <option value="online"<?php if ($showAvailabilityFor == 'online') echo ' selected="selected"'; ?>>SAQ.com</option>
-   <optGroup label="<?php echo $this->_('favorites'); ?>">
-       
+   <optGroup label="<?php echo $this->_('favorites'); ?>" id="optgroupFavorites">
+   <?php foreach ($favoritePos as $favoriteId): ?>
+       <option value="<?php echo $favoriteId; ?>"></option>
+   <?php endforeach; ?>    
    </optGroup>
    <optGroup label="<?php echo $this->_('closest'); ?>" id="optgroupClosest">
    </optGroup>
-</select><br/>
+</select>
+    <?php if($showAvailabilityFor && $showAvailabilityFor != 'online'): ?>
+        <?php if (in_array($showAvailabilityFor, $favoritePos)): ?>
+            <a href="<?php echo $favoritesUrl; ?>?rem=<?php echo $showAvailabilityFor; ?>" data-role="button" data-mini="true" rel="external">
+                <?php echo $this->_('remove_from_favorites'); ?></a><br/>
+        <?php else: ?>
+            <a href="<?php echo $favoritesUrl; ?>?add=<?php echo $showAvailabilityFor; ?>" data-role="button" data-mini="true" rel="external">
+                <?php echo $this->_('add_to_favorites'); ?></a><br/>
+        <?php endif; ?>
+    <?php else: ?>
+        <br/>
+    <?php endif; ?>
 <?php endif; ?>
 
 <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="<?php echo $mode == constant(get_class($this) . '::MODE_VIEW') ? 'grid' : 'delete'; ?>">
@@ -51,6 +64,15 @@
        <?php echo $this->_('delete'); ?></a>
     <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"><?php echo $this->_('cancel'); ?></a> 
 </div>
+
+<script type="text/javascript">
+    $('#select-avail option').each(function(index, option) {
+        if (!option.text) {
+            option.text = allPos[option.value].name;
+        }
+    })
+</script>
+
 
 <?php if ($showAvailabilityFor && $showAvailabilityFor != 'online'): ?>
 <script type="text/javascript">

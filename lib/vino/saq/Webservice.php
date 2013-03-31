@@ -170,7 +170,7 @@ class Webservice
         foreach ($this->getAvailabilityByWineCode($productCode) as $availability) {
             /* @var $availability \vino\saq\Availability */
             $pos = $availability->getPos();
-            $contents[] = array(
+            $contents[(int) $pos->getId()] = array(
                 'lat' => (float) $pos->getLat(),
                 'long' => (float) $pos->getLong(),
                 'name' => $pos->__toString(),

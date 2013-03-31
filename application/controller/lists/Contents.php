@@ -14,7 +14,7 @@ class Contents extends VinoAbstractController
     const MODE_VIEW = 'view';
     
     
-    public function prepare($id, $c = null, $d = null, $listname = null)
+    public function prepare($id, $c = null, $d = null, $listname = null, $ef = null)
     {
         $this->view->showAvailabilityFor = null;
         $this->view->availabilities = array();
@@ -30,6 +30,20 @@ class Contents extends VinoAbstractController
         }
         
         $this->view->error = false;
+        
+        //Add to favorites if asked for
+        if ($ef) {
+            $em = $this->dependencyInjectionContainer->get('entity_manager');
+            $user = $this->dependencyInjectionContainer->get('user');
+            if ($favoritePosId = $this->request->query->get('add')) {
+                $user->addToFavoritePos(preg_replace('/[^\d]/', '', $favoritePosId));
+            }
+            if ($favoritePosId = $this->request->query->get('rem')) {
+                $user->removeFromFavoritePos(preg_replace('/[^\d]/', '', $favoritePosId));
+            }
+            $em->persist($user);
+            $em->flush();
+        }
         
         //If a list name is given, it means we want to rename it
         if ($listname) {
@@ -97,8 +111,10 @@ class Contents extends VinoAbstractController
             'text' => $this->_($oppositeMode),
             'url' => $this->router->buildRoute(sprintf('%s/%s', $this->getModule(), $this->getAction()), array('id' => $this->view->listId, 'm' => $oppositeMode))->getUrl(),
             'icon' => '');
-        
+
+        $this->view->favoritePos = $this->dependencyInjectionContainer->get('user')->getFavoritePos();
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
+        $this->view->favoritesUrl = $this->router->buildRoute('lists/contents', array('ef' => '1', 'id' => preg_replace('/[^\d]/', '', $id)))->getUrl();
         $this->view->currentUrl = $this->router->buildRoute('lists/contents', array('id' => preg_replace('/[^\d]/', '', $id)))->getUrl();
         $this->metas['title'] = $this->_('title', $this->view->list->__toString());
         $this->addJs($this->dependencyInjectionContainer->get('config')->get('saq.availability.posFile'));

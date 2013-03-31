@@ -26,6 +26,17 @@ class User extends AbstractUser
      * @var Mixed[]
      */
     protected $settings = array();
+     
+    /**
+     * @Column(type="string", length=1000, nullable=true)
+     * @var string
+     */
+    protected $favoritePosRaw;
+     
+    /**
+     * @var integer[]
+     */
+    protected $favoritePos = array();
     
     
     /**
@@ -35,7 +46,9 @@ class User extends AbstractUser
     public function unpack()
     {
         $this->settings = $this->settingsRaw ? @json_decode($this->settingsRaw, true) : array();
-        $this->settings || $this->settings = array();
+        is_array($this->settings) || $this->settings = array();
+        $this->favoritePos = $this->favoritePosRaw ? @json_decode($this->favoritePosRaw, true) : array();
+        is_array($this->favoritePos) || $this->favoritePos = array();
     }
     
     /**
@@ -67,5 +80,42 @@ class User extends AbstractUser
     public function isAdmin()
     {
         return (bool) $this->getSetting('isAdmin');
+    }
+    
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function getFavoritePos()
+    {
+        return $this->favoritePos;
+    }
+    
+    /**
+     * @param integer $id
+     * @return \vino\User
+     */
+    public function addToFavoritePos($id)
+    {
+        if (array_search($id, $this->favoritePos) === false) {
+            $this->favoritePos[] = $id;
+            $this->favoritePosRaw = json_encode($this->favoritePos);
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * @param integer $id
+     * @return \vino\User
+     */
+    public function removeFromFavoritePos($id)
+    {
+        if (array_search($id, $this->favoritePos) !== false) {
+            unset($this->favoritePos[array_search($id, $this->favoritePos)]);
+            $this->favoritePosRaw = json_encode($this->favoritePos);
+        }
+        
+        return $this;
     }
 }

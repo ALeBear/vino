@@ -49,19 +49,12 @@ function geolocError(msg) {}
 
 function createCurrentlySelected(id)
 {
-    $.each(allPos, function (index, pos) {
-        if (pos.id == id) {
-            opt = $('<option/>');
-            opt.val(pos.id);
-            dist = calculateDistance(pos.lat, pos.long, myPosition.coords.latitude, myPosition.coords.longitude);
-            opt.text(dist.toFixed(1) + 'km - ' + pos.name);
-            $('#select-avail').prepend(opt);
-            $('#select-avail').val(id);
-            $('#select-avail').selectmenu('refresh', true);
-            return false;
-        }
-    });
-    
+    opt = $('<option/>');
+    opt.val(allPos[id].id);
+    opt.text(allPos[id].name);
+    $('#select-avail').prepend(opt);
+    $('#select-avail').val(id);
+    $('#select-avail').selectmenu('refresh', true);
 }
 
 //geoloc testing data (pos around SAQ 23214)
