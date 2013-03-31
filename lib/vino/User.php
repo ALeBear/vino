@@ -60,4 +60,12 @@ class User extends AbstractUser
         
         return $this;
     }
+    
+    /**
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return (bool) $this->getSetting('isAdmin');
+    }
 }

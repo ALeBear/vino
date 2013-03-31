@@ -1,3 +1,8 @@
 soap:
 #  url: http://www.saq.com:9200/webapp/wcs/services/IPhoneService?wsdl
   url: /ServiceMobile.wsdl
+
+availability:
+#  displayMinimum: 1
+  #relative to project root
+  posFile: /js/pos.js

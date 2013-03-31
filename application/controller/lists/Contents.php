@@ -16,6 +16,8 @@ class Contents extends VinoAbstractController
     
     public function prepare($id, $c = null, $d = null, $listname = null)
     {
+        $this->view->showAvailabilityFor = null;
+        $this->view->availabilities = array();
         $this->view->listId = preg_replace('/[^\d]/', '', $id);
         $this->view->list = $this->dependencyInjectionContainer
             ->get('entity_manager')
@@ -68,6 +70,28 @@ class Contents extends VinoAbstractController
         }
         usort($this->view->wines, function($el1, $el2) { return $el1->__toString() < $el2->__toString() ? -1 : 1; });
         
+        //If a pos id is passed as "a" (availability), we have to calculate it
+        if ($a = $this->request->query->get('a')) {
+            $this->view->showAvailabilityFor = $a;
+            foreach ($this->view->list->getWineIds() as $wineId) {
+                if ($a == 'online') {
+                    $this->view->availabilities[$wineId] = $this->dependencyInjectionContainer
+                        ->get('saq_webservice')
+                        ->getOnlineAvailabilityByWineCode($wineId);
+                } else {
+                    foreach ($this->dependencyInjectionContainer
+                        ->get('saq_webservice')
+                        ->getAvailabilityByWineCode($wineId) as $avail) {
+                        if ($avail->getPos()->getId() == $a) {
+                            $this->view->availabilities[$wineId] = $avail->getQuantity();
+                            break;
+                        }
+                    }
+                    isset($this->view->availabilities[$wineId]) || $this->view->availabilities[$wineId] = 0;
+                }
+            }
+        }
+        
         $oppositeMode = $this->view->mode == self::MODE_EDIT ? self::MODE_VIEW : self::MODE_EDIT;
         $this->metas['headerButton'] = array(
             'text' => $this->_($oppositeMode),
@@ -75,6 +99,9 @@ class Contents extends VinoAbstractController
             'icon' => '');
         
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
+        $this->view->currentUrl = $this->router->buildRoute('lists/contents', array('id' => preg_replace('/[^\d]/', '', $id)))->getUrl();
         $this->metas['title'] = $this->_('title', $this->view->list->__toString());
+        $this->addJs($this->dependencyInjectionContainer->get('config')->get('saq.availability.posFile'));
+        $this->addJs('/js/calculateNearestPos.js');
     }
 }

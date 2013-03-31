@@ -158,6 +158,31 @@ class Webservice
     }
     
     /**
+     * Generate the file containing (supposedely) all the points of sale. You
+     * should give a poroduct code the most widely available.
+     * @param string $file
+     * @param string $productCode
+     * @return integer Number of Pos found
+     */
+    public function generatePosFile($file, $productCode)
+    {
+        $contents = array();
+        foreach ($this->getAvailabilityByWineCode($productCode) as $availability) {
+            /* @var $availability \vino\saq\Availability */
+            $pos = $availability->getPos();
+            $contents[] = array(
+                'lat' => (float) $pos->getLat(),
+                'long' => (float) $pos->getLong(),
+                'name' => $pos->__toString(),
+                'id' => $pos->getId());
+        }
+        
+        file_put_contents($file, sprintf("var allPos = %s;", json_encode($contents)));
+        
+        return count($contents);
+    }
+    
+    /**
      * @return SoapClient
      */
     protected function getSoapService()

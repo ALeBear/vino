@@ -10,6 +10,8 @@ class Pos
     protected $type;
     protected $lat;
     protected $long;
+    protected $id;
+    protected $city;
     
     /**
      * @param stdClass $parameters
@@ -20,6 +22,16 @@ class Pos
         $this->type = $parameters->banniere;
         $this->lat = $parameters->latitude;
         $this->long = $parameters->longitude;
+        $this->id = $parameters->succursaleId;
+        $this->city = $parameters->ville;
+    }
+    
+    /**
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
     }
     
     /**
@@ -52,5 +64,13 @@ class Pos
     public function getLong()
     {
         return $this->long;
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s, %s (%s)', $this->address, $this->city, $this->type);
     }
 }
