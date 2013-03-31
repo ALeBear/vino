@@ -29,10 +29,11 @@
 
 <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="<?php echo $mode == constant(get_class($this) . '::MODE_VIEW') ? 'grid' : 'delete'; ?>">
     <?php foreach ($wines as $wine): ?>
+    <?php $price = $wine->hasPrixReduit() ? sprintf('<span style="color:red">%s</span> <strike>%s</strike>', $wine->getPrix(), $wine->getPrix(true)) : $wine->getPrix(); ?>
     <li>
         <a class="allow-wrap" href="<?php echo $this->router->buildRoute('search/wine', array('c' => $wine->getCode(), 'f' => 'l-' . $listId))->getUrl(); ?>">
             <img src="/images/<?php echo $wine->getVignette(); ?>.png" class="ui-li-icon"/>
-            <?php echo $wine->__toString(); ?> <span class="listDetails"> - $<?php echo $wine->getPrix(); ?></span></a>
+            <?php echo $wine->__toString(); ?> <span class="listDetails"> - $<?php echo $price; ?></span></a>
         <?php if ($mode == constant(get_class($this) . '::MODE_VIEW')): ?>
         <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode(), 'f' => 'l-' . $listId))->getUrl(); ?>" rel="external">
             <?php echo $this->_('availability'); ?></a>

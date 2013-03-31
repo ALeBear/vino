@@ -7,7 +7,11 @@
         <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode(), 'f' => $from))->getUrl(); ?>" data-role="button" data-inline="true" data-mini="true" style="float: right" rel="external">
             <?php echo $this->_('availability'); ?></a>
         <br/>
+        <?php if ($wine->hasPrixReduit()): ?>
+        <?php echo $this->_('price_reduced', $wine->getPrix(), $wine->getPrix(true), $wine->getFormat()); ?><br/>
+        <?php else: ?>
         <?php echo $this->_('price', $wine->getPrix(), $wine->getFormat()); ?><br/>
+        <?php endif; ?>
         <?php echo $this->_('nature', $wine->getCategorie(), $wine->getPourcentage()); ?>&#176;<br/>
         <?php echo $wine->getRegion(); ?><br/>
         <?php if ($wine->getCepage()): ?>

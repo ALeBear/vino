@@ -6,10 +6,11 @@
 <?php if (count($products)): ?>
     <ul data-role="listview" data-inset="true" data-split-icon="grid">
     <?php foreach ($products as $product): ?>
+    <?php $price = $product->hasPrixReduit() ? sprintf('<span style="color:red">%s</span> <strike>%s</strike>', $product->getPrix(), $product->getPrix(true)) : $product->getPrix(); ?>
         <li>
             <a class="allow-wrap" href="<?php echo $this->router->buildRoute('search/wine', array('c' => $product->getCode(), 'f' => $from))->getUrl(); ?>" rel="external">
             <img src="/images/<?php echo $product->getVignette(); ?>.png" class="ui-li-icon"/>
-            <?php echo $product->__toString(); ?> <span class="listDetails"> - $<?php echo $product->getPrix(); ?></span></a>
+            <?php echo $product->__toString(); ?> <span class="listDetails"> - $<?php echo $price; ?></span></a>
             <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $product->getCode(), 'f' => $from))->getUrl(); ?>" rel="external">
             <?php echo $this->_('availability'); ?></a>
         </li>
