@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset="<?php echo $charset; ?>"/>
-    <title><?php echo $title; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
     <link rel="stylesheet" href="/css/main.css" />
@@ -11,7 +10,7 @@
     <?php echo $css; ?>
 </head>
 <body>
-<div data-role="page" data-theme="c" id="thepage" data-title="<?php echo $title; ?>">
+<div data-role="page" data-theme="c" id="thepage" data-title="<?php echo $this->_('app_name'); ?> - <?php echo $title; ?>">
     <?php echo $javascripts; ?>
     <div data-role="header">
         <?php if (isset($backUrl) && $backUrl): ?>

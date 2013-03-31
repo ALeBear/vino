@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="<?php echo $charset; ?>"/>
-    <title><?php echo $title; ?></title>
+    <title><?php echo $this->_('app_name'); ?> - <?php echo $this->_('availability'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
@@ -87,7 +87,7 @@
     </script>
 </head>
 <body onload="initialize()">
-<div data-role="page" id="map_page">
+<div data-role="page" id="map_page" data-title="<?php echo $this->_('app_name'); ?> - <?php echo $title; ?>">
     <div data-role="header">
         <a href="<?php echo $backUrl; ?>" data-role="button" data-icon="arrow-l" class="ui-btn-left" rel="external">
         <?php echo $this->_('back'); ?></a>
