@@ -10,8 +10,8 @@ use vino\UserWine;
  */
 class Contents extends VinoAbstractController
 {
-    const MODE_EDIT = 'edit';
-    const MODE_VIEW = 'view';
+    protected $MODE_EDIT = 'edit';
+    protected $MODE_VIEW = 'view';
     
     
     public function prepare($id, $c = null, $d = null, $listname = null, $ef = null)
@@ -28,6 +28,8 @@ class Contents extends VinoAbstractController
             //Not your list, buddy (or deleted)
             $this->redirect('/');
         }
+        
+        $this->view->from = 'l-' . $this->view->listId;
         
         $this->view->error = false;
         
@@ -75,9 +77,9 @@ class Contents extends VinoAbstractController
         }
     }
     
-    public function execute($id, $m = self::MODE_VIEW)
+    public function execute($id, $m = 'view')
     {
-        $this->view->mode = $m == self::MODE_EDIT ? $m : self::MODE_VIEW;
+        $this->view->mode = $m == $this->MODE_EDIT ? $m : $this->MODE_VIEW;
         $this->view->wines = array();
         foreach ($this->view->list->getWineIds() as $wineId) {
             $this->view->wines[$wineId] = $this->getWine($wineId);
@@ -106,7 +108,7 @@ class Contents extends VinoAbstractController
             }
         }
         
-        $oppositeMode = $this->view->mode == self::MODE_EDIT ? self::MODE_VIEW : self::MODE_EDIT;
+        $oppositeMode = $this->view->mode == $this->MODE_EDIT ? $this->MODE_VIEW : $this->MODE_EDIT;
         $this->metas['headerButton'] = array(
             'text' => $this->_($oppositeMode),
             'url' => $this->router->buildRoute(sprintf('%s/%s', $this->getModule(), $this->getAction()), array('id' => $this->view->listId, 'm' => $oppositeMode))->getUrl(),

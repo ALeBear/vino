@@ -9,6 +9,8 @@ use InvalidArgumentException;
 
 class Webservice
 {
+    const RECORDS_PER_PAGE = 20;
+    
     /**
      * @var Config
      */
@@ -57,12 +59,12 @@ class Webservice
     
     /**
      * @param string $keyword
-     * @return Wine[]
+     * @return array ('wines' => Wine[], 'pages' => int)
      */
     public function searchWinesByKeyword($keyword, $page = 0)
     {
         $products = array();
-        $response = $this->getSoapService()->getProduitsParMotCle(array('DataArea' => array('getProduitsParMotCle' => array('arg0' => $this->lang, 'arg1' => $keyword, 'arg2' => $page, 'arg3' => 20))));
+        $response = $this->getSoapService()->getProduitsParMotCle(array('DataArea' => array('getProduitsParMotCle' => array('arg0' => $this->lang, 'arg1' => $keyword, 'arg2' => $page * self::RECORDS_PER_PAGE, 'arg3' => self::RECORDS_PER_PAGE))));
         if (isset($response->DataArea->getProduitsParMotCleResponse->return->products)) {
             $results = $response->DataArea->getProduitsParMotCleResponse->return->products;
             is_array($results) || $results = array($results);
@@ -71,7 +73,7 @@ class Webservice
             }
         }
         
-        return $products;
+        return array('wines' => $products, 'pages' => $response->DataArea->getProduitsParMotCleResponse->return->nbPages);
     }
     
     /**

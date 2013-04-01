@@ -3,17 +3,10 @@
 <input type="submit" value='<?php echo $this->_('proceed'); ?>'/>
 </form>
 <br/>
-<?php if (count($products)): ?>
-    <ul data-role="listview" data-inset="true" data-split-icon="grid">
-    <?php foreach ($products as $product): ?>
-    <?php $price = $product->hasPrixReduit() ? sprintf('<span style="color:red">%s</span> <strike>%s</strike>', $product->getPrix(), $product->getPrix(true)) : $product->getPrix(); ?>
-        <li>
-            <a class="allow-wrap" href="<?php echo $this->router->buildRoute('search/wine', array('c' => $product->getCode(), 'f' => $from))->getUrl(); ?>" rel="external">
-            <img src="/images/<?php echo $product->getVignette(); ?>.png" class="ui-li-icon"/>
-            <?php echo $product->__toString(); ?> <span class="listDetails"> - $<?php echo $price; ?></span></a>
-            <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $product->getCode(), 'f' => $from))->getUrl(); ?>" rel="external">
-            <?php echo $this->_('availability'); ?></a>
-        </li>
-    <?php endforeach; ?>
-    </ul>
+<?php if (count($wines)): ?>
+    <?php include $this->getPartialFile('paging'); ?>
+
+    <?php include $this->getPartialFile('wines_listview'); ?>
+
+    <?php include $this->getPartialFile('paging'); ?>
 <?php endif; ?>
