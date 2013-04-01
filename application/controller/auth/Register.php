@@ -22,7 +22,7 @@ class Register extends VinoAbstractController
     {
         $this->view->error = false;
         $this->view->isEdit = $this->dependencyInjectionContainer->has('user');
-        $this->view->isEdit && $this->user = $this->dependencyInjectionContainer->get('user');
+        $this->view->isEdit && $this->user = $this->getUser();
     }
     
     public function execute()
@@ -66,8 +66,8 @@ class Register extends VinoAbstractController
             } else {
                 $this->user = User::create($name, $email, $this->request->get('password'));
             }
-            $this->dependencyInjectionContainer->get('entity_manager')->persist($this->user);
-            $this->dependencyInjectionContainer->get('entity_manager')->flush();
+            $this->getEntityManager()->persist($this->user);
+            $this->getEntityManager()->flush();
             
             //Send email
             if ($this->user) {

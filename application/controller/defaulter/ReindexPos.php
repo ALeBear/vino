@@ -18,7 +18,7 @@ class ReindexPos extends VinoAbstractController
     
     public function prepare()
     {
-        if (!$this->dependencyInjectionContainer->get('user')->isAdmin()) {
+        if (!$this->getUser()->isAdmin()) {
             $this->redirect('/');
         }
         $this->view->error = null;
@@ -33,10 +33,9 @@ class ReindexPos extends VinoAbstractController
     
     public function post()
     {
-        $count = $this->dependencyInjectionContainer
-            ->get('saq_webservice')
+        $count = $this->getSaqWebservice()
             ->generatePosFile(
-                $this->request->attributes->get('DIR_HTDOCS') . $this->dependencyInjectionContainer->get('config')->get('saq.availability.posFile'),
+                $this->request->attributes->get('DIR_HTDOCS') . $this->getConfig()->get('saq.availability.posFile'),
                 preg_replace('/[^\d]/', '', $this->request->get('c')));
         $this->view->error = sprintf("Reindexation of all the points of sale done, %s found.", $count);
     }

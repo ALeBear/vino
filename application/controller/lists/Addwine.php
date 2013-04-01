@@ -13,10 +13,9 @@ class Addwine extends VinoAbstractController
     public function execute($l, $c, $f)
     {
         $listId = preg_replace('/[^\d]/', '', $l);
-        $list = $this->dependencyInjectionContainer
-            ->get('entity_manager')
+        $list = $this->getEntityManager()
             ->getRepository('vino\\WinesList')
-            ->findOneBy(array('user' => $this->dependencyInjectionContainer->get('user'), 'id' => $listId));
+            ->findOneBy(array('user' => $this->getUser(), 'id' => $listId));
         if (!$list) {
             throw new InvalidArgumentException(sprintf('Invalid list id: %s', $listId));
         }
@@ -28,9 +27,8 @@ class Addwine extends VinoAbstractController
         }
         
         $list->addWine($wine);
-        $em = $this->dependencyInjectionContainer->get('entity_manager');
-        $em->persist($list);
-        $em->flush();
+        $this->getEntityManager()->persist($list);
+        $this->getEntityManager()->flush();
         
         $this->router->redirectExternal($this->getBackUrl($f));
     }

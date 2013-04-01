@@ -20,7 +20,7 @@ class Index extends VinoAbstractController
         
         if ($this->view->query = preg_replace('/[^\d\w -\.]/u', '', urldecode($q))) {
             $this->metas['title'] = $this->_('title_query');
-            $searchResults = $this->dependencyInjectionContainer->get('saq_webservice')->searchWinesByKeyword($this->view->query, $this->view->currentPage);
+            $searchResults = $this->getSaqWebservice()->searchWinesByKeyword($this->view->query, $this->view->currentPage);
             $this->view->pages = $searchResults['pages'];
             $this->view->wines = $searchResults['wines'];
         }

@@ -2,6 +2,7 @@
 
 namespace vino;
 
+use Symfony\Component\DependencyInjection\Container;
 use horses\AbstractController;
 
 class VinoAbstractController extends AbstractController
@@ -58,5 +59,21 @@ class VinoAbstractController extends AbstractController
             default:
                 return '/';
         }
+    }
+    
+    /**
+     * @return \vino\User
+     */
+    public function getUser()
+    {
+        return $this->dependencyInjectionContainer->get('user', Container::NULL_ON_INVALID_REFERENCE);
+    }
+    
+    /**
+     * @return \vino\saq\Webservice
+     */
+    public function getSaqWebservice()
+    {
+        return $this->dependencyInjectionContainer->get('saq_webservice');
     }
 }

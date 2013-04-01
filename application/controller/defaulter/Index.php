@@ -20,13 +20,12 @@ class Index extends VinoAbstractController
         $this->view->searchUrl = $this->router->buildRoute('search/')->getUrl();
         $this->view->logoutUrl = $this->router->buildRoute('auth/login', array('logout' => '1'))->getUrl();
         $this->view->editAccountUrl = $this->router->buildRoute('auth/register')->getUrl();
-        $this->view->user = $this->dependencyInjectionContainer->get('user');
-        $this->view->lists = $this->dependencyInjectionContainer
-            ->get('entity_manager')
+        $this->view->user = $this->getUser();
+        $this->view->lists = $this->getEntityManager()
             ->getRepository('vino\\WinesList')
-            ->findByUser(array('user' => $this->dependencyInjectionContainer->get('user')));
+            ->findByUser(array('user' => $this->getUser()));
         
-        $this->metas['title'] = $this->_('welcome', (string) $this->dependencyInjectionContainer->get('user'));
+        $this->metas['title'] = $this->_('welcome', (string) $this->getUser());
         $this->metas['headerButton'] = array(
             'text' => $this->_('settings'),
             'url' => $this->router->buildRoute(sprintf('%s/settings', $this->getModule()))->getUrl(),
@@ -42,8 +41,8 @@ class Index extends VinoAbstractController
 
         $list = WinesList::create(
             htmlentities($this->request->get('listname')),
-            $this->dependencyInjectionContainer->get('user'));
-        $this->dependencyInjectionContainer->get('entity_manager')->persist($list);
-        $this->dependencyInjectionContainer->get('entity_manager')->flush();
+            $this->getUser());
+        $this->getEntityManager()->persist($list);
+        $this->getEntityManager()->flush();
     }
 }

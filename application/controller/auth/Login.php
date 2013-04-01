@@ -30,16 +30,14 @@ class Login extends VinoAbstractController
         
         //Send forgot password email if asked to
         if ($forgot) {
-            $em = $this->dependencyInjectionContainer->get('entity_manager');
-            
             /* @var $forgotUser \vino\User */
-            $forgotUser = $em
+            $forgotUser = $this->getEntityManager()
                 ->getRepository('vino\\User')
                 ->findOneBy(array('email' => $this->view->email));
             if ($forgotUser) {
                 $newPass = $forgotUser->resetPassword();
-                $em->persist($forgotUser);
-                $em->flush();
+                $this->getEntityManager()->persist($forgotUser);
+                $this->getEntityManager()->flush();
                 mail(
                     $forgotUser->getEmail(),
                     $this->_('email_password_reset_title', $this->_('app_name')),

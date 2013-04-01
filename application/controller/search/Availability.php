@@ -15,16 +15,12 @@ class Availability extends VinoAbstractController
         $this->view->code = preg_replace('/[^\d]/', '', $c);
         $this->addJs('https://maps.googleapis.com/maps/api/js?key=AIzaSyBPjbJ1IpzmyvEsu4fihEhcR9Imvl0I6x8&sensor=true');
 
-        $user = $this->dependencyInjectionContainer->get('user');
-        $wine = $this->dependencyInjectionContainer
-            ->get('saq_webservice')
-            ->getWine($this->view->code);
-        $onlineAvail = $user->getSetting('availabilityHideOnline')
+        $wine = $this->getSaqWebservice()->getWine($this->view->code);
+        $onlineAvail = $this->getUser()->getSetting('availabilityHideOnline')
             ? $this->_('unknown')
-            : $this->dependencyInjectionContainer->get('saq_webservice')->getOnlineAvailabilityByWineCode($this->view->code);
+            : $this->getSaqWebservice()->getOnlineAvailabilityByWineCode($this->view->code);
         $this->metas['title'] = $this->_('title', urldecode(strip_tags($wine->__toString())), $onlineAvail);
-        $this->view->availabilities = $this->dependencyInjectionContainer
-            ->get('saq_webservice')
-            ->getAvailabilityByWineCode($this->view->code, $user->getSetting('availabilityDisplayLowerLimit'));
+        $this->view->availabilities = $this->getSaqWebservice()
+            ->getAvailabilityByWineCode($this->view->code, $this->getUser()->getSetting('availabilityDisplayLowerLimit'));
     }
 }

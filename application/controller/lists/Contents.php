@@ -13,16 +13,14 @@ class Contents extends VinoAbstractController
     protected $MODE_EDIT = 'edit';
     protected $MODE_VIEW = 'view';
     
-    
     public function prepare($id, $c = null, $d = null, $listname = null, $ef = null)
     {
         $this->view->showAvailabilityFor = null;
         $this->view->availabilities = array();
         $this->view->listId = preg_replace('/[^\d]/', '', $id);
-        $this->view->list = $this->dependencyInjectionContainer
-            ->get('entity_manager')
+        $this->view->list = $this->getEntityManager()
             ->getRepository('vino\\WinesList')
-            ->findOneBy(array('id' => $this->view->listId, 'user' => $this->dependencyInjectionContainer->get('user')));
+            ->findOneBy(array('id' => $this->view->listId, 'user' => $this->getUser()));
         
         if (!$this->view->list) {
             //Not your list, buddy (or deleted)
@@ -35,33 +33,28 @@ class Contents extends VinoAbstractController
         
         //Add to favorites if asked for
         if ($ef) {
-            $em = $this->dependencyInjectionContainer->get('entity_manager');
-            $user = $this->dependencyInjectionContainer->get('user');
             if ($favoritePosId = $this->request->query->get('add')) {
-                $user->addToFavoritePos(preg_replace('/[^\d]/', '', $favoritePosId));
+                $this->getUser()->addToFavoritePos(preg_replace('/[^\d]/', '', $favoritePosId));
             }
             if ($favoritePosId = $this->request->query->get('rem')) {
-                $user->removeFromFavoritePos(preg_replace('/[^\d]/', '', $favoritePosId));
+                $this->getUser()->removeFromFavoritePos(preg_replace('/[^\d]/', '', $favoritePosId));
             }
-            $em->persist($user);
-            $em->flush();
+            $this->getEntityManager()->persist($user);
+            $this->getEntityManager()->flush();
         }
         
         //If a list name is given, it means we want to rename it
         if ($listname) {
-            $em = $this->dependencyInjectionContainer->get('entity_manager');
-            $em->persist($this->view->list->setName(htmlentities($listname)));
-            $em->flush();
+            $this->getEntityManager()->persist($this->view->list->setName(htmlentities($listname)));
+            $this->getEntityManager()->flush();
         }
         
         //If a wine code is given, it means we want to remove it from the list
         if ($wineCode = preg_replace('/[^\d]/', '', $c)) {
-            $em = $this->dependencyInjectionContainer->get('entity_manager');
-            $user = $this->dependencyInjectionContainer->get('user');
             $wine = $this->getWine($wineCode);
             if ($wine) {
                 $this->view->list->removeWine($wine);
-                $em->flush();
+                $this->getEntityManager()->flush();
                 $this->view->error = 'removal_done';
             } else {
                 $this->view->error = 'weird_error';
@@ -70,9 +63,8 @@ class Contents extends VinoAbstractController
         
         //If a deletion code is given, remove the list
         if ($d) {
-            $em = $this->dependencyInjectionContainer->get('entity_manager');
-            $em->remove($this->view->list);
-            $em->flush();
+            $this->getEntityManager()->remove($this->view->list);
+            $this->getEntityManager()->flush();
             $this->redirect('/');
         }
     }
@@ -91,13 +83,10 @@ class Contents extends VinoAbstractController
             $this->view->showAvailabilityFor = $a;
             foreach ($this->view->list->getWineIds() as $wineId) {
                 if ($a == 'online') {
-                    $this->view->availabilities[$wineId] = $this->dependencyInjectionContainer
-                        ->get('saq_webservice')
+                    $this->view->availabilities[$wineId] = $this->getSaqWebservice()
                         ->getOnlineAvailabilityByWineCode($wineId);
                 } else {
-                    foreach ($this->dependencyInjectionContainer
-                        ->get('saq_webservice')
-                        ->getAvailabilityByWineCode($wineId) as $avail) {
+                    foreach ($this->getSaqWebservice()->getAvailabilityByWineCode($wineId) as $avail) {
                         if ($avail->getPos()->getId() == $a) {
                             $this->view->availabilities[$wineId] = $avail->getQuantity();
                             break;
@@ -114,12 +103,12 @@ class Contents extends VinoAbstractController
             'url' => $this->router->buildRoute(sprintf('%s/%s', $this->getModule(), $this->getAction()), array('id' => $this->view->listId, 'm' => $oppositeMode))->getUrl(),
             'icon' => '');
 
-        $this->view->favoritePos = $this->dependencyInjectionContainer->get('user')->getFavoritePos();
+        $this->view->favoritePos = $this->getUser()->getFavoritePos();
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
-        $this->view->favoritesUrl = $this->router->buildRoute('lists/contents', array('ef' => '1', 'id' => preg_replace('/[^\d]/', '', $id)))->getUrl();
-        $this->view->currentUrl = $this->router->buildRoute('lists/contents', array('id' => preg_replace('/[^\d]/', '', $id)))->getUrl();
+        $this->view->favoritesUrl = $this->router->buildRoute('lists/contents', array('ef' => '1', 'id' => $this->view->listId))->getUrl();
+        $this->view->currentUrl = $this->router->buildRoute('lists/contents', array('id' => $this->view->listId))->getUrl();
         $this->metas['title'] = $this->_('title', $this->view->list->__toString());
-        $this->addJs($this->dependencyInjectionContainer->get('config')->get('saq.availability.posFile'));
+        $this->addJs($this->getConfig()->get('saq.availability.posFile'));
         $this->addJs('/js/calculateNearestPos.js');
     }
 }
