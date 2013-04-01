@@ -253,6 +253,15 @@ class Wine
     /**
      * @return string
      */
+    public function getFormatInMl()
+    {
+        list($value, $unit) = explode(' ', $this->format);
+        return $unit == 'ml' ? $value : $value * 1000;
+    }
+    
+    /**
+     * @return string
+     */
     public function getRegion()
     {
         return $this->getPays() . ($this->getAttribute('REGION_ORIGINE') ? '/' . $this->getAttribute('REGION_ORIGINE') : '');
@@ -272,8 +281,21 @@ class Wine
     public function getVignette()
     {
         $value = strtolower(str_replace(array(" ", "é", "tranquille"), array("_", "e", ""), trim(sprintf("%s %s", $this->getCategorie(), (string) $this->getCouleur()))));
-        return in_array($value, array('vin_blanc', 'vin_blanc_blanc', 'vin_rouge', 'vin_rouge_rouge', 'vin_rose', 'vin_rose_rose', 'vin_mousseux_blanc', 'vin_mousseux_rouge', 'vin_mousseux_rose', 'champagne', 'champagne_blanc', 'champagne_rose', 'champagne_rose_rose'))
+        $value = in_array($value, array('vin_de_dessert', 'sauternes', 'vin_blanc', 'vin_blanc_blanc', 'vin_rouge', 'vin_rouge_rouge', 'vin_rose', 'vin_rose_rose', 'vin_mousseux_blanc', 'vin_mousseux_rouge', 'vin_mousseux_rose', 'champagne', 'champagne_blanc', 'champagne_rose', 'champagne_rose_rose'))
             ? $value : "unknown";
+        
+        switch (true) {
+            case $value == 'unknown':
+                break;
+            case $this->getFormatInMl() < 750:
+                $value = $value . '-smaller';
+                break;
+            case $this->getFormatInMl() > 750:
+                $value = $value . '-bigger';
+                break;
+        }
+        
+        return $value;
     }
     
     /**
