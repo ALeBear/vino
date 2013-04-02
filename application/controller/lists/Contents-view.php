@@ -64,6 +64,6 @@ $(document).on('pageinit', function () {
     function geolocError(msg) {}
 
     //geoloc testing data (pos around SAQ 23214)
-    geolocSuccess({coords: {latitude:"45.388563",longitude:"-73.568994"}});
+    //geolocSuccess({coords: {latitude:"45.388563",longitude:"-73.568994"}});
 });
 </script>
