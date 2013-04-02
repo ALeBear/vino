@@ -74,6 +74,9 @@ class VinoAbstractController extends AbstractController
             case 'l':
                 $params['id'] = $parts[1];
                 return $this->router->buildRoute('lists/contents', $params)->getUrl();
+            case 'm':
+                $params['c'] = $parts[1];
+                return $this->router->buildRoute('search/availability', $params)->getUrl();
             default:
                 return '/';
         }

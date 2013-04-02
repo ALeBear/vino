@@ -5,21 +5,24 @@
 <?php if ($mode == $this->MODE_VIEW): ?>
 <select name="select-avail" id="select-avail" data-min="true" class="allow-wrap" onChange="window.location = '<?php echo $currentUrl; ?>?a=' + $('#select-avail').val();">
    <option value="no"><?php echo $this->_('check_list_avail'); ?></option>
+    <?php if ($showAvailabilityForPos): ?>
+   <option value="current" selected="selected"><?php echo $showAvailabilityForPos->__toString(); ?></option>
+   <?php endif; ?>
    <option value="online"<?php if ($showAvailabilityFor == 'online') echo ' selected="selected"'; ?>>SAQ.com</option>
    <optGroup label="<?php echo $this->_('favorites'); ?>" id="optgroupFavorites">
-   <?php foreach ($favoritePos as $favoriteId): ?>
-       <option value="<?php echo $favoriteId; ?>"></option>
+   <?php foreach ($favoritePos as $favPos): ?>
+       <option value="<?php echo $favPos->getId(); ?>"><?php echo $favPos->__toString(); ?></option>
    <?php endforeach; ?>    
    </optGroup>
    <optGroup label="<?php echo $this->_('closest'); ?>" id="optgroupClosest">
    </optGroup>
 </select>
-    <?php if($showAvailabilityFor && $showAvailabilityFor != 'online'): ?>
-        <?php if (in_array($showAvailabilityFor, $favoritePos)): ?>
-            <a href="<?php echo $currentUrl; ?>?remf=<?php echo $showAvailabilityFor; ?>" data-role="button" data-mini="true" rel="external">
+    <?php if ($showAvailabilityFor && $showAvailabilityFor != 'online'): ?>
+        <?php if (array_key_exists($showAvailabilityFor, $favoritePos)): ?>
+            <a href="<?php echo str_replace('XXXX', $showAvailabilityFor, $favoritesRemoveUrl); ?>" data-role="button" data-mini="true" rel="external">
                 <?php echo $this->_('remove_from_favorites'); ?></a><br/>
         <?php else: ?>
-            <a href="<?php echo $currentUrl; ?>?addf=<?php echo $showAvailabilityFor; ?>" data-role="button" data-mini="true" rel="external">
+            <a href="<?php echo str_replace('XXXX', $showAvailabilityFor, $favoritesAddUrl); ?>" data-role="button" data-mini="true" rel="external">
                 <?php echo $this->_('add_to_favorites'); ?></a><br/>
         <?php endif; ?>
     <?php else: ?>
@@ -48,20 +51,19 @@
 </div>
 
 <script type="text/javascript">
-    $('#select-avail option').each(function(index, option) {
-        if (!option.text) {
-            option.text = allPos[option.value].name;
-        }
-    })
+$(document).on('pageinit', function () {
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(geolocSuccess, geolocError);
+    }
+
+    function geolocSuccess(position)
+    {
+        $('#optgroupClosest').load('<?php echo $getClosestPosUrl; ?>?lat=' + position.coords.latitude + '&long=' + position.coords.longitude);
+    }
+
+    function geolocError(msg) {}
+
+    //geoloc testing data (pos around SAQ 23214)
+    geolocSuccess({coords: {latitude:"45.388563",longitude:"-73.568994"}});
+});
 </script>
-
-
-<?php if ($showAvailabilityFor && $showAvailabilityFor != 'online'): ?>
-<script type="text/javascript">
-    $(document).on('pageinit', function () {
-        //Add the proper POS on top of the list and make it selected
-        createCurrentlySelected('<?php echo $showAvailabilityFor; ?>');
-    });
-
-</script>
-<?php endif; ?>

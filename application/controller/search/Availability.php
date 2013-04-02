@@ -21,5 +21,6 @@ class Availability extends VinoAbstractController
         $this->metas['title'] = $this->_('title', urldecode(strip_tags($wine->__toString())), $onlineAvail);
         $this->view->availabilities = $this->getSaqWebservice()
             ->getAvailabilityByWineCode($c, $this->getUser()->getSetting('availabilityDisplayLowerLimit'));
+        $this->view->favoritesAddUrl = $this->router->buildRoute('lists/favoritePos', array('f' => sprintf('m-%s|%s', $c, $f), 'action' => 'a'))->getUrl();
     }
 }

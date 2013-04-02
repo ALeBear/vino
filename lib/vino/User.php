@@ -10,6 +10,9 @@ use horses\plugin\auth\AbstractUser;
  */
 class User extends AbstractUser
 {
+    const DEFAULT_CLOSE_POS_COUNT = 3;
+    
+    
     /**
      * @OneToMany(targetEntity="WinesList", mappedBy="user")
      * @var WinesList[]
@@ -56,9 +59,9 @@ class User extends AbstractUser
      * @param mixed $default
      * @return mixed
      */
-    public function getSetting($name, $default = null)
+    public function getSetting($name)
     {
-        return isset($this->settings[$name]) ? $this->settings[$name] : $default;
+        return isset($this->settings[$name]) ? $this->settings[$name] : self::getDefaultSetting($name);
     }
     
     /**
@@ -75,6 +78,26 @@ class User extends AbstractUser
     }
     
     /**
+     * @param string $name
+     */
+    public static function getDefaultSetting($name)
+    {
+        switch ($name) {
+            case 'closePosCount':
+                //Number of closest POS to return for whole listing availability
+                return self::DEFAULT_CLOSE_POS_COUNT;
+            case 'availabilityDisplayLowerLimit':
+                //At or under this number, item is considered not available
+                return 0;
+            case 'availabilityHideOnline':
+                //Calculate SAQ.com availability?
+                return false;
+            default:
+                return null;
+        }
+    }
+    
+    /**
      * @return boolean
      */
     public function isAdmin()
@@ -84,9 +107,9 @@ class User extends AbstractUser
     
     /**
      * @param string $name
-     * @return mixed
+     * @return integer[]
      */
-    public function getFavoritePos()
+    public function getFavoritePosIds()
     {
         return $this->favoritePos;
     }

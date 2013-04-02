@@ -2,7 +2,11 @@
 <div style="color:red;"><?php echo $this->_($error); ?></div>
 <?php endif; ?>
 <form method="post" data-ajax="false">
-    <?php echo $this->_('limitAvailDisplay') . $this->_('colon'); ?> <input type="range" min="0" max="5" value="<?php echo $limitAvailDisplay; ?>" name="limitAvailDisplay"/>
+    <?php echo $this->_('closePosCount') . $this->_('colon'); ?>
+    <input type="range" min="<?php echo $minClosePos; ?>" max="<?php echo $maxClosePos; ?>" value="<?php echo $closePosCount; ?>" name="closePosCount"/>
+    <br/>
+    <?php echo $this->_('limitAvailDisplay') . $this->_('colon'); ?>
+    <input type="range" min="<?php echo $minLimitAvail; ?>" max="<?php echo $maxLimitAvail; ?>" value="<?php echo $limitAvailDisplay; ?>" name="limitAvailDisplay"/>
     <br/>
     <label for="hideOnlineAvail"><?php echo $this->_('hideOnlineAvail') . $this->_('colon'); ?></label>
     <select name="hideOnlineAvail" id="hideOnlineAvail" data-role="slider">

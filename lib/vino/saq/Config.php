@@ -15,7 +15,6 @@ class Config extends ConfigAbstract
                 ->arrayNode('availability')
                     ->children()
                         ->scalarNode('displayMinimum')->defaultValue(1)->end()
-                        ->scalarNode('posFile')->isRequired()->end()
                     ->end()
                 ->end()
                 ->arrayNode('soap')
