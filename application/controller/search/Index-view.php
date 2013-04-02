@@ -1,4 +1,4 @@
-<form method="get" action="<?php echo $formUrl; ?>">
+<form method="get">
 <input type="text" name="q" value="<?php echo $query; ?>"/>
 <input type="submit" value='<?php echo $this->_('proceed'); ?>'/>
 </form>

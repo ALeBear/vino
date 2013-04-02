@@ -13,33 +13,53 @@ class Contents extends VinoAbstractController
     protected $MODE_EDIT = 'edit';
     protected $MODE_VIEW = 'view';
     
-    public function prepare($id, $c = null, $d = null, $listname = null, $ef = null)
+    
+    /**
+     * Used to filter query (and path) parameters before passing them to magic
+     * methods
+     * @param string $name
+     * @param mixed $value
+     * @return mixed the filtered out value
+     */
+    public function filterMagicParam($name, $value)
     {
-        $this->view->showAvailabilityFor = null;
-        $this->view->availabilities = array();
-        $this->view->listId = preg_replace('/[^\d]/', '', $id);
+        switch ($name) {
+            case 'addf':
+            case 'remf':
+            case 'l':
+                return preg_replace('/[^\d]/', '', $value);
+            case 'a':
+                return $value == 'online' ? $value : preg_replace('/[^\d]/', '', $value);
+            case 'm':
+                return $value == $this->MODE_EDIT ? $value : $this->MODE_VIEW;
+            default:
+                return parent::filterMagicParam($name, $value);
+        }
+    }
+    
+    public function prepare($id, $a = null)
+    {
+        //Build list and redirect if not found
         $this->view->list = $this->getEntityManager()
             ->getRepository('vino\\WinesList')
-            ->findOneBy(array('id' => $this->view->listId, 'user' => $this->getUser()));
-        
+            ->findOneBy(array('id' => $id, 'user' => $this->getUser()));
         if (!$this->view->list) {
             //Not your list, buddy (or deleted)
             $this->redirect('/');
         }
         
-        $this->view->from = 'l-' . $this->view->listId;
-        
         $this->view->error = false;
-        
-        //Add to favorites if asked for
-        if ($ef) {
-            if ($favoritePosId = $this->request->query->get('add')) {
-                $this->getUser()->addToFavoritePos(preg_replace('/[^\d]/', '', $favoritePosId));
-            }
-            if ($favoritePosId = $this->request->query->get('rem')) {
-                $this->getUser()->removeFromFavoritePos(preg_replace('/[^\d]/', '', $favoritePosId));
-            }
-            $this->getEntityManager()->persist($user);
+        $this->view->showAvailabilityFor = $a;
+        $this->view->availabilities = array();
+    }
+    
+    public function execute($c = null, $d = null, $listname = null, $addf = null, $remf = null, $a = null)
+    {
+        //Manage favorites if asked for
+        $addf && $this->getUser()->addToFavoritePos($addf);
+        $remf && $this->getUser()->removeFromFavoritePos($remf);
+        if ($addf || $remf) {
+            $this->getEntityManager()->persist($this->getUser());
             $this->getEntityManager()->flush();
         }
         
@@ -50,8 +70,8 @@ class Contents extends VinoAbstractController
         }
         
         //If a wine code is given, it means we want to remove it from the list
-        if ($wineCode = preg_replace('/[^\d]/', '', $c)) {
-            $wine = $this->getWine($wineCode);
+        if ($c) {
+            $wine = $this->getWine($c);
             if ($wine) {
                 $this->view->list->removeWine($wine);
                 $this->getEntityManager()->flush();
@@ -67,19 +87,9 @@ class Contents extends VinoAbstractController
             $this->getEntityManager()->flush();
             $this->redirect('/');
         }
-    }
-    
-    public function execute($id, $m = 'view')
-    {
-        $this->view->mode = $m == $this->MODE_EDIT ? $m : $this->MODE_VIEW;
-        $this->view->wines = array();
-        foreach ($this->view->list->getWineIds() as $wineId) {
-            $this->view->wines[$wineId] = $this->getWine($wineId);
-        }
-        usort($this->view->wines, function($el1, $el2) { return $el1->__toString() < $el2->__toString() ? -1 : 1; });
         
         //If a pos id is passed as "a" (availability), we have to calculate it
-        if ($a = $this->request->query->get('a')) {
+        if ($a) {
             $this->view->showAvailabilityFor = $a;
             foreach ($this->view->list->getWineIds() as $wineId) {
                 if ($a == 'online') {
@@ -96,19 +106,29 @@ class Contents extends VinoAbstractController
                 }
             }
         }
+    }
+    
+    public function prepareView($id, $m = 'view')
+    {
+        $this->view->wines = array();
+        foreach ($this->view->list->getWineIds() as $wineId) {
+            $this->view->wines[$wineId] = $this->getWine($wineId);
+        }
+        usort($this->view->wines, function($el1, $el2) { return $el1->__toString() < $el2->__toString() ? -1 : 1; });
         
-        $oppositeMode = $this->view->mode == $this->MODE_EDIT ? $this->MODE_VIEW : $this->MODE_EDIT;
+        $this->view->mode = $m;
+        $oppositeMode = $m == $this->MODE_EDIT ? $this->MODE_VIEW : $this->MODE_EDIT;
+        $this->metas['title'] = $this->_('title', $this->view->list->__toString());
         $this->metas['headerButton'] = array(
             'text' => $this->_($oppositeMode),
-            'url' => $this->router->buildRoute(sprintf('%s/%s', $this->getModule(), $this->getAction()), array('id' => $this->view->listId, 'm' => $oppositeMode))->getUrl(),
+            'url' => $this->router->buildRoute(sprintf('%s/%s', $this->getModule(), $this->getAction()), array('id' => $id, 'm' => $oppositeMode))->getUrl(),
             'icon' => '');
-
+        $this->view->from = 'l-' . $id;
         $this->view->favoritePos = $this->getUser()->getFavoritePos();
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
-        $this->view->favoritesUrl = $this->router->buildRoute('lists/contents', array('ef' => '1', 'id' => $this->view->listId))->getUrl();
-        $this->view->currentUrl = $this->router->buildRoute('lists/contents', array('id' => $this->view->listId))->getUrl();
-        $this->metas['title'] = $this->_('title', $this->view->list->__toString());
-        $this->addJs($this->getConfig()->get('saq.availability.posFile'));
-        $this->addJs('/js/calculateNearestPos.js');
+        $this->view->currentUrl = $this->router->buildRoute('lists/contents', array('id' => $id))->getUrl();
+        $this->view->deleteListUrl = $this->router->buildRoute('lists/contents', array('id' => $id, 'd' => 1))->getUrl();
+        $this->addJs($this->getConfig()->get('saq.availability.posFile'))
+            ->addJs('/js/calculateNearestPos.js');
     }
 }

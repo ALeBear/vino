@@ -10,7 +10,7 @@
     <ul data-role="listview" data-inset="true">
     <?php foreach ($lists as $list): ?>
         <li>
-            <a href="<?php echo $this->router->buildRoute('lists/contents', array('id' => $list->getId()))->getUrl(); ?>">
+            <a href="<?php echo str_replace('XXXX', $list->getId(), $listUrl); ?>">
             <?php echo $list->__toString(); ?>
             <span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $list->count(); ?></span>
             </a>

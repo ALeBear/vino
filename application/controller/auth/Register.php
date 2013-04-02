@@ -25,21 +25,6 @@ class Register extends VinoAbstractController
         $this->view->isEdit && $this->user = $this->getUser();
     }
     
-    public function execute()
-    {
-        $this->metas['title'] = $this->view->isEdit ? $this->_('update_title') : $this->_('title');
-        
-        $this->view->name = $this->request->get('name', $this->user ? $this->user->__toString() : '');
-        $this->view->email = $this->request->get('email', $this->user ? $this->user->getEmail() : '');
-        
-        if (!$this->user) {
-            $this->metas['headerButton'] = array(
-                'text' => $this->_('login'),
-                'url' => $this->router->buildRoute(sprintf('%s/login', $this->getModule()))->getUrl(),
-                'icon' => '');
-        }
-    }
-    
     public function post()
     {
         if (!$this->request->get('name') || !$this->request->get('email')
@@ -56,15 +41,16 @@ class Register extends VinoAbstractController
             return;
         }
         
-        $name = htmlentities($this->request->get('name'));
-        $email = htmlentities($this->request->get('email'));
+        $name = htmlentities($this->request->request->get('name'));
+        $email = htmlentities($this->request->request->get('email'));
+        $password = htmlentities($this->request->request->get('password'));
 
         try {
             if ($this->user) {
                 $this->user->updateData($name, $email);
-                $this->request->get('password') && $this->user->updatePassword($this->request->get('password'));
+                $password && $this->user->updatePassword($password);
             } else {
-                $this->user = User::create($name, $email, $this->request->get('password'));
+                $this->user = User::create($name, $email, $password);
             }
             $this->getEntityManager()->persist($this->user);
             $this->getEntityManager()->flush();
@@ -82,5 +68,19 @@ class Register extends VinoAbstractController
         $this->dependencyInjectionContainer->get('auth')->saveUserToSession($this->user, $this->request->getSession());
 
         $this->redirect('/');
+    }
+    
+    public function prepareView()
+    {
+        $this->metas['title'] = $this->view->isEdit ? $this->_('update_title') : $this->_('title');
+        $this->view->name = $this->request->request->get('name', $this->user ? $this->user->__toString() : '');
+        $this->view->email = $this->request->request->get('email', $this->user ? $this->user->getEmail() : '');
+        
+        if (!$this->user) {
+            $this->metas['headerButton'] = array(
+                'text' => $this->_('login'),
+                'url' => $this->router->buildRoute(sprintf('%s/login', $this->getModule()))->getUrl(),
+                'icon' => '');
+        }
     }
 }

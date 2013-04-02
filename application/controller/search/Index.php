@@ -9,24 +9,43 @@ use vino\VinoAbstractController;
  */
 class Index extends VinoAbstractController
 {
-    public function execute($q = '', $p = 0)
+    /**
+     * Used to filter query (and path) parameters before passing them to magic
+     * methods
+     * @param string $name
+     * @param mixed $value
+     * @return mixed the filtered out value
+     */
+    public function filterMagicParam($name, $value)
+    {
+        switch ($name) {
+            case 'p':
+                return (int) preg_replace('/[^\d]/', '', $value);
+            case 'q':
+                return preg_replace('/[^\d\w -\.]/u', '', urldecode($value));
+            default:
+                return parent::filterMagicParam($name, $value);
+        }
+    }
+    
+    public function prepareView($q = '', $p = 0)
     {
         $this->view->products = array();
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
-        $this->view->formUrl = $this->router->buildRoute('search/')->getUrl();
         $this->metas['title'] = $this->_('title');
-        $this->view->currentPage = (int) preg_replace('/[^\d]/', '', $p);
-        $this->view->pages = 0;
+        $this->view->currentPage = $p;
         
-        if ($this->view->query = preg_replace('/[^\d\w -\.]/u', '', urldecode($q))) {
+        if ($this->view->query = $q) {
             $this->metas['title'] = $this->_('title_query');
-            $searchResults = $this->getSaqWebservice()->searchWinesByKeyword($this->view->query, $this->view->currentPage);
+            $searchResults = $this->getSaqWebservice()->searchWinesByKeyword($q, $p);
             $this->view->pages = $searchResults['pages'];
             $this->view->wines = $searchResults['wines'];
+        } else {
+            $this->view->wines = array();
+            $this->view->pages = 0;
         }
         
-        $this->view->pagingUrlTemplate = $this->router->buildRoute('search/', array('q' => $this->view->query, 'p' => 'xxXXxx'))->getUrl();;
-        
-        $this->view->from = 's-' . $this->view->query;
+        $this->view->pagingUrlTemplate = $this->router->buildRoute('search/', array('q' => $q, 'p' => 'xxXXxx'))->getUrl();;
+        $this->view->from = 's-' . $q;
     }
 }

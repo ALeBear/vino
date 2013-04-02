@@ -25,12 +25,6 @@ class ReindexPos extends VinoAbstractController
         $this->metas['title'] = "Points of sale reindexation";
     }
     
-    public function execute()
-    {
-        $code = $this->request->get('c');
-        $this->view->code = $code ? preg_replace('/[^\d]/', '', $code) : self::DEFAULT_CODE;
-    }
-    
     public function post()
     {
         $count = $this->getSaqWebservice()
@@ -38,5 +32,11 @@ class ReindexPos extends VinoAbstractController
                 $this->request->attributes->get('DIR_HTDOCS') . $this->getConfig()->get('saq.availability.posFile'),
                 preg_replace('/[^\d]/', '', $this->request->get('c')));
         $this->view->error = sprintf("Reindexation of all the points of sale done, %s found.", $count);
+    }
+    
+    public function execute()
+    {
+        $code = $this->request->request->get('c');
+        $this->view->code = $code ? preg_replace('/[^\d]/', '', $code) : self::DEFAULT_CODE;
     }
 }

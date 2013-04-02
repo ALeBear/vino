@@ -10,24 +10,39 @@ use vino\UserNote;
  */
 class WineEditNote extends VinoAbstractController
 {
+    
+    /**
+     * Does this controller have a view?
+     * @return boolean
+     */
+    public function hasView()
+    {
+        return false;
+    }
+    
     public function execute()
     {
     }
     
     public function post($c, $f = '')
     {
-        $code = preg_replace('/[^\d]/', '', $c);
-        $wine = $this->getWine($code);
         $note = $this->getEntityManager()
             ->getRepository('vino\\UserNote')
-            ->findOneBy(array('wineCode' => $code, 'user' => $this->getUser()));
-        $note || $note = UserNote::create($code, $this->getUser(), $wine->getMillesime());
+            ->findOneBy(array('wineCode' => $c, 'user' => $this->getUser()));
         
-        $note->setText(htmlentities($this->request->get('note')));
-        $note->setAppreciation(preg_replace('/[^\d]/', '', $this->request->get('appreciation')));
-        $this->getEntityManager()->persist($note);
+        if ($note && !$this->request->get('note') && !$this->request->get('appreciation')) {
+            //Note "reset": delete it
+            $this->getEntityManager()->remove($note);
+        } else {
+            //Note edition
+            $note || $note = UserNote::create($c, $this->getUser(), $this->getWine($c)->getMillesime());
+
+            $note->setText(htmlentities($this->request->get('note')));
+            $note->setAppreciation(preg_replace('/[^\d]/', '', $this->request->get('appreciation')));
+            $this->getEntityManager()->persist($note);
+        }
         $this->getEntityManager()->flush();
 
-        $this->redirect('search/wine', array('c' => $code, 'f' => $f));
+        $this->redirect('search/wine', array('c' => $c, 'f' => $f));
     }
 }

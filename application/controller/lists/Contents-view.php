@@ -16,10 +16,10 @@
 </select>
     <?php if($showAvailabilityFor && $showAvailabilityFor != 'online'): ?>
         <?php if (in_array($showAvailabilityFor, $favoritePos)): ?>
-            <a href="<?php echo $favoritesUrl; ?>?rem=<?php echo $showAvailabilityFor; ?>" data-role="button" data-mini="true" rel="external">
+            <a href="<?php echo $currentUrl; ?>?remf=<?php echo $showAvailabilityFor; ?>" data-role="button" data-mini="true" rel="external">
                 <?php echo $this->_('remove_from_favorites'); ?></a><br/>
         <?php else: ?>
-            <a href="<?php echo $favoritesUrl; ?>?add=<?php echo $showAvailabilityFor; ?>" data-role="button" data-mini="true" rel="external">
+            <a href="<?php echo $currentUrl; ?>?addf=<?php echo $showAvailabilityFor; ?>" data-role="button" data-mini="true" rel="external">
                 <?php echo $this->_('add_to_favorites'); ?></a><br/>
         <?php endif; ?>
     <?php else: ?>
@@ -42,7 +42,7 @@
 </div>
 <div data-role="popup" id="popup-delete" class="ui-content" style="text-align: center;">
     <?php echo $this->_('confirm_delete_list', $list->__toString()); ?><br/><br/>
-    <a href="<?php echo $this->router->buildRoute('lists/contents', array('id' => $listId, 'd' => 1, 'm' => $mode))->getUrl(); ?>" data-role="button" data-theme="e" data-mini="true" data-inline="true">
+    <a href="<?php echo $deleteListUrl; ?>" data-role="button" data-theme="e" data-mini="true" data-inline="true">
        <?php echo $this->_('delete'); ?></a>
     <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right"><?php echo $this->_('cancel'); ?></a> 
 </div>

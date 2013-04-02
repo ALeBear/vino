@@ -7,6 +7,24 @@ use horses\AbstractController;
 
 class VinoAbstractController extends AbstractController
 {
+    /**
+     * Used to filter query (and path) parameters before passing them to magic
+     * methods
+     * @param string $name
+     * @param mixed $value
+     * @return mixed the filtered out value
+     */
+    public function filterMagicParam($name, $value)
+    {
+        switch ($name) {
+            case 'c':
+            case 'id':
+                return preg_replace('/[^\d]/', '', $value);
+            default:
+                return parent::filterMagicParam($name, $value);
+        }
+    }
+    
     public function render()
     {
         $this->view->homeUrl = $this->router->buildRoute('/')->getUrl();

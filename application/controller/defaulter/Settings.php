@@ -10,12 +10,6 @@ use vino\User;
  */
 class Settings extends VinoAbstractController
 {
-    /**
-     * @var vino\User
-     */
-    protected $user;
-    
-    
     public function prepare()
     {
         $this->view->error = false;
@@ -24,21 +18,21 @@ class Settings extends VinoAbstractController
         $this->view->localeUrl = $this->router->buildRoute('defaulter/settings')->getUrl();
     }
     
-    public function execute()
+    public function post()
+    {
+        $this->getUser()->setSetting('availabilityDisplayLowerLimit', preg_replace('/[^\d]/', '', $this->request->request->get('limitAvailDisplay')));
+        $this->getUser()->setSetting('availabilityHideOnline', (int) $this->request->request->get('hideOnlineAvail'));
+        $this->getEntityManager()->persist($this->getUser());
+        $this->getEntityManager()->flush();
+        $this->view->error = 'settings_saved';
+    }
+    
+    public function prepareView()
     {
         $this->metas['title'] = $this->_('title');
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
         
         $this->view->limitAvailDisplay = $this->getUser()->getSetting('availabilityDisplayLowerLimit', 0);
         $this->view->hideOnlineAvail = $this->getUser()->getSetting('availabilityHideOnline', false);
-    }
-    
-    public function post()
-    {
-        $this->getUser()->setSetting('availabilityDisplayLowerLimit', preg_replace('/[^\d]/', '', $this->request->get('limitAvailDisplay')));
-        $this->getUser()->setSetting('availabilityHideOnline', (int) $this->request->get('hideOnlineAvail'));
-        $this->getEntityManager()->persist($this->getUser());
-        $this->getEntityManager()->flush();
-        $this->view->error = 'settings_saved';
     }
 }
