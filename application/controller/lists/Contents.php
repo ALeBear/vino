@@ -50,6 +50,7 @@ class Contents extends VinoAbstractController
         
         $this->view->error = false;
         $this->view->showAvailabilityFor = $a;
+        $this->view->showAvailabilityForPos = null;
         $this->view->availabilities = array();
     }
     
