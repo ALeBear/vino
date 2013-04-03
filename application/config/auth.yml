@@ -1,5 +1,6 @@
 userClassname: vino\User
 noAuthRedirect: auth/login
-disableAuth:
+mode: defaultProtected
+invertAuth:
   - auth/login
   - auth/register
