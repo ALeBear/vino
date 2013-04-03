@@ -3,7 +3,6 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use horses\Kernel;
-use vino\App;
 
 $DIContainer = Kernel::factory()->run(__DIR__, array('doctrine', 'locale'), true);
 
