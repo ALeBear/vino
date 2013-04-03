@@ -50,6 +50,7 @@ class Contents extends VinoAbstractController
         
         $this->view->error = false;
         $this->view->showAvailabilityFor = $a;
+        $this->view->showAvailabilityForPos = null;
         $this->view->availabilities = array();
     }
     
@@ -91,6 +92,9 @@ class Contents extends VinoAbstractController
         //If a pos id is passed as "a" (availability), we have to calculate it
         if ($a) {
             $this->view->showAvailabilityFor = $a;
+            $this->view->showAvailabilityForPos = $this->getEntityManager()
+                ->getRepository('vino\\saq\\Pos')
+                ->find($a);
             foreach ($this->view->list->getWineIds() as $wineId) {
                 if ($a == 'online') {
                     $this->view->availabilities[$wineId] = $this->getSaqWebservice()
@@ -124,11 +128,17 @@ class Contents extends VinoAbstractController
             'url' => $this->router->buildRoute(sprintf('%s/%s', $this->getModule(), $this->getAction()), array('id' => $id, 'm' => $oppositeMode))->getUrl(),
             'icon' => '');
         $this->view->from = 'l-' . $id;
-        $this->view->favoritePos = $this->getUser()->getFavoritePos();
+        $this->view->favoritePos = array();
+        foreach ($this->getUser()->getFavoritePosIds() as $favPosId) {
+            $this->view->favoritePos[$favPosId] = $this->getEntityManager()
+                ->getRepository('vino\\saq\\Pos')
+                ->find($favPosId);
+        }
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();
         $this->view->currentUrl = $this->router->buildRoute('lists/contents', array('id' => $id))->getUrl();
         $this->view->deleteListUrl = $this->router->buildRoute('lists/contents', array('id' => $id, 'd' => 1))->getUrl();
-        $this->addJs($this->getConfig()->get('saq.availability.posFile'))
-            ->addJs('/js/calculateNearestPos.js');
+        $this->view->getClosestPosUrl = $this->router->buildRoute('lists/closestPos')->getUrl();
+        $this->view->favoritesAddUrl = $this->router->buildRoute('lists/favoritePos', array('f' => $this->view->from, 'action' => 'a', 'id' => 'XXXX'))->getUrl();
+        $this->view->favoritesRemoveUrl = $this->router->buildRoute('lists/favoritePos', array('f' => $this->view->from, 'action' => 'r', 'id' => 'XXXX'))->getUrl();
     }
 }

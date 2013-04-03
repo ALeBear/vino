@@ -4,5 +4,3 @@ soap:
 
 availability:
 #  displayMinimum: 1
-  #relative to project root
-  posFile: /js/pos.js

@@ -1,6 +1,7 @@
 layout:
   default: layout-main.php
   search/availability: layout-map.php
+  lists/closestPos: none
 meta:
   #charset: utf-8 #If not set, default is utf-8
   title: 'Vino' #You can set a default title for your pages here

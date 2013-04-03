@@ -152,7 +152,7 @@ class Webservice
                 if ($quantity < $minimumQuantity) {
                     continue;
                 }
-                $availabilities[] = new Availability($avail);
+                $availabilities[] = Availability::fromSaq($avail);
             }
         }
         
@@ -160,28 +160,23 @@ class Webservice
     }
     
     /**
-     * Generate the file containing (supposedely) all the points of sale. You
-     * should give a poroduct code the most widely available.
-     * @param string $file
+     * Update in DB all the points of sale. You should give a product code the
+     * most widely available.
      * @param string $productCode
      * @return integer Number of Pos found
      */
-    public function generatePosFile($file, $productCode)
+    public function updateAllPos($productCode)
     {
-        $contents = array();
+        $count = 0;
         foreach ($this->getAvailabilityByWineCode($productCode) as $availability) {
             /* @var $availability \vino\saq\Availability */
             $pos = $availability->getPos();
-            $contents[(int) $pos->getId()] = array(
-                'lat' => (float) $pos->getLat(),
-                'long' => (float) $pos->getLong(),
-                'name' => $pos->__toString(),
-                'id' => $pos->getId());
+            $this->entityManager->persist($pos);
+            $count++;
         }
+        $this->entityManager->flush();
         
-        file_put_contents($file, sprintf("var allPos = %s;", json_encode($contents)));
-        
-        return count($contents);
+        return $count;
     }
     
     /**

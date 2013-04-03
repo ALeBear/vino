@@ -11,11 +11,15 @@ class Availability
     
     /**
      * @param stdClass $parameters
+     * @return \vino\saq\Availability
      */
-    public function __construct(stdClass $parameters)
+    public static function fromSaq(stdClass $parameters)
     {
-        $this->quantity = $parameters->nbProduit;
-        $this->pos = new Pos($parameters);
+        $avail = new static();
+        $avail->quantity = $parameters->nbProduit;
+        $avail->pos = Pos::fromSaq($parameters);
+        
+        return $avail;
     }
     
     /**

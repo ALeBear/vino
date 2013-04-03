@@ -42,11 +42,11 @@
                 map: map,
                 icon: posImage,
                 flat: true,
-                title: '<?php echo str_replace("'", "\'", $this->_('title_pos', $avail->getQuantity(), $aPos->getAddress(), $aPos->getType())); ?>',
+                title: '<?php echo str_replace("'", "\'",$this->_('title_pos', $avail->getQuantity(), $aPos->getAddress(), $aPos->getType())); ?>',
                 visible: true
         });
         google.maps.event.addListener(posMarker<?php echo $index; ?>, 'click', function () {
-            infowindow.setContent('<?php echo str_replace("'", "\'", $this->_('text_pos', $avail->getQuantity(), $aPos->getAddress(), $aPos->getType()));?>'); 
+            infowindow.setContent('<?php echo str_replace("'", "\'", $this->_('text_pos', $avail->getQuantity(), $aPos->getAddress(), $aPos->getType(), $favoritesAddUrl, $aPos->getId()));?>'); 
             infowindow.setPosition(posMarker<?php echo $index; ?>.getPosition()); 
             infowindow.open(map);
         });
