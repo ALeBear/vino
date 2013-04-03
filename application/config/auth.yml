@@ -1,3 +1,4 @@
+authClassname: horses\plugin\doctrine\DbAuth
 userClassname: vino\User
 noAuthRedirect: auth/login
 mode: defaultProtected
