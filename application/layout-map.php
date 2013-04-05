@@ -5,9 +5,7 @@
     <title><?php echo $this->_('app_name'); ?> - <?php echo $this->_('availability'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <!--
-    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png"/> Faire taille 144x144
-    Pour favicon.ico, juste le mettre a la racine de htdocs, taille 64x64-->
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png"/>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
