@@ -1,5 +1,5 @@
 <h3><?php echo $this->_('search'); ?></a></h3>
-<form method="get" action="<?php echo $searchUrl; ?>">
+<form method="get" action="<?php echo $searchUrl; ?>" data-ajax="false">
 <input type="text" name="q" value=""/>
 <input type="submit" value='<?php echo $this->_('proceed'); ?>'/>
 </form>
@@ -22,7 +22,7 @@
 <?php if ($error): ?>
 <div style="color:red;"><?php echo $this->_($error); ?></div>
 <?php endif; ?>
-<form method="post">
+<form method="post" data-ajax="false">
 <input type="text" name="listname"/>
 <input type="submit" value='<?php echo $this->_('create'); ?>'/>
 </form>

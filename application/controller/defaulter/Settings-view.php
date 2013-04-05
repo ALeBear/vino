@@ -16,7 +16,7 @@
     <?php echo $this->_('language') . $this->_('colon'); ?><br/>
     <div data-role="controlgroup" data-type="horizontal">
         <?php foreach ($allLocales as $locale => $urlPrefix): ?>
-        <a href="<?php echo sprintf('/%s/%s', $urlPrefix, substr($localeUrl, 4)); ?>" data-role="button"<?php if ($locale == $currentLocale) echo ' onclick="return false;" class="ui-btn-active"'; ?> rel="external">
+        <a href="<?php echo sprintf('/%s/%s', $urlPrefix, substr($localeUrl, 4)); ?>" data-role="button"<?php if ($locale == $currentLocale) echo ' onclick="return false;" class="ui-btn-active"'; ?>>
             <?php echo $this->_($locale); ?></a>
         <?php endforeach; ?>
     </div>

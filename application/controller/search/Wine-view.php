@@ -4,7 +4,7 @@
         <img src="<?php echo $wine->getImage(); ?>"/>
     </td>
     <td valign="top">
-        <a href="<?php echo str_replace('XXXX', $wine->getCode(), $availabilityUrl); ?>" data-role="button" data-inline="true" data-mini="true" style="float: right" rel="external">
+        <a href="<?php echo str_replace('XXXX', $wine->getCode(), $availabilityUrl); ?>" data-role="button" data-inline="true" data-mini="true" style="float: right">
             <?php echo $this->_('availability'); ?></a>
         <br/>
         <?php if ($wine->hasPrixReduit()): ?>
@@ -30,7 +30,7 @@
     <option value="<?php echo $list->getId(); ?>"><?php echo $list->__toString() . ($list->contains($wine->getCode()) ? ' *' : ''); ?></option>
 <?php endforeach; ?>
 </select>
-<a href="#" id="add-to-list" baseurl="<?php echo str_replace('XXXX', $wine->getCode(), $addToListUrl); ?>" data-role="button" data-inline="true" data-mini="true" rel="external">
+<a href="#" id="add-to-list" baseurl="<?php echo str_replace('XXXX', $wine->getCode(), $addToListUrl); ?>" data-role="button" data-inline="true" data-mini="true">
 <?php echo $this->_('add_to_list'); ?></a>
 </fieldset>
 <?php endif; ?>

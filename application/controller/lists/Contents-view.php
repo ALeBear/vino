@@ -19,10 +19,10 @@
 </select>
     <?php if ($showAvailabilityFor && $showAvailabilityFor != 'online'): ?>
         <?php if (array_key_exists($showAvailabilityFor, $favoritePos)): ?>
-            <a href="<?php echo str_replace('XXXX', $showAvailabilityFor, $favoritesRemoveUrl); ?>" data-role="button" data-mini="true" rel="external">
+            <a href="<?php echo str_replace('XXXX', $showAvailabilityFor, $favoritesRemoveUrl); ?>" data-role="button" data-mini="true">
                 <?php echo $this->_('remove_from_favorites'); ?></a><br/>
         <?php else: ?>
-            <a href="<?php echo str_replace('XXXX', $showAvailabilityFor, $favoritesAddUrl); ?>" data-role="button" data-mini="true" rel="external">
+            <a href="<?php echo str_replace('XXXX', $showAvailabilityFor, $favoritesAddUrl); ?>" data-role="button" data-mini="true">
                 <?php echo $this->_('add_to_favorites'); ?></a><br/>
         <?php endif; ?>
     <?php else: ?>
