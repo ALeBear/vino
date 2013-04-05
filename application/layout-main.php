@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="<?php echo $charset; ?>"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png"/>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
