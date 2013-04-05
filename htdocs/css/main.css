@@ -1,3 +1,5 @@
+html { -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-user-select: none; }
+
 .allow-wrap {  white-space:normal !important; }
 
 .vinotitle { white-space:normal !important; text-align: center; font-weight: bold; padding-top: 8px;}
