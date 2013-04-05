@@ -7,12 +7,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ALeBear/horses.git",
-                "reference": "7a49c5b7fd15520d1ba709d7f8aa7b09bf9147af"
+                "reference": "e486877a17e49591a1029b1cd68502e133d8144e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ALeBear/horses/zipball/7a49c5b7fd15520d1ba709d7f8aa7b09bf9147af",
-                "reference": "7a49c5b7fd15520d1ba709d7f8aa7b09bf9147af",
+                "url": "https://api.github.com/repos/ALeBear/horses/zipball/e486877a17e49591a1029b1cd68502e133d8144e",
+                "reference": "e486877a17e49591a1029b1cd68502e133d8144e",
                 "shasum": ""
             },
             "require": {
@@ -24,7 +24,7 @@
                 "symfony/http-foundation": "2.2.*",
                 "phpunit/phpunit": "3.7.*"
             },
-            "time": "2013-04-03 17:53:31",
+            "time": "2013-04-03 18:27:28",
             "bin": [
                 "bin/scaffolder",
                 "bin/scaffolder.php"
