@@ -10,6 +10,9 @@
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
     <?php echo $css; ?>
+    <script type="text/javascript">
+        var addToHomeConfig = { returningVisitor: true, expire: 720	};
+    </script>
 </head>
 <body>
 <div data-role="page" data-theme="c" id="thepage" data-title="<?php echo $this->_('app_name'); ?> - <?php echo $title; ?>">

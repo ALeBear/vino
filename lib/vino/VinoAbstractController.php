@@ -28,6 +28,8 @@ class VinoAbstractController extends AbstractController
     public function render()
     {
         $this->view->homeUrl = $this->router->buildRoute('/')->getUrl();
+        $this->addJs('/js/add2home.js');
+        $this->addCss('/css/add2home.css');
         parent::render();
     }
     
