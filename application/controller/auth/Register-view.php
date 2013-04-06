@@ -6,7 +6,7 @@
     <?php echo $this->_('current_password') . $this->_('colon'); ?> <input type="password" name="current_password"/>
     <?php endif; ?>
     <?php echo $this->_('name') . $this->_('colon'); ?> <input type="text" value="<?php echo $name; ?>" name="name"/>
-    <?php echo $this->_('email') . $this->_('colon'); ?> <input type="text" value="<?php echo $email; ?>" name="email"/>
+    <?php echo $this->_('email') . $this->_('colon'); ?> <input type="email" value="<?php echo $email; ?>" name="email" autocapitalize="off"/>
     <?php if ($isEdit) echo $this->_('password_edit_optional') . '<br/>'; ?>
     <?php echo $this->_('password') . $this->_('colon'); ?> <input type="password" name="password"/>
     <?php echo $this->_('password') . $this->_('colon'); ?> <input type="password" name="password2"/>
