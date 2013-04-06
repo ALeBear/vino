@@ -6,7 +6,7 @@
             <img src="/images/<?php echo $wine->getVignette(); ?>.png" class="ui-li-icon"/>
             <?php echo $wine->__toString(); ?> <span class="listDetails"> - $<?php echo $price; ?></span></a>
         <?php if (!isset($mode) || $mode == $this->MODE_VIEW): ?>
-        <a href="<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode(), 'f' => $from))->getUrl(); ?>">
+        <a href="#" onclick="window.location = '<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode(), 'f' => $from))->getUrl(); ?>';">
             <?php echo $this->_('availability'); ?></a>
         <?php else: ?>
         <a href="<?php echo $this->router->buildRoute('lists/contents', array('id' => $list->getId(), 'c' => $wine->getCode(), 'm' => $mode))->getUrl(); ?>">

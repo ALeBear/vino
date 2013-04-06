@@ -1,5 +1,5 @@
 <h3><?php echo $this->_('search'); ?></a></h3>
-<form method="get" action="<?php echo $searchUrl; ?>">
+<form method="get" action="<?php echo $searchUrl; ?>" data-ajax="false">
 <input type="text" name="q" value="" autocapitalize="off"/>
 <input type="submit" value='<?php echo $this->_('proceed'); ?>'/>
 </form>
