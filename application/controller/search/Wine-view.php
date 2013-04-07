@@ -4,7 +4,7 @@
         <img src="<?php echo $wine->getImage(); ?>"/>
     </td>
     <td valign="top">
-        <a href="<?php echo str_replace('XXXX', $wine->getCode(), $availabilityUrl); ?>" data-role="button" data-inline="true" data-mini="true" style="float: right">
+        <a href="#" onclick="window.location = '<?php echo str_replace('XXXX', $wine->getCode(), $availabilityUrl); ?>';" data-role="button" data-inline="true" data-mini="true" style="float: right">
             <?php echo $this->_('availability'); ?></a>
         <br/>
         <?php if ($wine->hasPrixReduit()): ?>

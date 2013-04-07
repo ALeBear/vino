@@ -20,6 +20,8 @@ class VinoAbstractController extends AbstractController
             case 'c':
             case 'id':
                 return preg_replace('/[^\d]/', '', $value);
+            case 'f':
+                return urldecode($value);
             default:
                 return parent::filterMagicParam($name, $value);
         }
