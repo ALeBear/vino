@@ -27,7 +27,7 @@ class Addwine extends VinoAbstractController
         }
     }
     
-    public function execute($l, $c, $f)
+    protected function execute($l, $c, $f)
     {
         $list = $this->getEntityManager()
             ->getRepository('vino\\WinesList')

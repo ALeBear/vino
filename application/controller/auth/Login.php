@@ -9,12 +9,12 @@ use vino\VinoAbstractController;
  */
 class Login extends VinoAbstractController
 {
-    public function prepare()
+    protected function prepare()
     {
         $this->view->error = '';
     }
     
-    public function post()
+    protected function post()
     {
         if (!$this->request->request->get('email') || !$this->request->request->get('password')) {
             $this->view->error = 'missing_fields';
@@ -35,7 +35,7 @@ class Login extends VinoAbstractController
         $this->redirect('/');
     }
     
-    public function execute($logout = null, $forgot = null)
+    protected function execute($logout = null, $forgot = null)
     {
         //Logout if asked to
         if ($logout) {
@@ -46,7 +46,7 @@ class Login extends VinoAbstractController
         $forgot && $this->forgotPassword($this->request->request->get('email'));
     }
     
-    public function prepareView()
+    protected function prepareView()
     {
         $this->metas['title'] = $this->_('login');
         $this->metas['headerButton'] = array(

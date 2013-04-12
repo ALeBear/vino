@@ -10,12 +10,12 @@ use vino\WinesList;
  */
 class Index extends VinoAbstractController
 {
-    public function prepare()
+    protected function prepare()
     {
         $this->view->error = null;
     }
     
-    public function post()
+    protected function post()
     {
         if (!$this->request->get('listname')) {
             $this->view->error = 'missing_fields';
@@ -29,7 +29,7 @@ class Index extends VinoAbstractController
         $this->getEntityManager()->flush();
     }
     
-    public function prepareView()
+    protected function prepareView()
     {
         $this->view->searchUrl = $this->router->buildRoute('search/')->getUrl();
         $this->view->logoutUrl = $this->router->buildRoute('auth/login', array('logout' => '1'))->getUrl();

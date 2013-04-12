@@ -28,7 +28,7 @@ class Index extends VinoAbstractController
         }
     }
     
-    public function prepareView($q = '', $p = 0)
+    protected function prepareView($q = '', $p = 0)
     {
         $this->view->products = array();
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();

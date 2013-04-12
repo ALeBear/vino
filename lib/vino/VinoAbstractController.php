@@ -27,7 +27,7 @@ class VinoAbstractController extends AbstractController
         }
     }
     
-    public function render()
+    protected function render()
     {
         $this->view->homeUrl = $this->router->buildRoute('/')->getUrl();
         $this->addJs('/js/add2home.js');
@@ -41,7 +41,7 @@ class VinoAbstractController extends AbstractController
      * @param string $code
      * @return saq\Wine
      */
-    public function getWine($code)
+    protected function getWine($code)
     {
         $wine = $this->dependencyInjectionContainer
             ->get('entity_manager')
@@ -59,7 +59,7 @@ class VinoAbstractController extends AbstractController
      * @param string $from
      * @return string
      */
-    public function getBackUrl($from)
+    protected function getBackUrl($from)
     {
         $boxes = explode('|', urldecode($from), 2);
         $parts = explode('-', array_shift($boxes), 2);
@@ -89,7 +89,7 @@ class VinoAbstractController extends AbstractController
     /**
      * @return \vino\User
      */
-    public function getUser()
+    protected function getUser()
     {
         return $this->dependencyInjectionContainer->get('user', Container::NULL_ON_INVALID_REFERENCE);
     }
@@ -97,7 +97,7 @@ class VinoAbstractController extends AbstractController
     /**
      * @return \vino\saq\Webservice
      */
-    public function getSaqWebservice()
+    protected function getSaqWebservice()
     {
         return $this->dependencyInjectionContainer->get('saq_webservice');
     }

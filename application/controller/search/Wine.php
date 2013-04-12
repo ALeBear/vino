@@ -10,7 +10,7 @@ use vino\UserNote;
  */
 class Wine extends VinoAbstractController
 {
-    public function prepareView($c, $f = '')
+    protected function prepareView($c, $f = '')
     {
         //Load base objects
         $this->view->wine = $this->getWine($c);

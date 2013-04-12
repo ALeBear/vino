@@ -16,7 +16,7 @@ class ReindexPos extends VinoAbstractController
     const DEFAULT_CODE = '10709152';
     
     
-    public function prepare()
+    protected function prepare()
     {
         if (!$this->getUser()->isAdmin()) {
             $this->redirect('/');
@@ -24,7 +24,7 @@ class ReindexPos extends VinoAbstractController
         $this->view->error = null;
     }
     
-    public function execute($c = null)
+    protected function execute($c = null)
     {
         if ($c) {
             $this->view->error = sprintf(
@@ -33,7 +33,7 @@ class ReindexPos extends VinoAbstractController
         }
     }
     
-    public function prepareView($c = null)
+    protected function prepareView($c = null)
     {
         $this->metas['title'] = "Points of sale reindexation";
         $this->view->code = $c ?: self::DEFAULT_CODE;

@@ -15,7 +15,7 @@ class Settings extends VinoAbstractController
     const MIN_CLOSE_POS = 1;
     const MAX_CLOSE_POS = 10;
     
-    public function prepare()
+    protected function prepare()
     {
         $this->view->error = false;
         $this->view->allLocales = $this->getConfig()->get('locale.available');
@@ -24,7 +24,7 @@ class Settings extends VinoAbstractController
         
     }
     
-    public function post()
+    protected function post()
     {
         $closeCount = (int) $this->request->request->get('closePosCount');
         $closeCount > self::MAX_CLOSE_POS && $closeCount = self::MAX_CLOSE_POS;
@@ -42,7 +42,7 @@ class Settings extends VinoAbstractController
         $this->view->error = 'settings_saved';
     }
     
-    public function prepareView()
+    protected function prepareView()
     {
         $this->metas['title'] = $this->_('title');
         $this->view->backUrl = $this->router->buildRoute('/')->getUrl();

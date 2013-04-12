@@ -18,14 +18,14 @@ class Register extends VinoAbstractController
     protected $user;
     
     
-    public function prepare()
+    protected function prepare()
     {
         $this->view->error = false;
         $this->view->isEdit = $this->dependencyInjectionContainer->has('user');
         $this->view->isEdit && $this->user = $this->getUser();
     }
     
-    public function post()
+    protected function post()
     {
         if (!$this->request->get('name') || !$this->request->get('email')
             || (!$this->user && (!$this->request->get('password') || !$this->request->get('password2')))) {
@@ -70,7 +70,7 @@ class Register extends VinoAbstractController
         $this->redirect('/');
     }
     
-    public function prepareView()
+    protected function prepareView()
     {
         $this->metas['title'] = $this->view->isEdit ? $this->_('update_title') : $this->_('title');
         $this->view->name = $this->request->request->get('name', $this->user ? $this->user->__toString() : '');

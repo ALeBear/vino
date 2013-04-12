@@ -37,7 +37,7 @@ class Contents extends VinoAbstractController
         }
     }
     
-    public function prepare($id, $a = null)
+    protected function prepare($id, $a = null)
     {
         //Build list and redirect if not found
         $this->view->list = $this->getEntityManager()
@@ -54,7 +54,7 @@ class Contents extends VinoAbstractController
         $this->view->availabilities = array();
     }
     
-    public function execute($c = null, $d = null, $listname = null, $addf = null, $remf = null, $a = null)
+    protected function execute($c = null, $d = null, $listname = null, $addf = null, $remf = null, $a = null)
     {
         //Manage favorites if asked for
         $addf && $this->getUser()->addToFavoritePos($addf);
@@ -112,7 +112,7 @@ class Contents extends VinoAbstractController
         }
     }
     
-    public function prepareView($id, $m = 'view')
+    protected function prepareView($id, $m = 'view')
     {
         $this->view->wines = array();
         foreach ($this->view->list->getWineIds() as $wineId) {

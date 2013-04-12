@@ -26,7 +26,7 @@ class FavoritePos extends VinoAbstractController
         }
     }
     
-    public function execute($id, $action, $f)
+    protected function execute($id, $action, $f)
     {
         switch ($action) {
             case 'a':

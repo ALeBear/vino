@@ -9,7 +9,7 @@ use vino\VinoAbstractController;
  */
 class Availability extends VinoAbstractController
 {
-    public function prepareView($c, $f)
+    protected function prepareView($c, $f)
     {
         $this->view->backUrl = $this->getBackUrl($f);
         $this->view->code = $c;

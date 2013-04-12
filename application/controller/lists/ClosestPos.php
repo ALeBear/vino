@@ -28,7 +28,7 @@ class ClosestPos extends VinoAbstractController
         }
     }
     
-    public function execute($lat, $long)
+    protected function execute($lat, $long)
     {
         $this->view->closest = array();
         foreach ($this->getEntityManager()->getRepository('vino\\saq\\Pos')->findAll() as $pos) {

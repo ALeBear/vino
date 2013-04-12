@@ -20,11 +20,7 @@ class WineEditNote extends VinoAbstractController
         return false;
     }
     
-    public function execute()
-    {
-    }
-    
-    public function post($c, $f = '')
+    protected function post($c, $f = '')
     {
         $note = $this->getEntityManager()
             ->getRepository('vino\\UserNote')
