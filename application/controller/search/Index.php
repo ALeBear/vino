@@ -16,7 +16,7 @@ class Index extends VinoAbstractController
      * @param mixed $value
      * @return mixed the filtered out value
      */
-    public function filterMagicParam($name, $value)
+    protected function filterMagicParam($name, $value)
     {
         switch ($name) {
             case 'p':
