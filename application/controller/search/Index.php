@@ -40,9 +40,11 @@ class Index extends VinoAbstractController
             $searchResults = $this->getSaqWebservice()->searchWinesByKeyword($q, $p);
             $this->view->pages = $searchResults['pages'];
             $this->view->wines = $searchResults['wines'];
+            $this->view->noResults = !count($this->view->wines);
         } else {
             $this->view->wines = array();
             $this->view->pages = 0;
+            $this->view->noResults = false;
         }
         
         $this->view->pagingUrlTemplate = $this->router->buildRoute('search/', array('q' => $q, 'p' => 'xxXXxx'))->getUrl();;

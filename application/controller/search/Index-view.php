@@ -9,4 +9,6 @@
     <?php include $this->getPartialFile('wines_listview'); ?>
 
     <?php include $this->getPartialFile('paging'); ?>
+<?php elseif ($noResults): ?>
+<?php echo $this->_('no_results'); ?>
 <?php endif; ?>
