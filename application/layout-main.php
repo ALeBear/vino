@@ -15,7 +15,7 @@
     </script>
 </head>
 <body>
-<div data-role="page" data-theme="c" id="thepage" data-title="<?php echo $this->_('app_name'); ?> - <?php echo $title; ?>">
+<div data-role="page" data-theme="c" id="thepage" data-title="<?php echo $this->_('app_name'); ?> - <?php echo $title; ?>" class="selectable">
     <?php echo $javascripts; ?>
     <div data-role="header">
         <?php if (isset($backUrl) && $backUrl): ?>

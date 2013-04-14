@@ -10,5 +10,6 @@
 
     <?php include $this->getPartialFile('paging'); ?>
 <?php elseif ($noResults): ?>
-<?php echo $this->_('no_results'); ?>
+<div style=""><?php echo $this->_('no_results'); ?></div>
+
 <?php endif; ?>

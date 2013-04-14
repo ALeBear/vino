@@ -1,5 +1,7 @@
 html { -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-user-select: none; }
 
+.selectable { user-select: all; -webkit-user-select: all; -khtml-user-select: all; -moz-user-select: all; }
+
 .allow-wrap {  white-space:normal !important; }
 
 .vinotitle { white-space:normal !important; text-align: center; font-weight: bold; padding-top: 8px;}

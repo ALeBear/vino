@@ -89,7 +89,7 @@
     </script>
 </head>
 <body onload="initialize()">
-<div data-role="page" id="map_page" data-title="<?php echo $this->_('app_name'); ?> - <?php echo $title; ?>">
+<div data-role="page" id="map_page" data-title="<?php echo $this->_('app_name'); ?> - <?php echo $title; ?>" class="selectable">
     <div data-role="header">
         <a href="<?php echo $backUrl; ?>" data-role="button" data-icon="arrow-l" class="ui-btn-left">
         <?php echo $this->_('back'); ?></a>
