@@ -37,9 +37,9 @@ class Index extends VinoAbstractController
     protected function prepareView($dt = null)
     {
         /** @var DateTime $date */
-        $date = $dt ? new DateTime($dt) : reset($this->view->allDates);
+        $this->view->currentDate = $dt ? new DateTime($dt) : reset($this->view->allDates);
         $this->view->arrivals = $this->getEntityManager()
             ->getRepository('vino\\saq\\Arrival')
-            ->findBy(array('arrivalDate' => $date), array('name' => 'ASC'));
+            ->findBy(array('arrivalDate' => $this->view->currentDate), array('name' => 'ASC'));
     }
 }

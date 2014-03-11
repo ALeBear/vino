@@ -123,6 +123,31 @@ class Arrival
     }
 
     /**
+     * Returns the image that will appear in lists for type
+     */
+    public function getVignette()
+    {
+        $value = $this->getRegion() == 'Mousseux' ? 'vin_mousseux_' : 'vin_';
+        $value .= strtolower(str_replace(array("é"), array("e"), $this->getColor()));
+        $value = in_array($value, array('vin_blanc', 'vin_rouge', 'vin_rose',
+            'vin_mousseux_blanc', 'vin_mousseux_rouge', 'vin_mousseux_rose'))
+            ? $value : "unknown";
+
+        switch (true) {
+            case $value == 'unknown':
+                break;
+            case $this->getMilliliters() < 750:
+                $value = $value . '-smaller';
+                break;
+            case $this->getMilliliters() > 750:
+                $value = $value . '-bigger';
+                break;
+        }
+
+        return $value;
+    }
+
+    /**
      * @return string
      */
     public function getSaqCode()
@@ -160,5 +185,61 @@ class Arrival
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @return string
+     */
+    public function getArrivalDate()
+    {
+        return $this->arrivalDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImporter()
+    {
+        return $this->importer;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMilliliters()
+    {
+        return $this->milliliters;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProducer()
+    {
+        return $this->producer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVintage()
+    {
+        return $this->vintage;
     }
 }
