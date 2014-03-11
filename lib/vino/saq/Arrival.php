@@ -6,7 +6,7 @@ use \InvalidArgumentException;
 
 /**
  * The details of a wine from SAQ
- * @Entity @HasLifecycleCallbacks
+ * @Entity(repositoryClass="vino\saq\ArrivalRepository") @HasLifecycleCallbacks
  */
 class Arrival
 {
@@ -23,7 +23,7 @@ class Arrival
     protected $arrivalCode;
 
     /**
-     * @Column(type="datetime")
+     * @Column(type="date")
      * @var string
      */
     protected $arrivalDate;
@@ -84,7 +84,7 @@ class Arrival
 
     /**
      * @Column(type="decimal", precision=10, scale=2)
-     * @var integer
+     * @var float
      */
     protected $price;
 
@@ -107,15 +107,16 @@ class Arrival
         $line2Data = explode(',', substr($lines[2], strpos($lines[2], '"') + 2));
         $arrival->arrivalCode = $line0Data[0];
         $arrival->arrivalDate = $arrivalDate;
-        $arrival->country = $line0Data[1];
-        $arrival->region = $line0Data[2];
-        $arrival->color = $line0Data[3];
-        $arrival->name = trim(substr($lines[0], strpos($lines[0], '"') + 1));
-        $arrival->producer = trim($lines[1]);
-        $arrival->importer = substr($lines[2], 0, strpos($lines[2], '"'));
+        $arrival->country = iconv('ISO-8859-1', 'UTF8//TRANSLIT', $line0Data[1]);
+        $arrival->region = iconv('ISO-8859-1', 'UTF8//TRANSLIT', $line0Data[2]);
+        $arrival->color = iconv('ISO-8859-1', 'UTF8//TRANSLIT', $line0Data[3]);
+        $arrival->name = iconv('ISO-8859-1', 'UTF8//TRANSLIT', trim(substr($lines[0], strpos($lines[0], '"') + 1)));
+        $arrival->producer = iconv('ISO-8859-1', 'UTF8//TRANSLIT', trim($lines[1]));
+        $arrival->importer = iconv('ISO-8859-1', 'UTF8//TRANSLIT', substr($lines[2], 0, strpos($lines[2], '"')));
         $arrival->vintage = $line2Data[0];
         $arrival->saqCode = $line2Data[1];
-        $arrival->milliliters = substr($line2Data[2], 0, strpos($line2Data[2], 'ml'));
+        preg_match('/^(?P<ml>[0-9]+) .*$/', $line2Data[2], $matches);
+        $arrival->milliliters = $matches['ml'];
         $arrival->price = substr(trim($line2Data[3]), 0, -1);
 
         return $arrival;
@@ -137,4 +138,27 @@ class Arrival
         return $this->arrivalCode;
     }
 
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
 }

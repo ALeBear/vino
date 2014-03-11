@@ -231,6 +231,13 @@ class Webservice
             $lineTrio[] = $line;
             if (count($lineTrio) == 3) {
                 $arrival = Arrival::fromCSVLineTrio($date, $lineTrio);
+                $lineTrio = array();
+
+                //Filter out non-wines
+                if (!preg_match('/^Vin|Mousseux|Porto/', $arrival->getRegion()) && (!preg_match('/^Produits du Terroir/', $arrival->getRegion()) && stripos($arrival->getName(), 'vin') === false)) {
+                    continue;
+                }
+
                 $existingArrival = $this->entityManager->getRepository('vino\\saq\\Arrival')->findOneBy(array('saqCode' => $arrival->getSaqCode(), 'arrivalCode' => $arrival->getArrivalCode()));
                 if ($overwrite) {
                     if ($existingArrival) {
@@ -241,10 +248,10 @@ class Webservice
                     $this->entityManager->persist($arrival);
                     $importedCount++;
                 }
-                $lineTrio = array();
             }
         }
         $this->entityManager->flush();
+
         return $importedCount;
     }
     
