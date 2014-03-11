@@ -22,7 +22,7 @@ class Wine
     protected $id;
     
     /**
-     * @Column(type="string", length=2000)
+     * @Column(type="string", length=4000)
      * @var string
      */
     protected $data;

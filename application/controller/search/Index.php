@@ -48,6 +48,7 @@ class Index extends VinoAbstractController
         }
         
         $this->view->pagingUrlTemplate = $this->router->buildRoute('search/', array('q' => $q, 'p' => 'xxXXxx'))->getUrl();;
+        $this->view->searchUrl = $this->router->buildRoute('search/')->getUrl();
         $this->view->from = 's-' . $q;
     }
 }

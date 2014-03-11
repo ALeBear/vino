@@ -30,7 +30,7 @@
     <option value="<?php echo $list->getId(); ?>"><?php echo $list->__toString() . ($list->contains($wine->getCode()) ? ' *' : ''); ?></option>
 <?php endforeach; ?>
 </select>
-<a href="#" id="add-to-list" baseurl="<?php echo str_replace('XXXX', $wine->getCode(), $addToListUrl); ?>" data-role="button" data-inline="true" data-mini="true">
+<a href="#" id="add-to-list" baseurl="<?php echo str_replace('XXXX', $wine->getCode(), $addToListUrl); ?>" data-role="button" data-inline="true" data-mini="true" data-ajax="false">
 <?php echo $this->_('add_to_list'); ?></a>
 </fieldset>
 <?php endif; ?>

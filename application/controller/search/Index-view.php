@@ -1,4 +1,4 @@
-<form method="get" data-ajax="false">
+<form method="get" data-ajax="false" action="<?php echo $searchUrl; ?>">
 <input type="text" name="q" value="<?php echo $query; ?>" autocapitalize="off"/>
 <input type="submit" value='<?php echo $this->_('proceed'); ?>'/>
 </form>
