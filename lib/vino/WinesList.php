@@ -101,7 +101,7 @@ class WinesList
     }
     
     /**
-     * @return vino\User
+     * @return \vino\User
      */
     public function getUser()
     {
@@ -110,7 +110,7 @@ class WinesList
     
     /**
      * @param \vino\saq\Wine $wine
-     * @return vino\WinesList $this
+     * @return \vino\WinesList $this
      */
     public function addWine(Wine $wine)
     {
@@ -137,7 +137,7 @@ class WinesList
     }
     
     /**
-     * @return type
+     * @return integer[]
      */
     public function getWineIds()
     {

@@ -6,6 +6,7 @@ use Symfony\Component\Config\IQueryableConfig;
 use SoapClient;
 use Doctrine\ORM\EntityManager;
 use InvalidArgumentException;
+use DateTime;
 
 class Webservice
 {
@@ -22,7 +23,7 @@ class Webservice
     protected $lang;
     
     /**
-     * @var Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     protected $entityManager;
     
@@ -38,7 +39,7 @@ class Webservice
     }
     
     /**
-     * @param IQueryableConfig $config
+     * @param EntityManager $entityManager
      * @return \vino\saq\Webservice $this
      */
     public function injectEntityManager(EntityManager $entityManager)
@@ -59,6 +60,7 @@ class Webservice
     
     /**
      * @param string $keyword
+     * @param integer $page
      * @return array ('wines' => Wine[], 'pages' => int)
      */
     public function searchWinesByKeyword($keyword, $page = 0)
@@ -79,23 +81,28 @@ class Webservice
     /**
      * Get wine details from a DB or webservice call (save results to DB after)
      * @param type $code
-     * @return Wine
+     * @return \vino\saq\Wine
+     * @throws InvalidArgumentException
      */
     public function getWine($code)
     {
         $wine = $this->entityManager->getRepository('vino\\saq\\Wine')->findOneBy(array('code' => $code, 'lang' => $this->lang));
-        if (!$wine) {
-            $wine = $this->getWineDetails($code);
+        if (!$wine || !$wine->getLastUpdate() || ($wine->getLastUpdate() instanceof \DateTime && ($wine->getLastUpdate()->diff(new \DateTime('now'))->days > Wine::MAX_LIFETIME))) {
             if (!$wine) {
-                throw new InvalidArgumentException(sprintf('Cannot find wine with code: %s', $code));
+                $wine = $this->getWineDetails($code);
+                if (!$wine) {
+                    throw new InvalidArgumentException(sprintf('Cannot find wine with code: %s', $code));
+                }
+            } else {
+                $wine = $this->updateWineDetails($wine);
             }
             $this->entityManager->persist($wine);
             $this->entityManager->flush();
         }
-        
+
         return $wine;
     }
-    
+
     /**
      * Get wine details from a webservice call
      * @param type $code
@@ -107,10 +114,25 @@ class Webservice
         if (!$response) {
             return null;
         }
-        
+
         return Wine::fromSaq($this->lang, $response->DataArea->getDetailProduitResponse->return);
     }
-    
+
+    /**
+     * Update wine details from a webservice call
+     * @param \vino\saq\Wine $wine
+     * @return Wine Null if not found
+     */
+    protected function updateWineDetails(Wine $wine)
+    {
+        $response = $this->getSoapService()->getDetailProduit(array('DataArea' => array('getDetailProduit' => array('arg0' => $this->lang, 'arg1' => $wine->getCode()))));
+        if (!$response) {
+            return null;
+        }
+
+        return Wine::updateFromSaq($wine, $this->lang, $response->DataArea->getDetailProduitResponse->return);
+    }
+
     /**
      * Get availability on saq.com (by using a call to the website actually)
      * @param string $code
@@ -177,6 +199,53 @@ class Webservice
         $this->entityManager->flush();
         
         return $count;
+    }
+
+    /**
+     * Update the arrivals contained inside this file
+     * @param string $filePath
+     * @param \DateTime $date
+     * @param bool $overwrite
+     * @return integer Number of imported arrivals
+     * @throws InvalidArgumentException
+     */
+    public function updateArrivals($filePath, DateTime $date, $overwrite = false)
+    {
+        if (!is_file($filePath) || !is_readable($filePath)) {
+            throw new InvalidArgumentException(sprinf('File does not exists or not readable: %s', $filePath));
+        }
+        $splFile = new \SplFileObject($filePath);
+        //Pass the header
+        $splFile->rewind();
+        $splFile->next();
+        $splFile->current();
+        $lineTrio = array();
+        $importedCount = 0;
+        while (!$splFile->eof()) {
+            $splFile->next();
+            $line = trim($splFile->current());
+            if (!$line || preg_match('/^,+$/', $line)) {
+                continue;
+            }
+
+            $lineTrio[] = $line;
+            if (count($lineTrio) == 3) {
+                $arrival = Arrival::fromCSVLineTrio($date, $lineTrio);
+                $existingArrival = $this->entityManager->getRepository('vino\\saq\\Arrival')->findOneBy(array('saqCode' => $arrival->getSaqCode(), 'arrivalCode' => $arrival->getArrivalCode()));
+                if ($overwrite) {
+                    if ($existingArrival) {
+                        $this->entityManager->remove($existingArrival);
+                    }
+                }
+                if (!$existingArrival || $overwrite) {
+                    $this->entityManager->persist($arrival);
+                    $importedCount++;
+                }
+                $lineTrio = array();
+            }
+        }
+        $this->entityManager->flush();
+        return $importedCount;
     }
     
     /**

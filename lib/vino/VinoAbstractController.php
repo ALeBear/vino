@@ -2,6 +2,8 @@
 
 namespace vino;
 
+use \vino\saq\Wine;
+
 use Symfony\Component\DependencyInjection\Container;
 use horses\AbstractController;
 
@@ -39,10 +41,11 @@ class VinoAbstractController extends AbstractController
      * Returns a saq\Wine with this code, create one (NOT PERSISTED YET) if not
      * found
      * @param string $code
-     * @return saq\Wine
+     * @return \vino\saq\Wine
      */
     protected function getWine($code)
     {
+        /** @var \vino\saq\Wine $wine */
         $wine = $this->dependencyInjectionContainer
             ->get('entity_manager')
             ->getRepository('vino\\saq\\Wine')

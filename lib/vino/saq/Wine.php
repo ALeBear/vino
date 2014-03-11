@@ -10,6 +10,11 @@ use stdClass;
  */
 class Wine
 {
+    /**
+     * Maximum lifetime in days
+     */
+    const MAX_LIFETIME = 10;
+
     /** 
      * @Id @Column(type="integer") @GeneratedValue 
      * @param integer
@@ -27,13 +32,19 @@ class Wine
      * @var string
      */
     protected $lang;
-    
+
     /**
      * @Column(type="string", length=15)
      * @var string
      */
     protected $code;
-    
+
+    /**
+     * @Column(type="datetime")
+     * @var string
+     */
+    protected $lastUpdate;
+
     /**
      * @var string
      */
@@ -68,32 +79,60 @@ class Wine
      * @var array
      */
     protected $attributes = array();
-    
+
     /**
+     * @param \vino\saq\Wine $wine
+     * @param string $lang
      * @param stdClass $parameters
-     * @return vino\saq\Wine
+     * @return \vino\saq\Wine
+     */
+    public static function updateFromSaq(Wine $wine, $lang, stdClass $parameters)
+    {
+        $wine->lang = $lang;
+        $wine->lastUpdate = new \DateTime('now');
+        self::updateWineObject($wine, $parameters);
+
+        return $wine;
+    }
+
+    /**
+     * @param string $lang
+     * @param stdClass $parameters
+     * @return \vino\saq\Wine
      */
     public static function fromSaq($lang, stdClass $parameters)
     {
         $wine = new static();
         $wine->lang = $lang;
+        $wine->lastUpdate = new \DateTime('now');
+        self::updateWineObject($wine, $parameters);
+
+        return $wine;
+    }
+
+    /**
+     * @param \vino\saq\Wine $wine
+     * @param stdClass $saqData
+     */
+    protected static function updateWineObject(Wine $wine, stdClass $saqData)
+    {
         $data = array();
-        
+
         //Basic params
-        isset($parameters->partNumber) && $wine->code = $parameters->partNumber;
+        isset($saqData->partNumber) && $wine->code = $saqData->partNumber;
         foreach (array_keys(get_object_vars($wine)) as $property) {
             if ($property == 'id') {
                 continue;
             }
-            
-            if (isset($parameters->$property)) {
-                $wine->$property = $data[$property] = $parameters->$property;
+
+            if (isset($saqData->$property)) {
+                $wine->$property = $data[$property] = $saqData->$property;
             }
         }
         //Attributes
         $data['attributes'] = array();
-        if (isset($parameters->listeAttributs) && is_array($parameters->listeAttributs)) {
-            foreach ($parameters->listeAttributs as $attribute) {
+        if (isset($saqData->listeAttributs) && is_array($saqData->listeAttributs)) {
+            foreach ($saqData->listeAttributs as $attribute) {
                 if (isset($data['attributes'][$attribute->typeAttribut])) {
                     is_array($data['attributes'][$attribute->typeAttribut]) || $data['attributes'][$attribute->typeAttribut] = array($data['attributes'][$attribute->typeAttribut]);
                     $data['attributes'][$attribute->typeAttribut][] = $attribute->value;
@@ -103,10 +142,8 @@ class Wine
             }
         }
         $wine->attributes = $data['attributes'];
-        
+
         $wine->data = json_encode($data);
-        
-        return $wine;
     }
     
     /**
@@ -128,7 +165,7 @@ class Wine
     {
         return $this->code;
     }
-    
+
     /**
      * @return string
      */
@@ -136,7 +173,15 @@ class Wine
     {
         return $this->description;
     }
-    
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastUpdate()
+    {
+        return $this->lastUpdate;
+    }
+
     /**
      * @return string
      */
@@ -178,7 +223,8 @@ class Wine
     }
     
     /**
-     * @return string
+     * @param boolean $original
+     * @return float
      */
     public function getPrix($original = false)
     {

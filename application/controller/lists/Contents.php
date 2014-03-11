@@ -106,7 +106,9 @@ class Contents extends VinoAbstractController
                             break;
                         }
                     }
-                    isset($this->view->availabilities[$wineId]) || $this->view->availabilities[$wineId] = 0;
+                    if (!isset($this->view->availabilities[$wineId])) {
+                        $this->view->availabilities[$wineId] = 0;
+                    }
                 }
             }
         }
