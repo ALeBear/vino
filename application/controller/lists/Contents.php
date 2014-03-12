@@ -15,11 +15,7 @@ class Contents extends VinoAbstractController
     
     
     /**
-     * Used to filter query (and path) parameters before passing them to magic
-     * methods
-     * @param string $name
-     * @param mixed $value
-     * @return mixed the filtered out value
+     * @inheritdoc
      */
     protected function filterMagicParam($name, $value)
     {

@@ -107,12 +107,12 @@ class Arrival
         $line2Data = explode(',', substr($lines[2], strpos($lines[2], '"') + 2));
         $arrival->arrivalCode = $line0Data[0];
         $arrival->arrivalDate = $arrivalDate;
-        $arrival->country = iconv('ISO-8859-1', 'UTF8//TRANSLIT', $line0Data[1]);
-        $arrival->region = iconv('ISO-8859-1', 'UTF8//TRANSLIT', $line0Data[2]);
-        $arrival->color = iconv('ISO-8859-1', 'UTF8//TRANSLIT', $line0Data[3]);
-        $arrival->name = iconv('ISO-8859-1', 'UTF8//TRANSLIT', trim(substr($lines[0], strpos($lines[0], '"') + 1)));
-        $arrival->producer = iconv('ISO-8859-1', 'UTF8//TRANSLIT', trim($lines[1]));
-        $arrival->importer = iconv('ISO-8859-1', 'UTF8//TRANSLIT', substr($lines[2], 0, strpos($lines[2], '"')));
+        $arrival->country = iconv('iso-8859-1', 'UTF-8//TRANSLIT', $line0Data[1]);
+        $arrival->region = iconv('iso-8859-1', 'UTF-8//TRANSLIT', $line0Data[2]);
+        $arrival->color = iconv('iso-8859-1', 'UTF-8//TRANSLIT', $line0Data[3]);
+        $arrival->name = iconv('iso-8859-1', 'UTF-8//TRANSLIT', trim(substr($lines[0], strpos($lines[0], '"') + 1)));
+        $arrival->producer = iconv('iso-8859-1', 'UTF-8//TRANSLIT', trim($lines[1]));
+        $arrival->importer = iconv('iso-8859-1', 'UTF-8//TRANSLIT', substr($lines[2], 0, strpos($lines[2], '"')));
         $arrival->vintage = $line2Data[0];
         $arrival->saqCode = $line2Data[1];
         preg_match('/^(?P<ml>[0-9]+) .*$/', $line2Data[2], $matches);
