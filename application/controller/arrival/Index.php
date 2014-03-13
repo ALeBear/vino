@@ -55,7 +55,7 @@ class Index extends VinoAbstractController
         $this->view->currentCountry = $country;
         $this->view->currentColor = $color;
         $this->view->currentSearch = $search;
-        $this->view->currentOrderBy = $orderBy;
+        $this->view->currentOrderBy = $orderBy ? $orderBy : 'name-ASC';
         $this->view->formUrl = $this->router->buildRoute('arrival/')->getUrl();
     }
 }
