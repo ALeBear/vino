@@ -42,7 +42,7 @@ class Index extends VinoAbstractController
             }
             $this->view->arrivals = $this->getEntityManager()
                 ->getRepository('vino\\saq\\Arrival')
-                ->findByCriterias($search, new DateTime($dt), $country, $color, $orderColumn, $orderDirection);
+                ->findByCriterias($search, $dt ? new DateTime($dt) : null, $country, $color, $orderColumn, $orderDirection);
         } else {
             $this->view->arrivals = null;
         }
