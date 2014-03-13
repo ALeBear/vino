@@ -5,3 +5,4 @@ mode: defaultProtected
 invertAuth:
   - auth/login
   - auth/register
+  - arrival/index

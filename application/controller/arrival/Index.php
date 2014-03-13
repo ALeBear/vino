@@ -33,7 +33,7 @@ class Index extends VinoAbstractController
     
     protected function execute($search = null, $dt = null, $country = null, $color = null, $orderBy = null)
     {
-        if ($dt || strlen($search) || $country || $color) {
+        if ($dt || strlen($search) > 2 || $country || $color) {
             if ($orderBy) {
                 list($orderColumn, $orderDirection) = explode('-', $orderBy);
             } else {
@@ -44,7 +44,7 @@ class Index extends VinoAbstractController
                 ->getRepository('vino\\saq\\Arrival')
                 ->findByCriterias($search, new DateTime($dt), $country, $color, $orderColumn, $orderDirection);
         } else {
-            $this->view->arrivals = array();
+            $this->view->arrivals = null;
         }
     }
     
