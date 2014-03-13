@@ -11,14 +11,14 @@ use horses\plugin\auth\AbstractUser;
 class User extends AbstractUser
 {
     const DEFAULT_CLOSE_POS_COUNT = 3;
-    
-    
+
+
     /**
      * @OneToMany(targetEntity="WinesList", mappedBy="user")
      * @var WinesList[]
      */
-     protected $lists;
-     
+    protected $lists;
+
     /**
      * @Column(type="string", length=1000, nullable=true)
      * @var string

@@ -3,8 +3,8 @@
 namespace horses\controller\arrival;
 
 use vino\VinoAbstractController;
-use vino\saq\ArrivalRepository;
 use DateTime;
+use vino\saq\ArrivalWatchlist;
 
 /**
  * Display arrivals list
@@ -31,8 +31,32 @@ class Index extends VinoAbstractController
         $this->view->allColors = $this->getEntityManager()->getRepository('vino\\saq\\Arrival')->getAllColors();
     }
     
-    protected function execute($search = null, $dt = null, $country = null, $color = null, $orderBy = null)
+    protected function execute($search = null, $dt = null, $country = null, $color = null, $orderBy = null, $action = null)
     {
+        $this->view->hasUser = (bool) $this->getUser();
+        if ($this->view->hasUser) {
+            $watchlist = $this->getEntityManager()->getRepository('vino\\saq\\ArrivalWatchlist')->findOneBy(array('user' => $this->getUser()));
+            if (!$watchlist) {
+                $watchlist = ArrivalWatchlist::create($this->getUser());
+                $this->getEntityManager()->persist($watchlist);
+                $this->getEntityManager()->flush();
+            }
+            $this->view->watchlistIds = $watchlist->getArrivalIds();
+        }
+
+        //Manage add/remove to watchlist
+        if ($action == 'atw') {
+            foreach ($this->request->request->getIterator() as $name => $value) {
+                if (preg_match('/^watchlist-add-(?P<id>[0-9]+)$/', $name, $matches)) {
+                    $watchlist->addRemoveArrival($this->getEntityManager()->getRepository('vino\\saq\\Arrival')->findOneById($matches['id']));
+                }
+
+            }
+            $this->getEntityManager()->persist($watchlist);
+            $this->getEntityManager()->flush();
+            $this->view->watchlistIds = $watchlist->getArrivalIds();
+        }
+
         if ($dt || strlen($search) > 2 || $country || $color) {
             if ($orderBy) {
                 list($orderColumn, $orderDirection) = explode('-', $orderBy);

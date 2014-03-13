@@ -31,6 +31,11 @@
             </select>
             </div>
         </td>
+        <?php if ($hasUser): ?>
+        <td>
+            <label><input type="checkbox" name="watchlist"/> <?php echo $this->_('in_watchlist'); ?></label>
+        </td>
+        <?php endif; ?>
         <td><button data-min="true"><?php echo $this->_('search'); ?></button></td>
         </tr>
     </table>
@@ -43,9 +48,17 @@
     } elseif(!count($arrivals)) {
         echo sprintf('<div style="padding: 10px;">%s</div>', $this->_('no_results'));
     } else { ?>
+<?php if ($hasUser): ?>
+<form method="post" id="frmAddToWatchlist" action="<?php echo $formUrl; ?>?action=atw" data-ajax="false">
+<button><?php echo $this->_('add_remove_to_watchlist'); ?></button>
+<input type="hidden" name="action" value="atw"/>
+<?php endif; ?>
 <table data-role="table" data-mode="columntoggle" id="arrivals" data-column-btn-text="<?php echo $this->_('columns'); ?>">
     <thead>
     <tr>
+        <?php if ($hasUser): ?>
+        <th>&nbsp;</th>
+        <?php endif; ?>
         <th><?php echo $this->_('type'); ?></th>
         <th><?php displayTH('country', $this->_('country'), $currentOrderBy); ?></th>
         <th><?php displayTH('name', $this->_('name'), $currentOrderBy); ?></th>
@@ -59,7 +72,12 @@
     <tbody>
         <?php foreach ($arrivals as $arrival): ?>
         <?php /** @var \vino\saq\Arrival $arrival */ ?>
-        <tr style="border-top: 1px solid black">
+        <tr style="border-top: 1px solid black;<?php if ($hasUser && in_array($arrival->getId(), $watchlistIds)) echo ' background-color: lightgrey;'; ?>">
+            <?php if ($hasUser): ?>
+            <td>
+                <input type="checkbox" name="watchlist-add-<?php echo $arrival->getId(); ?>" style="width: 15px; height: 15px; left: 0px; top: 10px;"/>
+            </td>
+            <?php endif; ?>
             <td align="center">
                 <a href="#popup-details-<?php echo $arrival->getSaqCode(); ?>" data-rel="popup">
                     <img src="/images/<?php echo $arrival->getVignette(); ?>.png" width="20px"/></a>
@@ -78,6 +96,9 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<?php if ($hasUser): ?>
+</form>
+<?php endif; ?>
 <?php } ?>
 
 

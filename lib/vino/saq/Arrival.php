@@ -242,4 +242,12 @@ class Arrival
     {
         return $this->vintage;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }
