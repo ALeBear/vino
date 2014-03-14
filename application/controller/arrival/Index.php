@@ -68,9 +68,13 @@ class Index extends VinoAbstractController
                 ->getRepository('vino\\saq\\Arrival')
                 ->findByCriterias($search, $dt ? new DateTime($dt) : null, $country, $color, $orderColumn, $orderDirection);
         } elseif ($seew && $this->view->hasUser) {
-            $this->view->arrivals = $this->getEntityManager()
-                ->getRepository('vino\\saq\\Arrival')
-                ->findById($watchlist->getArrivalIds());
+            if (count($watchlist->getArrivalIds())) {
+                $this->view->arrivals = $this->getEntityManager()
+                    ->getRepository('vino\\saq\\Arrival')
+                    ->findById($watchlist->getArrivalIds());
+            } else {
+                $this->view->arrivals = array();
+            }
         } else {
             $this->view->arrivals = null;
         }
