@@ -31,16 +31,14 @@
             </select>
             </div>
         </td>
-        <?php if ($hasUser): ?>
-        <td>
-            <label><input type="checkbox" name="watchlist"/> <?php echo $this->_('in_watchlist'); ?></label>
-        </td>
-        <?php endif; ?>
         <td><button data-min="true"><?php echo $this->_('search'); ?></button></td>
+        <?php if ($hasUser): ?>
+            <td>|</button></td>
+            <td><a data-role="button" data-theme="e" href="<?php echo $watchlistUrl; ?>"><?php echo $this->_('view_watchlist'); ?></a></td>
+        <?php endif; ?>
         </tr>
     </table>
 </form>
-</div>
 
 <?php
     if (!is_array($arrivals)) {
@@ -50,10 +48,12 @@
     } else { ?>
 <?php if ($hasUser): ?>
 <form method="post" id="frmAddToWatchlist" action="<?php echo $formUrl; ?>?action=atw" data-ajax="false">
-<button><?php echo $this->_('add_remove_to_watchlist'); ?></button>
+<div data-role="controlgroup" data-type="horizontal">
+    <button style="ui-btn-inline"><?php echo $this->_('add_remove_to_watchlist'); ?></button>
+</div>
 <input type="hidden" name="action" value="atw"/>
 <?php endif; ?>
-<table data-role="table" data-mode="columntoggle" id="arrivals" data-column-btn-text="<?php echo $this->_('columns'); ?>">
+<table data-role="table" data-mode="columntoggle" id="arrivals" class="table-stripe" data-column-btn-text="<?php echo $this->_('columns'); ?>">
     <thead>
     <tr>
         <?php if ($hasUser): ?>
@@ -72,7 +72,7 @@
     <tbody>
         <?php foreach ($arrivals as $arrival): ?>
         <?php /** @var \vino\saq\Arrival $arrival */ ?>
-        <tr style="border-top: 1px solid black;<?php if ($hasUser && in_array($arrival->getId(), $watchlistIds)) echo ' background-color: lightgrey;'; ?>">
+        <tr style="border-top: 1px solid black;<?php if ($hasUser && in_array($arrival->getId(), $watchlistIds)) echo ' background-color: lightblue;'; ?>">
             <?php if ($hasUser): ?>
             <td>
                 <input type="checkbox" name="watchlist-add-<?php echo $arrival->getId(); ?>" style="width: 15px; height: 15px; left: 0px; top: 10px;"/>
@@ -83,13 +83,17 @@
                     <img src="/images/<?php echo $arrival->getVignette(); ?>.png" width="20px"/></a>
             </td>
             <td><?php echo $arrival->getCountry(); ?></td>
-            <td><?php echo $arrival->getName(); ?> (<?php echo $arrival->getVintage(); ?>)</td>
+            <td><?php echo $arrival->getName(); ?> (<?php echo $arrival->getVintage() ? $arrival->getVintage() : 'NM'; ?>)</td>
             <td><?php echo $arrival->getProducer(); ?></td>
             <td><?php echo $arrival->getImporter(); ?></td>
             <td>$<?php echo $arrival->getPrice(); ?></td>
             <td><?php echo $arrival->getArrivalDate()->format('Y-m-d'); ?></td>
             <td>
-                <?php echo $arrival->getSaqCode(); ?>
+                <?php if ($hasUser): ?>
+                    <a href="<?php echo str_replace('SAQCODE', $arrival->getSaqCode(), $detailsUrl); ?>"><?php echo $arrival->getSaqCode(); ?></a>
+                <?php else: ?>
+                    <?php echo $arrival->getSaqCode(); ?>
+                <?php endif; ?>
                 <a href="http://www.saq.com/webapp/wcs/stores/servlet/ProductDisplay?storeId=20002&productId=<?php echo $arrival->getSaqCode(); ?>" target="_blank"><img src="/images/saq.png" border="0" width="20"/></a>
             </td>
         </tr>

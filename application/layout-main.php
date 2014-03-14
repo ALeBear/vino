@@ -21,6 +21,9 @@
         <?php if (isset($backUrl) && $backUrl): ?>
             <a href="<?php echo $backUrl; ?>" data-role="button" data-icon="arrow-l" class="ui-btn-left">
             <?php echo $this->_('back'); ?></a>
+        <?php elseif (isset($headerButtonLeft) && is_array($headerButtonLeft)): ?>
+            <a href="<?php echo $headerButtonLeft['url']; ?>" data-role="button"<?php if (isset($headerButtonLeft['icon'])) echo sprintf(' data-icon="%s"', $headerButtonLeft['icon']);?> class="ui-btn-left">
+                <?php echo $headerButtonLeft['text']; ?></a>
         <?php endif; ?>
         <h1 style="margin: 0;">
             <a style="margin: 0.2em;" href="<?php echo $homeUrl; ?>" data-role="button" data-icon="home" data-inline="true" data-min="true">

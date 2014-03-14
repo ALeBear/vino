@@ -31,7 +31,7 @@ class Index extends VinoAbstractController
         $this->view->allColors = $this->getEntityManager()->getRepository('vino\\saq\\Arrival')->getAllColors();
     }
     
-    protected function execute($search = null, $dt = null, $country = null, $color = null, $orderBy = null, $action = null)
+    protected function execute($seew = null, $search = null, $dt = null, $country = null, $color = null, $orderBy = null, $action = null)
     {
         $this->view->hasUser = (bool) $this->getUser();
         if ($this->view->hasUser) {
@@ -67,6 +67,10 @@ class Index extends VinoAbstractController
             $this->view->arrivals = $this->getEntityManager()
                 ->getRepository('vino\\saq\\Arrival')
                 ->findByCriterias($search, $dt ? new DateTime($dt) : null, $country, $color, $orderColumn, $orderDirection);
+        } elseif ($seew && $this->view->hasUser) {
+            $this->view->arrivals = $this->getEntityManager()
+                ->getRepository('vino\\saq\\Arrival')
+                ->findById($watchlist->getArrivalIds());
         } else {
             $this->view->arrivals = null;
         }
@@ -81,5 +85,9 @@ class Index extends VinoAbstractController
         $this->view->currentSearch = $search;
         $this->view->currentOrderBy = $orderBy ? $orderBy : 'name-ASC';
         $this->view->formUrl = $this->router->buildRoute('arrival/')->getUrl();
+        if ($this->view->hasUser) {
+            $this->view->detailsUrl = $this->router->buildRoute('search/wine', array('c' => 'SAQCODE'))->getUrl();
+            $this->view->watchlistUrl = $this->router->buildRoute('arrival/', array('seew' => '1'))->getUrl();
+        }
     }
 }

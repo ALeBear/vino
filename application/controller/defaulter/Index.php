@@ -45,5 +45,9 @@ class Index extends VinoAbstractController
             'text' => $this->_('settings'),
             'url' => $this->router->buildRoute(sprintf('%s/settings', $this->getModule()))->getUrl(),
             'icon' => 'gear');
+        $this->metas['headerButtonLeft'] = array(
+            'text' => $this->_('arrivals'),
+            'url' => $this->router->buildRoute('arrival/')->getUrl(),
+            'icon' => 'star');
     }
 }
