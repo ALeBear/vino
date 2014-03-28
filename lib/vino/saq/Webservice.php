@@ -234,7 +234,7 @@ class Webservice
                 $lineTrio = array();
 
                 //Filter out non-wines
-                if (!preg_match('/^Vin|Mousseux|Porto/', $arrival->getRegion()) && (!preg_match('/^Produits du Terroir/', $arrival->getRegion()) && stripos($arrival->getName(), 'vin') === false)) {
+                if (!preg_match('/^Vin|Mousseux|Porto|Champagne/', $arrival->getRegion()) && (!preg_match('/^Produits du Terroir/', $arrival->getRegion()) && stripos($arrival->getName(), 'vin') === false)) {
                     continue;
                 }
 

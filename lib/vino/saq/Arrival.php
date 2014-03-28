@@ -127,7 +127,7 @@ class Arrival
      */
     public function getVignette()
     {
-        $value = $this->getRegion() == 'Mousseux' ? 'vin_mousseux_' : 'vin_';
+        $value = $this->getRegion() == 'Mousseux' || $this->getRegion() == 'Champagne' ? 'vin_mousseux_' : 'vin_';
         $value .= strtolower(str_replace(array("é"), array("e"), $this->getColor()));
         $value = in_array($value, array('vin_blanc', 'vin_rouge', 'vin_rose',
             'vin_mousseux_blanc', 'vin_mousseux_rouge', 'vin_mousseux_rose'))
