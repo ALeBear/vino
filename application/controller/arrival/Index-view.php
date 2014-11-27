@@ -61,6 +61,7 @@
         <?php endif; ?>
         <th><?php echo $this->_('type'); ?></th>
         <th><?php displayTH('country', $this->_('country'), $currentOrderBy); ?></th>
+        <th><?php displayTH('region', $this->_('region'), $currentOrderBy); ?></th>
         <th><?php displayTH('name', $this->_('name'), $currentOrderBy); ?></th>
         <th><?php displayTH('producer', $this->_('producer'), $currentOrderBy); ?></th>
         <th data-priority="5"><?php echo $this->_('importer'); ?></th>
@@ -83,6 +84,7 @@
                     <img src="/images/<?php echo $arrival->getVignette(); ?>.png" width="20px"/></a>
             </td>
             <td><?php echo $arrival->getCountry(); ?></td>
+            <td><?php echo ucfirst($arrival->getSubregion()); ?></td>
             <td><?php echo $arrival->getName(); ?> (<?php echo $arrival->getVintage() ? $arrival->getVintage() : 'NM'; ?>)</td>
             <td><?php echo $arrival->getProducer(); ?></td>
             <td><?php echo $arrival->getImporter(); ?></td>

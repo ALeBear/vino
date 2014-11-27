@@ -104,7 +104,7 @@ class ArrivalRepository extends EntityRepository
             $qb->setParameter('name', '%' . $text . '%');
             $qb->setParameter('producer', '%' . $text . '%');
         }
-        if (in_array($orderColumn, array('arrivalDate', 'country', 'color', 'name', 'price'))) {
+        if (in_array($orderColumn, array('arrivalDate', 'country', 'color', 'name', 'price', 'region'))) {
             $dir = in_array($orderDirection, array('ASC', 'DESC')) ? $orderDirection : 'ASC';
             $qb->addOrderBy('a.' . $orderColumn, $dir);
         }

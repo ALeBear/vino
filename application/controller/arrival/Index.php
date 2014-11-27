@@ -80,7 +80,7 @@ class Index extends VinoAbstractController
         }
     }
     
-    protected function prepareView($search = null, $dt = null, $country = null, $color = null, $orderBy = null)
+    protected function prepareView($search = null, $dt = null, $country = null, $subregion = null, $color = null, $orderBy = null)
     {
         $this->metas['title'] = $this->_('title');
         $this->view->currentDate = $dt ? new DateTime($dt) : null;

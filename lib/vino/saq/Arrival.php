@@ -180,6 +180,24 @@ class Arrival
     }
 
     /**
+     * The subregion is only given for France and Italy, and only for regular formats
+     * @return string
+     */
+    public function getSubregion()
+    {
+        //Special case for champagne, as usual... ^^
+        if ($this->region == 'Champagne') {
+            return $this->region;
+        }
+
+        $matches = array();
+        if (!preg_match('/^Vin (bl|rg) (Italie|France) (?P<subregion>.*)$/', $this->region, $matches)) {
+            return null;
+        }
+        return $matches['subregion'];
+    }
+
+    /**
      * @return float
      */
     public function getPrice()
