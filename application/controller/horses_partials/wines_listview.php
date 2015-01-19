@@ -1,7 +1,8 @@
 <ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="<?php echo !isset($mode) || $mode == $this->MODE_VIEW ? 'grid' : 'delete'; ?>">
     <?php foreach ($wines as $wine): ?>
     <?php $price = $wine->hasPrixReduit() ? sprintf('<span style="color:red">%s</span> <strike>%s</strike>', $wine->getPrix(), $wine->getPrix(true)) : $wine->getPrix(); ?>
-    <li>
+    <?php $isAvailable = isset($availabilities[$wine->getCode()]) && $availabilities[$wine->getCode()]; ?>
+    <li<?php echo $isAvailable ? ' data-theme="e"' : ''; ?>>
         <a class="allow-wrap" href="<?php echo $this->router->buildRoute('search/wine', array('c' => $wine->getCode(), 'f' => $from))->getUrl(); ?>">
             <img src="/images/<?php echo $wine->getVignette(); ?>.png" class="ui-li-icon"/>
             <?php echo $wine->__toString(); ?> <span class="listDetails"> - $<?php echo $price; ?></span></a>
@@ -13,7 +14,7 @@
             <?php echo $this->_('remove'); ?></a>
         <?php endif; ?>
         <?php if (isset($availabilities[$wine->getCode()])): ?>
-        <span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $availabilities[$wine->getCode()]; ?></span>
+        <span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo (integer) $availabilities[$wine->getCode()]; ?></span>
         <?php endif; ?>
     </li>
     <?php endforeach; ?>
