@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "alebear/horses": "dev-master@dev"
+        "alebear/horses": "dev-allthekings@dev"
     },
     "autoload": {
         "psr-0": {
