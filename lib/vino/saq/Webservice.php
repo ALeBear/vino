@@ -168,7 +168,11 @@ class Webservice
             : $minimumAvailability + 1;
         $availabilities = array();
         $response = $this->getSoapService()->getSuccursales(array('DataArea' => array('getSuccursales' => array('arg0' => $this->lang, 'arg1' => $code))));
-        if (isset($response->DataArea->getSuccursalesResponse->return) && is_array($response->DataArea->getSuccursalesResponse->return)) {
+        if (isset($response->DataArea->getSuccursalesResponse->return)) {
+
+            if (!is_array($response->DataArea->getSuccursalesResponse->return)) {
+                $response->DataArea->getSuccursalesResponse->return = array($response->DataArea->getSuccursalesResponse->return);
+            }
             foreach ($response->DataArea->getSuccursalesResponse->return as $avail) {
                 $quantity = $avail->nbProduit;
                 if ($quantity < $minimumQuantity) {
