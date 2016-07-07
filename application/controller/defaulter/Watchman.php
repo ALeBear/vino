@@ -31,7 +31,7 @@ class Watchman extends VinoAbstractController
                     $this->sendMail(
                         $user->getEmail(),
                         $this->_('mail_subject', $wine->__toString()),
-                        $this->_('mail_body', $wine->__toString(), $wineData['maximumQuantity'], $wineData['maximumQuantityPos']->__toString(), $wineId, $wineId)
+                        $this->_('mail_body', $wine->__toString(), $wineData['maximumQuantity'], $wineData['maximumQuantityPos'] ? $wineData['maximumQuantityPos']->__toString() : 'N/A', $wineId, $wineId)
                     );
                     $user->setWatchingWineQuantity($wineId, $wineData['maximumQuantity']);
                 }
