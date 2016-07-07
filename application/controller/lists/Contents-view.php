@@ -3,6 +3,7 @@
 <?php endif; ?>
 
 <?php if ($mode == $this->MODE_VIEW): ?>
+    <?php if (!$isWatchedList): ?>
 <select name="select-avail" id="select-avail" data-min="true" class="allow-wrap" onChange="window.location = '<?php echo $currentUrl; ?>?a=' + $('#select-avail').val();">
    <option value="no"><?php echo $this->_('check_list_avail'); ?></option>
     <?php if ($showAvailabilityForPos): ?>
@@ -16,6 +17,10 @@
    </optGroup>
    <optGroup label="<?php echo $this->_('closest'); ?>" id="optgroupClosest">
    </optGroup>
+    <?php else: ?>
+        <a href="<?php echo $watchedListQuantitiesUrl; ?>" data-role="button">
+            <?php echo $this->_('view_quantities'); ?></a>
+    <?php endif; ?>
 </select>
     <?php if ($showAvailabilityFor && $showAvailabilityFor != 'online'): ?>
         <?php if (array_key_exists($showAvailabilityFor, $favoritePos)): ?>

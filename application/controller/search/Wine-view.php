@@ -1,3 +1,16 @@
+<script type="text/javascript">
+    $("#watchToggle").slider(
+        {
+            change: function( event, ui ) {
+                alert('greu');//location.href = "<?php echo str_replace('XXXX', $wine->getCode(), $toggleWatchedUrl); ?>";
+            }
+        } );
+    $("#watchToggle").on("slide",
+        function( event, ui ) {
+            alert('greu');//location.href = "<?php echo str_replace('XXXX', $wine->getCode(), $toggleWatchedUrl); ?>";
+        }
+    );
+</script>
 <table border="0">
 <tr>
     <td valign="top">
@@ -34,6 +47,13 @@
 <?php echo $this->_('add_to_list'); ?></a>
 </fieldset>
 <?php endif; ?>
+<style type="text/css"> .ui-slider  { width: 180px !important; }</style>
+<div style="width: 180px; height: 50px; z-index: 1000; position: absolute; cursor: pointer" onclick="location.href='<?php echo str_replace('XXXX', $wine->getCode(), $toggleWatchedUrl); ?>'; ">
+</div>
+<select name="watchToggle" id="watchToggle" data-role="slider">
+    <option value="0"<?php if (!in_array($wine->getCode(), $watchedWineIds)) echo ' selected="selected"'; ?>><?php echo $this->_('is_not_watched'); ?></option>
+    <option value="1"<?php if (in_array($wine->getCode(), $watchedWineIds)) echo ' selected="selected"'; ?>><?php echo $this->_('is_watched'); ?></option>
+</select><br/>
 
 <hr/>
 <?php if ($averageAppreciation): ?>

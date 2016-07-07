@@ -43,5 +43,7 @@ class Wine extends VinoAbstractController
         $f && $this->view->from .= '|' . $f;
         $this->view->availabilityUrl = $this->router->buildRoute('search/availability', array('c' => 'XXXX', 'f' =>  $this->view->from))->getUrl();
         $this->view->addToListUrl = $this->router->buildRoute('lists/addwine', array('c' => 'XXXX', 'f' => $this->view->from, 'l' => ''))->getUrl();
+        $this->view->toggleWatchedUrl = $this->router->buildRoute('lists/watchwine', array('c' => 'XXXX', 'f' => $this->view->from, 'l' => ''))->getUrl();
+        $this->view->watchedWineIds = $this->getUser()->getWatchingWineIds();
     }
 }

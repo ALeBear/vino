@@ -6,3 +6,4 @@ invertAuth:
   - auth/login
   - auth/register
   - arrival/index
+  - defaulter/watchman

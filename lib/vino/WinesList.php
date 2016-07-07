@@ -10,6 +10,8 @@ use vino\saq\Wine;
  */
 class WinesList
 {
+    const WATCHED_LIST_ID = 'W';
+
     /** 
      * @Id @Column(type="integer") @GeneratedValue 
      * @param integer

@@ -10,7 +10,7 @@
         <a href="#" onclick="window.location = '<?php echo $this->router->buildRoute('search/availability', array('c' => $wine->getCode(), 'f' => $from))->getUrl(); ?>';">
             <?php echo $this->_('availability'); ?></a>
         <?php else: ?>
-        <a href="<?php echo $this->router->buildRoute('lists/contents', array('id' => $list->getId(), 'c' => $wine->getCode(), 'm' => $mode))->getUrl(); ?>">
+        <a href="<?php echo $this->router->buildRoute('lists/contents', array('id' => $isWatchedList ? \vino\WinesList::WATCHED_LIST_ID : $list->getId(), 'c' => $wine->getCode(), 'm' => $mode))->getUrl(); ?>">
             <?php echo $this->_('remove'); ?></a>
         <?php endif; ?>
         <?php if (isset($availabilities[$wine->getCode()])): ?>

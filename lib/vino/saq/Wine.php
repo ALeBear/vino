@@ -69,12 +69,12 @@ class Wine
      * @var string
      */
     protected $prixReduit;
-    
+
     /**
      * @var string
      */
     protected $millesime;
-    
+
     /**
      * @var array
      */
@@ -197,7 +197,7 @@ class Wine
     {
         return $this->identiteProduit;
     }
-    
+
     /**
      * @return string
      */
@@ -205,7 +205,7 @@ class Wine
     {
         return $this->millesime;
     }
-    
+
     /**
      * @return string
      */

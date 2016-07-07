@@ -47,8 +47,16 @@
                 title: '<?php echo str_replace("'", "\'",$this->_('title_pos', $avail->getQuantity(), $aPos->getAddress(), $aPos->getType())); ?>',
                 visible: true
         });
+        <?php
+        $isFavorite = in_array($aPos->getId(), $favoriteIds);
+        $favoritesAddUrlPos = str_replace('ACTION', $isFavorite ? 'r' : 'a', $favoritesAddUrl);
+        $isWatching = in_array($aPos->getId(), $watchingIds);
+        $watchingAddUrlPos = str_replace('ACTION', $isWatching ? 'r' : 'a', $watchingAddUrl);
+        $favoritesAction = $isFavorite ? $this->_('remove_pos') : $this->_('add_pos');
+        $watchingAction = $isWatching ? $this->_('remove_pos') : $this->_('add_pos');
+        ?>
         google.maps.event.addListener(posMarker<?php echo $index; ?>, 'click', function () {
-            infowindow.setContent('<?php echo str_replace("'", "\'", $this->_('text_pos', $avail->getQuantity(), $aPos->getAddress(), $aPos->getType(), $favoritesAddUrl, $aPos->getId()));?>'); 
+            infowindow.setContent('<?php echo str_replace("'", "\'", $this->_('text_pos', $avail->getQuantity(), $aPos->getAddress(), $aPos->getType(), $favoritesAddUrlPos, $aPos->getId(), $favoritesAction, $watchingAddUrlPos, $aPos->getId(), $watchingAction));?>');
             infowindow.setPosition(posMarker<?php echo $index; ?>.getPosition()); 
             infowindow.open(map);
         });

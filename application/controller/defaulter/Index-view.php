@@ -6,18 +6,22 @@
 
 <h3><?php echo $this->_('lists'); ?></a></h3>
 
-<?php if (count($lists)): ?>
-    <ul data-role="listview" data-inset="true">
-    <?php foreach ($lists as $list): ?>
-        <li>
-            <a href="<?php echo str_replace('XXXX', $list->getId(), $listUrl); ?>">
-            <?php echo $list->__toString(); ?>
-            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $list->count(); ?></span>
-            </a>
-        </li>
-    <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
+<ul data-role="listview" data-inset="true">
+<?php foreach ($lists as $list): ?>
+    <li>
+        <a href="<?php echo str_replace('XXXX', $list->getId(), $listUrl); ?>">
+        <?php echo $list->__toString(); ?>
+        <span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $list->count(); ?></span>
+        </a>
+    </li>
+<?php endforeach; ?>
+    <li data-theme="e">
+        <a href="<?php echo str_replace('XXXX', \vino\WinesList::WATCHED_LIST_ID, $listUrl); ?>">
+            <?php echo $this->_('watched'); ?>
+        </a>
+    </li>
+</ul>
+
 <h3><?php echo $this->_('newlist'); ?></h3>
 <?php if ($error): ?>
 <div style="color:red;"><?php echo $this->_($error); ?></div>

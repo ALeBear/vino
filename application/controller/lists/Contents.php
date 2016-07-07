@@ -4,6 +4,7 @@ namespace horses\controller\lists;
 
 use vino\VinoAbstractController;
 use vino\UserWine;
+use vino\WinesList;
 
 /**
  * Display list contents
@@ -28,6 +29,8 @@ class Contents extends VinoAbstractController
                 return $value == 'online' ? $value : preg_replace('/[^\d]/', '', $value);
             case 'm':
                 return $value == $this->MODE_EDIT ? $value : $this->MODE_VIEW;
+            case 'id':
+                return $value == WinesList::WATCHED_LIST_ID ? WinesList::WATCHED_LIST_ID : preg_replace('/[^\d]/', '', $value);
             default:
                 return parent::filterMagicParam($name, $value);
         }
@@ -35,15 +38,30 @@ class Contents extends VinoAbstractController
     
     protected function prepare($id, $a = null)
     {
-        //Build list and redirect if not found
-        $this->view->list = $this->getEntityManager()
-            ->getRepository('vino\\WinesList')
-            ->findOneBy(array('id' => $id, 'user' => $this->getUser()));
-        if (!$this->view->list) {
-            //Not your list, buddy (or deleted)
-            $this->redirect('/');
+        if ($id == WinesList::WATCHED_LIST_ID) {
+            //Build "magic" watched list
+            $this->view->isWatchedList = true;
+            $this->view->list = WinesList::create($this->_('watched'), $this->getUser());
+            foreach ($this->getUser()->getWatchingWineIds() as $watchedWineId) {
+                $wine = $this->getWine($watchedWineId);
+                if (!$wine) {
+                    continue;
+                }
+                $this->view->list->addWine($wine);
+            }
+            $this->view->watchedListQuantitiesUrl = $this->router->buildRoute('lists/contents', array('id' => WinesList::WATCHED_LIST_ID, 'wq' => 1))->getUrl();
+        } else {
+            //Build list and redirect if not found
+            $this->view->isWatchedList = false;
+            $this->view->list = $this->getEntityManager()
+                ->getRepository('vino\\WinesList')
+                ->findOneBy(array('id' => $id, 'user' => $this->getUser()));
+            if (!$this->view->list) {
+                //Not your list, buddy (or deleted)
+                $this->redirect('/');
+            }
         }
-        
+
         $this->view->error = false;
         $this->view->showAvailabilityFor = $a;
         $this->view->showAvailabilityForPos = null;
@@ -70,6 +88,10 @@ class Contents extends VinoAbstractController
         if ($c) {
             $wine = $this->getWine($c);
             if ($wine) {
+                if ($this->view->isWatchedList) {
+                    $this->getUser()->removeFromWatchingWines($c);
+                    $this->getEntityManager()->persist($this->getUser());
+                }
                 $this->view->list->removeWine($wine);
                 $this->getEntityManager()->flush();
                 $this->view->error = 'removal_done';
@@ -110,7 +132,7 @@ class Contents extends VinoAbstractController
         }
     }
     
-    protected function prepareView($id, $m = 'view')
+    protected function prepareView($id, $m = 'view', $wq = false)
     {
         $this->view->wines = array();
         foreach ($this->view->list->getWineIds() as $wineId) {
@@ -138,5 +160,17 @@ class Contents extends VinoAbstractController
         $this->view->getClosestPosUrl = $this->router->buildRoute('lists/closestPos')->getUrl();
         $this->view->favoritesAddUrl = $this->router->buildRoute('lists/favoritePos', array('f' => $this->view->from, 'action' => 'a', 'id' => 'XXXX'))->getUrl();
         $this->view->favoritesRemoveUrl = $this->router->buildRoute('lists/favoritePos', array('f' => $this->view->from, 'action' => 'r', 'id' => 'XXXX'))->getUrl();
+
+        if ($wq) {
+            $this->prepareWatchedQuantities();
+        }
+    }
+
+    protected function prepareWatchedQuantities()
+    {
+        $this->view->availabilities = array();
+        foreach ($this->getUser()->getWatchingWinesQuantities($this->getEntityManager(), $this->getSaqWebservice()) as $wineId => $quantity) {
+            $this->view->availabilities[$wineId] = $quantity['maximumQuantity'];
+        }
     }
 }
