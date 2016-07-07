@@ -53,8 +53,8 @@ class Watchman extends VinoAbstractController
     protected function sendMail($to, $subject, $message)
     {
         $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl')
-            ->setUsername('un.singe.en.hiver@gmail.com')
-            ->setPassword('2ndjuly')
+            ->setUsername(base64_decode('dW4uc2luZ2UuZW4uaGl2ZXJAZ21haWwuY29t'))
+            ->setPassword(base64_decode('Mm5kanVseQ=='))
         ;
 
         $mailer = Swift_Mailer::newInstance($transport);

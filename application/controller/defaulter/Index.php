@@ -39,6 +39,7 @@ class Index extends VinoAbstractController
         $this->view->lists = $this->getEntityManager()
             ->getRepository('vino\\WinesList')
             ->findByUser(array('user' => $this->getUser()));
+        $this->view->watchedListQuantity = count($this->getUser()->getWatchingWineIds());
         
         $this->metas['title'] = $this->_('welcome', (string) $this->getUser());
         $this->metas['headerButton'] = array(

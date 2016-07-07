@@ -18,6 +18,7 @@
     <li data-theme="e">
         <a href="<?php echo str_replace('XXXX', \vino\WinesList::WATCHED_LIST_ID, $listUrl); ?>">
             <?php echo $this->_('watched'); ?>
+            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><?php echo $watchedListQuantity; ?></span>
         </a>
     </li>
 </ul>
