@@ -65,4 +65,19 @@ class Watchman extends VinoAbstractController
 
         $mailer->send($message);
     }
+
+    /**
+     * @param $lang
+     * @return $this
+     */
+    protected function forceLocaleLang($lang)
+    {
+        $locale = $this->dependencyInjectionContainer->get('locale', Container::NULL_ON_INVALID_REFERENCE);
+        if ($locale) {
+            /* @var \horses\plugin\locale\Locale $locale */
+            $locale->setLang($lang);
+        }
+
+        return $this;
+    }
 }
