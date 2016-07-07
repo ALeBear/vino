@@ -6,6 +6,7 @@ use vino\VinoAbstractController;
 use Swift_Mailer;
 use Swift_SmtpTransport;
 use Swift_Message;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Display arrivals list
