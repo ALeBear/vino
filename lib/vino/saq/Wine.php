@@ -76,6 +76,21 @@ class Wine
     protected $millesime;
 
     /**
+     * @var boolean Null is unknown
+     */
+    protected $indDispoEnLigne = null;
+
+    /**
+     * @var integer
+     */
+    protected $qteDispoEnLigne;
+
+    /**
+     * @var boolean Null is unknown
+     */
+    protected $indDispoEnSuccursale = null;
+
+    /**
      * @var array
      */
     protected $attributes = array();
@@ -287,7 +302,7 @@ class Wine
     {
         return $this->getAttribute('COULEUR');
     }
-    
+
     /**
      * @return string
      */
@@ -295,7 +310,31 @@ class Wine
     {
         return $this->format;
     }
-    
+
+    /**
+     * @return boolean Null for unknown
+     */
+    public function isDispoEnLigne()
+    {
+        return $this->indDispoEnLigne;
+    }
+
+    /**
+     * @return integer
+     */
+    public function qteDispoEnLigne()
+    {
+        return (int) $this->qteDispoEnLigne;
+    }
+
+    /**
+     * @return boolean Null for unknown
+     */
+    public function isDispoEnSuccursale()
+    {
+        return $this->indDispoEnSuccursale;
+    }
+
     /**
      * @return string
      */

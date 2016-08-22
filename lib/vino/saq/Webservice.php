@@ -267,6 +267,8 @@ class Webservice
         $options = $this->config->get('saq.soap.options', array());
         $options['exceptions'] = true;
         $options['cache_wsdl'] = WSDL_CACHE_NONE;
+//        $options['proxy_host'] = 'localhost';
+//        $options['proxy_port'] = '8888';
         $prefix = $this->config->get('kernel.urlPrefix');
         $prefix && $prefix = '/' . $prefix;
         return new SoapClient(sprintf('http://%s%s%s', $_SERVER['HTTP_HOST'], $prefix, $this->config->get('saq.soap.url')), $options);
