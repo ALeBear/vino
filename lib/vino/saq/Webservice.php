@@ -155,7 +155,27 @@ class Webservice
         
         return $quantity;
     }
-    
+
+    /**
+     * Get list of Signature new arrivals
+     * @return array [wine code => wine name]
+     */
+    public function getSignatureArrivals()
+    {
+        $contents = @file_get_contents('http://www.saq.com/content/SAQ/fr/produits/nouveautes/nouvel-arrivage-saq-signature.html');
+        $products = array();
+        $divToFind = 'mev-product-title';
+        while ($divStartPos = strpos($contents, $divToFind)) {
+            $divEndPos = strpos($contents, '</div>', $divStartPos);
+            $divContent = substr($contents, strpos($contents, '>', $divStartPos), $divEndPos);
+            $contents = substr($contents, $divEndPos);
+            $dom = DOMDocument::loadHTML($divContent);
+            $products[substr($dom->getElementByTagName('a')->getAttribute('id'), strrpos($dom->getElementByTagName('a')->getAttribute('id'), '_'))] = $dom->getElementByTagName('a')->getAttribute('title');
+        }
+
+        return $products;
+    }
+
     /**
      * @param string $code
      * @param integer $minimumAvailability
